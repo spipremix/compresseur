@@ -1,0 +1,26 @@
+[(#REM)
+
+	Teste les filtres |compacte_xx
+
+]
+
+
+[(#REM)
+----------------- compacte_js -----------------
+]
+
+[(#CHEMIN{javascript/layer.js}|compacte
+	|spip_file_get_contents
+	|match{function AjaxSqueeze}
+	|?{'', [(#SET{err1,erreur fonction absente})] })]
+
+
+[(#CHEMIN{javascript/layer.js}|compacte
+	|spip_file_get_contents
+	|match{Son premier argument}
+	|?{ [(#SET{err2,erreur commentaire present})] })]
+
+#GET{err1}
+#GET{err2}
+
+[(#GET{err1}|sinon{#GET{err2}}|?{'', OK})]

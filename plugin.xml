@@ -7,6 +7,7 @@
 	<description>Compression des css et js de l'entete des pages html privee et/ou publique</description>
 	<prefix>compresseur</prefix>
 	<fonctions>filtres/compresseur.php</fonctions>
+	<options>compresseur_http.php</options>
 	<pipeline>
 		<nom>header_prive</nom>
 		<inclure>compresseur_pipeline.php</inclure>

@@ -36,8 +36,12 @@
 							<label><:info_question_activer_compactage_js:></label>
 							[<span class='erreur_message'>(#ENV**{erreurs}|table_valeur{auto_compress_js})</span>]
 							<div class='choix'>
-								<input class='checkbox' type="checkbox" name="auto_compress_js" value='oui' [checked="(#ENV{auto_compress_js}|=={oui}|?{checked})"] id="auto_compress_http"/>
+								<input class='checkbox' type="checkbox" name="auto_compress_js" value='oui' [checked="(#ENV{auto_compress_js}|=={oui}|?{checked})"] id="auto_compress_js"/>
 								<label for="auto_compress_js"><:item_compresseur:></label>
+							</div>
+							<div class='choix'>
+								<input class='checkbox' type="checkbox" name="auto_compress_closure" value='oui' [checked="(#ENV{auto_compress_closure}|=={oui}|?{checked})"] id="auto_compress_closure"/>
+								<label for="auto_compress_closure">[(#REM)<:item_compresseur_closure:>]Utiliser Google Closure Compiler</label>
 							</div>
 						</li>
 						<li class='configurer_auto_compress_css[ (#ENV**{erreurs}|table_valeur{auto_compress_css}|oui)erreur]'>

@@ -24,12 +24,12 @@ function compacte_js($flux) {
 	$packer = new JavaScriptPacker($flux, 0, true, false);
 
 	// en cas d'echec (?) renvoyer l'original
-	if (strlen($t = $packer->pack()))
-		return $t;
+	if (!strlen($t = $packer->pack())) {
+		spip_log('erreur de compacte_js');
+		return $flux;
+	}
 
-	// erreur
-	spip_log('erreur de compacte_js');
-	return $flux;
+	return $t;
 }
 
 
@@ -183,6 +183,9 @@ function filtre_cache_static($scripts,$type='js'){
 			$comms = "compact [\n\t".join("\n\t", $comms)."\n] $pc%";
 			$fichier = "/* $comms */\n\n".$fichier;
 
+			// closure compiler ou autre super-compresseurs
+			$fichier = compresse_encore($fichier, $type);
+
 		  	// ecrire
 		  	ecrire_fichier($nom,$fichier);
 		  	// ecrire une version .gz pour content-negociation par apache, cf. [11539]
@@ -192,4 +195,25 @@ function filtre_cache_static($scripts,$type='js'){
 
 	// Le commentaire detaille n'apparait qu'au recalcul, pour debug
 	return array($nom, (isset($comms) AND $comms) ? "<!-- $comms -->\n" : '');
+}
+
+// experimenter le Closure Compiler de Google
+function compresse_encore ($fichier, $type) {
+	// tester le closure compiler de google
+	if (
+	$GLOBALS['meta']['auto_compress_closure'] == 'oui'
+	AND $type=='js') {
+		include_spip('inc/distant');
+		if ($cc = recuperer_page('http://closure-compiler.appspot.com/compile', $trans=false, $get_headers=false, $taille_max = null, $datas=array(
+			'output_format' => 'text',
+			'output_info' => 'compiled_code',
+			'compilation_level' => 'SIMPLE_OPTIMIZATIONS', // 'SIMPLE_OPTIMIZATIONS', 'WHITESPACE_ONLY', 'ADVANCED_OPTIMIZATIONS'
+			'js_code' => $fichier
+		), $boundary = -1)) {
+			spip_log('Closure Compiler: success');
+			$fichier = $cc;
+		}
+	}
+
+	return $fichier;
 }

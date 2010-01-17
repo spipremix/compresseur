@@ -217,7 +217,8 @@ function compresse_encore ($fichier, $type) {
 			'output_info' => 'compiled_code',
 			'compilation_level' => 'SIMPLE_OPTIMIZATIONS', // 'SIMPLE_OPTIMIZATIONS', 'WHITESPACE_ONLY', 'ADVANCED_OPTIMIZATIONS'
 			'js_code' => $fichier
-		), $boundary = -1)) {
+		), $boundary = -1)
+		AND !preg_match(',^\s*Error,', $cc)) {
 			spip_log('Closure Compiler: success');
 			$fichier = $cc;
 		}

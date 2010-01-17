@@ -18,6 +18,10 @@ function compacte_css ($contenu) {
 // utile pour prive/jquery.js par exemple
 // http://doc.spip.org/@compacte_js
 function compacte_js($flux) {
+	// si la closure est demandee, on zappe cette etape
+	#if ($GLOBALS['meta']['auto_compress_closure'] == 'oui')
+	#	return $flux;
+
 	if (!strlen($flux))
 		return $flux;
 	include_spip('lib/JavascriptPacker/class.JavaScriptPacker');
@@ -199,10 +203,14 @@ function filtre_cache_static($scripts,$type='js'){
 
 // experimenter le Closure Compiler de Google
 function compresse_encore ($fichier, $type) {
-	// tester le closure compiler de google
+	# Closure Compiler n'accepte pas des POST plus gros que 200 000 octets
+	# au-dela il faut stocker dans un fichier, et envoyer l'url du fichier
+	# dans code_url
 	if (
 	$GLOBALS['meta']['auto_compress_closure'] == 'oui'
-	AND $type=='js') {
+	AND $type=='js'
+	AND strlen($fichier) < 200000 
+	) {
 		include_spip('inc/distant');
 		if ($cc = recuperer_page('http://closure-compiler.appspot.com/compile', $trans=false, $get_headers=false, $taille_max = null, $datas=array(
 			'output_format' => 'text',

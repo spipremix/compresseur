@@ -18,7 +18,8 @@ function compacte_css ($contenu) {
 // utile pour prive/jquery.js par exemple
 // http://doc.spip.org/@compacte_js
 function compacte_js($flux) {
-	// si la closure est demandee, on zappe cette etape
+	// si la closure est demandee, on pourrait zapper cette etape
+	// mais avec le risque, en localhost, de depasser 200ko et d'echec
 	#if ($GLOBALS['meta']['auto_compress_closure'] == 'oui')
 	#	return $flux;
 
@@ -151,50 +152,51 @@ function filtre_cache_static($scripts,$type='js'){
 		$dir = sous_repertoire(_DIR_VAR,'cache-'.$type);
 		$nom = $dir . md5(serialize($scripts)) . ".$type";
 		if (
-		  $GLOBALS['var_mode']=='calcul'
-		  OR $GLOBALS['var_mode']=='recalcul'
-		  OR !file_exists($nom)){
-		  	$fichier = "";
-		  	$comms = array();
-		  	$total = 0;
-		  	foreach($scripts as $script){
-		  		if (!is_array($script)) {
-		  			// c'est un fichier
-		  			$comm = $script;
-		  			// enlever le timestamp si besoin
-		  			$script = preg_replace(",[?].+$,",'',$script);
-				  	if ($type=='css')
-				  		$script = url_absolue_css($script);
-		  			lire_fichier($script, $contenu);
-		  		}
-		  		else {
-		  			// c'est un squelette
-		  			$comm = _SPIP_PAGE . "=$script[0]"
-		  				. (strlen($script[1])?"($script[1])":'');
-		  			parse_str($script[1],$contexte);
-		  			$contenu = recuperer_fond($script[0],$contexte);
-		  			if ($type=='css')
-						$contenu = urls_absolues_css($contenu, self('&'));
-		  		}
+			$GLOBALS['var_mode']=='recalcul'
+			OR !file_exists($nom)
+		) {
+			$fichier = "";
+			$comms = array();
+			$total = 0;
+			foreach($scripts as $script){
+				if (!is_array($script)) {
+					// c'est un fichier
+					$comm = $script;
+					// enlever le timestamp si besoin
+					$script = preg_replace(",[?].+$,",'',$script);
+					if ($type=='css')
+						$script = url_absolue_css($script);
+					lire_fichier($script, $contenu);
+				}
+				else {
+					// c'est un squelette
+					$comm = _SPIP_PAGE . "=$script[0]"
+						. (strlen($script[1])?"($script[1])":'');
+					parse_str($script[1],$contexte);
+					$contenu = recuperer_fond($script[0],$contexte);
+					if ($type=='css')
+					$contenu = urls_absolues_css($contenu, self('&'));
+				}
 				$f = 'compacte_'.$type;
-	  			$fichier .= "/* $comm */\n". $f($contenu) . "\n\n";
+					$fichier .= "/* $comm */\n". $f($contenu) . "\n\n";
 				$comms[] = $comm;
 				$total += strlen($contenu);
-		  	}
+			}
 
 			// calcul du % de compactage
 			$pc = intval(1000*strlen($fichier)/$total)/10;
 			$comms = "compact [\n\t".join("\n\t", $comms)."\n] $pc%";
 			$fichier = "/* $comms */\n\n".$fichier;
 
-			// closure compiler ou autre super-compresseurs
-			$fichier = compresse_encore($fichier, $type);
+			// ecrire
+			ecrire_fichier($nom,$fichier);
+			// ecrire une version .gz pour content-negociation par apache, cf. [11539]
+			ecrire_fichier("$nom.gz",$fichier);
+		}
 
-		  	// ecrire
-		  	ecrire_fichier($nom,$fichier);
-		  	// ecrire une version .gz pour content-negociation par apache, cf. [11539]
-		  	ecrire_fichier("$nom.gz",$fichier);
-		  }
+		// closure compiler ou autre super-compresseurs
+		compresse_encore($nom, $type);
+
 	}
 
 	// Le commentaire detaille n'apparait qu'au recalcul, pour debug
@@ -202,27 +204,43 @@ function filtre_cache_static($scripts,$type='js'){
 }
 
 // experimenter le Closure Compiler de Google
-function compresse_encore ($fichier, $type) {
+function compresse_encore (&$nom, $type) {
 	# Closure Compiler n'accepte pas des POST plus gros que 200 000 octets
 	# au-dela il faut stocker dans un fichier, et envoyer l'url du fichier
-	# dans code_url
+	# dans code_url ; en localhost ca ne marche evidemment pas
 	if (
 	$GLOBALS['meta']['auto_compress_closure'] == 'oui'
 	AND $type=='js'
-	AND strlen($fichier) < 200000 
 	) {
-		include_spip('inc/distant');
-		if ($cc = recuperer_page('http://closure-compiler.appspot.com/compile', $trans=false, $get_headers=false, $taille_max = null, $datas=array(
-			'output_format' => 'text',
-			'output_info' => 'compiled_code',
-			'compilation_level' => 'SIMPLE_OPTIMIZATIONS', // 'SIMPLE_OPTIMIZATIONS', 'WHITESPACE_ONLY', 'ADVANCED_OPTIMIZATIONS'
-			'js_code' => $fichier
-		), $boundary = -1)
-		AND !preg_match(',^\s*Error,', $cc)) {
-			spip_log('Closure Compiler: success');
-			$fichier = $cc;
-		}
-	}
+		lire_fichier($nom, $fichier);
+		$dest = dirname($nom).'/'.md5($fichier).'.js';
+		if (!@file_exists($dest)) {
+			include_spip('inc/distant');
 
-	return $fichier;
+			$datas=array(
+				'output_format' => 'text',
+				'output_info' => 'compiled_code',
+				'compilation_level' => 'SIMPLE_OPTIMIZATIONS', // 'SIMPLE_OPTIMIZATIONS', 'WHITESPACE_ONLY', 'ADVANCED_OPTIMIZATIONS'
+			);
+			if (strlen($fichier) < 200000)
+				$datas['js_code'] = $fichier;
+			else
+				$datas['url_code'] = url_absolue($nom);
+
+			$cc = recuperer_page('http://closure-compiler.appspot.com/compile',
+				$trans=false, $get_headers=false,
+				$taille_max = null,
+				$datas,
+				$boundary = -1);
+			if ($cc AND !preg_match(',^\s*Error,', $cc)) {
+				spip_log('Closure Compiler: success');
+				$cc = "/* $nom + Closure Compiler */\n".$cc;
+				ecrire_fichier ($dest, $cc);
+				ecrire_fichier ("$dest.gz", $cc);
+			} else
+				ecrire_fichier ($dest, '');
+		}
+		if (@filesize($dest))
+			$nom = $dest;
+	}
 }

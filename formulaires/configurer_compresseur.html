@@ -41,7 +41,7 @@
 							</div>
 							<div class='choix'>
 								<input class='checkbox' type="checkbox" name="auto_compress_closure" value='oui' [checked="(#ENV{auto_compress_closure}|=={oui}|?{checked})"] id="auto_compress_closure"/>
-								<label for="auto_compress_closure">[(#REM)<:item_compresseur_closure:>]Utiliser Google Closure Compiler</label>
+								<label for="auto_compress_closure">[(#REM)<:item_compresseur_closure:>]Utiliser Google Closure Compiler [exp&#233;rimental]</label>
 							</div>
 						</li>
 						<li class='configurer_auto_compress_css[ (#ENV**{erreurs}|table_valeur{auto_compress_css}|oui)erreur]'>

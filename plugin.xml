@@ -1,6 +1,7 @@
 <plugin>
 	<nom>Compresseur</nom>
 	<auteur>Collectif SPIP 2009</auteur>
+	<icon>images/compresseur-32.png</icon>
 	<licence>GPL</licence>
 	<version>1.0</version>
 	<etat>stable</etat>
@@ -20,4 +21,5 @@
 		<nom>configurer_liste_metas</nom>
 		<inclure>compresseur_pipeline.php</inclure>
 	</pipeline>
+	<necessite id="SPIP" version="[2.1.0-dev;]" />
 </plugin>

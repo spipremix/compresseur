@@ -22,4 +22,5 @@
 		<inclure>compresseur_pipeline.php</inclure>
 	</pipeline>
 	<necessite id="SPIP" version="[2.1.0 dev;)" />
+	<utilise id="porte_plume" version="[1.6.3;]" />
 </plugin>

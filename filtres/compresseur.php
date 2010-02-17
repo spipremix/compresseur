@@ -8,6 +8,7 @@
 function compacte($source, $format = null) {
 	if (!$format AND preg_match(',\.(js|css)$,', $source, $r))
 		$format = $r[1];
+	include_spip('inc/compresseur');
 	if (!function_exists($compacte = 'compacte_'.$format))
 		return $source;
 

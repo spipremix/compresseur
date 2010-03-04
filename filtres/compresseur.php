@@ -37,7 +37,7 @@ function compacte($source, $format = null) {
 		$contenu = $compacte($contenu);
 
 		// ecrire le fichier destination, en cas d'echec renvoyer la source
-		if (ecrire_fichier($f, $contenu))
+		if (ecrire_fichier($f, $contenu, true))
 			return $f;
 		else
 			return $source;

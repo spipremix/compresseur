@@ -189,9 +189,9 @@ function filtre_cache_static($scripts,$type='js'){
 			$fichier = "/* $comms */\n\n".$fichier;
 
 			// ecrire
-			ecrire_fichier($nom,$fichier);
+			ecrire_fichier($nom,$fichier,true);
 			// ecrire une version .gz pour content-negociation par apache, cf. [11539]
-			ecrire_fichier("$nom.gz",$fichier);
+			ecrire_fichier("$nom.gz",$fichier,true);
 		}
 
 		// closure compiler ou autre super-compresseurs
@@ -235,10 +235,10 @@ function compresse_encore (&$nom, $type) {
 			if ($cc AND !preg_match(',^\s*Error,', $cc)) {
 				spip_log('Closure Compiler: success');
 				$cc = "/* $nom + Closure Compiler */\n".$cc;
-				ecrire_fichier ($dest, $cc);
-				ecrire_fichier ("$dest.gz", $cc);
+				ecrire_fichier ($dest, $cc, true);
+				ecrire_fichier ("$dest.gz", $cc, true);
 			} else
-				ecrire_fichier ($dest, '');
+				ecrire_fichier ($dest, '', true);
 		}
 		if (@filesize($dest))
 			$nom = $dest;

@@ -73,7 +73,7 @@ function compacte_head_js($flux) {
 				$scripts[$s] = $src;
 		}
 	}
-	
+
 	if (list($src,$comms) = filtre_cache_static($scripts,'js')){
 		$scripts = array_keys($scripts);
 		$flux = str_replace(reset($scripts),
@@ -164,8 +164,12 @@ function filtre_cache_static($scripts,$type='js'){
 					$comm = $script;
 					// enlever le timestamp si besoin
 					$script = preg_replace(",[?].+$,",'',$script);
-					if ($type=='css')
-						$script = url_absolue_css($script);
+					if ($type=='css'){
+						$fonctions = array('urls_absolues_css');
+						if (isset($GLOBALS['compresseur_filtres_css']) AND is_array($GLOBALS['compresseur_filtres_css']))
+							$fonctions = $GLOBALS['compresseur_filtres_css'] + $fonctions;
+						$script = appliquer_fonctions_css_fichier($fonctions, $script);
+					}
 					lire_fichier($script, $contenu);
 				}
 				else {
@@ -174,8 +178,12 @@ function filtre_cache_static($scripts,$type='js'){
 						. (strlen($script[1])?"($script[1])":'');
 					parse_str($script[1],$contexte);
 					$contenu = recuperer_fond($script[0],$contexte);
-					if ($type=='css')
-					$contenu = urls_absolues_css($contenu, self('&'));
+					if ($type=='css'){
+						$fonctions = array('urls_absolues_css');
+						if (isset($GLOBALS['compresseur_filtres_css']) AND is_array($GLOBALS['compresseur_filtres_css']))
+							$fonctions = $GLOBALS['compresseur_filtres_css'] + $fonctions;
+						$contenu = appliquer_fonctions_css_contenu($fonctions, $contenu, self('&'));
+					}
 				}
 				$f = 'compacte_'.$type;
 					$fichier .= "/* $comm */\n". $f($contenu) . "\n\n";
@@ -243,4 +251,64 @@ function compresse_encore (&$nom, $type) {
 		if (@filesize($dest))
 			$nom = $dest;
 	}
+}
+
+function appliquer_fonctions_css_fichier($fonctions,$css) {
+	if (!preg_match(',\.css$,i', $css, $r)) return $css;
+
+	$url_absolue_css = url_absolue($css);
+
+	// verifier qu'on a un array
+	if (is_string($fonctions))
+		$fonctions = array($fonctions);
+
+	$sign = implode(",",$fonctions);
+	$sign = substr(md5("$css-$sign"), 0,8);
+
+	$file = basename($css,'.css');
+	$file = sous_repertoire (_DIR_VAR, 'cache-css')
+		. preg_replace(",(.*?)(_rtl|_ltr)?$,","\\1-f-" . $sign . "\\2",$file)
+		. '.css';
+
+	if ((@filemtime($f) > @filemtime($css))
+	AND ($GLOBALS['var_mode'] != 'recalcul'))
+		return $f;
+
+	if ($url_absolue_css==$css){
+		if (strncmp($GLOBALS['meta']['adresse_site'],$css,$l=strlen($GLOBALS['meta']['adresse_site']))!=0
+		 OR !lire_fichier(_DIR_RACINE . substr($css,$l), $contenu)){
+		 		include_spip('inc/distant');
+		 		if (!$contenu = recuperer_page($css))
+					return $css;
+		}
+	}
+	elseif (!lire_fichier($css, $contenu))
+		return $css;
+
+	$contenu = appliquer_fonctions_css_contenu($fonctions, $contenu, $css);
+
+	// ecrire la css
+	if (!ecrire_fichier($file, $contenu))
+		return $css;
+
+	return $file;
+}
+
+function appliquer_fonctions_css_contenu($fonctions, &$contenu, $base) {
+	foreach($fonctions as $f)
+		if (function_exists($f))
+			$contenu = $f($contenu, $base);
+	return $contenu;
+}
+
+
+function compresseur_embarquer_images_css($contenu, $source){
+	#$path = suivre_lien(url_absolue($source),'./');
+	$base = ((substr($source,-1)=='/')?$source:(dirname($source).'/'));
+
+	return preg_replace_callback(
+		",url\s*\(\s*['\"]?([^'\"/][^:]*[.](png|gif|jpg))['\"]?\s*\),Uims",
+		create_function('$x',
+			'return "url(\"".filtre_embarque_fichier($x[1],"'.$base.'")."\")";'
+		), $contenu);
 }

@@ -5,7 +5,8 @@ function compacte_css ($contenu) {
 	// nettoyer la css de tout ce qui sert pas
 	$contenu = preg_replace(",/\*.*\*/,Ums","",$contenu); // pas de commentaires
 	$contenu = preg_replace(",\s(?=\s),Ums","",$contenu); // pas d'espaces consecutifs
-	$contenu = preg_replace("/\s?({|;|,|:)\s?/ms","$1",$contenu); // pas d'espaces dans les declarations css
+	$contenu = preg_replace("/\s?({|;|,)\s?/ms","$1",$contenu); // pas d'espaces dans les declarations css
+	$contenu = preg_replace("/:\s/ms",":",$contenu); // ne pas supprimer les espaces devant :after mais toujours apres :
 	$contenu = preg_replace("/\s}/ms","}",$contenu); // pas d'espaces dans les declarations css
 	$contenu = preg_replace(",#([0-9a-f])(\\1)([0-9a-f])(\\3)([0-9a-f])(\\5),i","#$1$3$5",$contenu); // passser les codes couleurs en 3 car si possible
 	$contenu = preg_replace(",([^{}]*){},Ums"," ",$contenu); // supprimer les declarations vides

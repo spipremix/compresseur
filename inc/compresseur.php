@@ -150,11 +150,14 @@ function filtre_cache_static($scripts,$type='js'){
 	$nom = "";
 	if (!is_array($scripts) && $scripts) $scripts = array($scripts);
 	if (count($scripts)){
+		// on trie la liste de scripts pour calculer le nom
 		// necessaire pour retomber sur le meme fichier
 		// si on renome une url a la volee pour enlever le var_mode=recalcul
-		ksort($scripts);
+		// mais attention, il faut garder l'ordre initial pour la minification elle meme !
+		$s2 = $scripts;
+		ksort($s2);
 		$dir = sous_repertoire(_DIR_VAR,'cache-'.$type);
-		$nom = $dir . md5(serialize($scripts)) . ".$type";
+		$nom = $dir . md5(serialize($s2)) . ".$type";
 		if (
 			$GLOBALS['var_mode']=='recalcul'
 			OR !file_exists($nom)

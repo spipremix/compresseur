@@ -150,6 +150,9 @@ function filtre_cache_static($scripts,$type='js'){
 	$nom = "";
 	if (!is_array($scripts) && $scripts) $scripts = array($scripts);
 	if (count($scripts)){
+		// necessaire pour retomber sur le meme fichier
+		// si on renome une url a la volee pour enlever le var_mode=recalcul
+		ksort($scripts);
 		$dir = sous_repertoire(_DIR_VAR,'cache-'.$type);
 		$nom = $dir . md5(serialize($scripts)) . ".$type";
 		if (
@@ -159,7 +162,8 @@ function filtre_cache_static($scripts,$type='js'){
 			$fichier = "";
 			$comms = array();
 			$total = 0;
-			foreach($scripts as $script){
+			$s2 = false;
+			foreach($scripts as $key=>$script){
 				if (!is_array($script)) {
 					// c'est un fichier
 					$comm = $script;
@@ -185,6 +189,14 @@ function filtre_cache_static($scripts,$type='js'){
 							$fonctions = $GLOBALS['compresseur_filtres_css'] + $fonctions;
 						$contenu = appliquer_fonctions_css_contenu($fonctions, $contenu, self('&'));
 					}
+					// enlever le var_mode si present pour retrouver la css minifiee standard
+					if (strpos($script[1],'var_mode')!==false) {
+						if (!$s2) $s2 = $scripts;
+						unset($s2[$key]);
+						$key = preg_replace(',(&(amp;)?)?var_mode=[^&\'"]*,','',$key);
+						$script[1] = preg_replace(',&?var_mode=[^&\'"]*,','',$script[1]);
+						$s2[$key] = $script;
+					}
 				}
 				$f = 'compacte_'.$type;
 					$fichier .= "/* $comm */\n". $f($contenu) . "\n\n";
@@ -197,14 +209,20 @@ function filtre_cache_static($scripts,$type='js'){
 			$comms = "compact [\n\t".join("\n\t", $comms)."\n] $pc%";
 			$fichier = "/* $comms */\n\n".$fichier;
 
+			if ($s2) {
+				ksort($s2);
+				$nom = $dir . md5(serialize($s2)) . ".$type";
+			}
+
 			// ecrire
 			ecrire_fichier($nom,$fichier,true);
 			// ecrire une version .gz pour content-negociation par apache, cf. [11539]
 			ecrire_fichier("$nom.gz",$fichier,true);
+			// closure compiler ou autre super-compresseurs
+			compresse_encore($nom, $type);
+
 		}
 
-		// closure compiler ou autre super-compresseurs
-		compresse_encore($nom, $type);
 
 	}
 

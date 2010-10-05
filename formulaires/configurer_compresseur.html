@@ -11,13 +11,11 @@
 			<li class='fieldset'>
 				<fieldset>
 					<legend><:titre_compresser_flux_http:></legend>
+					<p><:texte_compresseur_page:></p>
+					<p class="small">[(#VAL{info_compresseur_gzip}|_T{#ARRAY{testgzip,#VAL{'<br />'}|concat{#VAL{http://redbot.org/}|parametre_url{uri,#URL_SITE_SPIP}|propre|PtoBR}}})]</p>
 					<ul>
 						<li class='configurer_auto_compress_http[ (#ENV**{erreurs}|table_valeur{auto_compress_http}|oui)erreur]'>
 							<label><:info_question_activer_compresseur:></label>
-							<div class='explication'>
-								<p><:texte_compresseur_page:></p>
-								<p class="small">[(#VAL{info_compresseur_gzip}|_T{#ARRAY{testgzip,#VAL{'<br />'}|concat{#VAL{http://redbot.org/}|parametre_url{uri,#URL_SITE_SPIP}|propre|PtoBR}}})]</p>
-							</div>
 							[<span class='erreur_message'>(#ENV**{erreurs}|table_valeur{auto_compress_http})</span>]
 							<div class='choix'>
 								<input class='checkbox' type="checkbox" name="auto_compress_http" value='oui' [checked="(#ENV{auto_compress_http}|=={oui}|?{checked})"] id="auto_compress_http"/>
@@ -31,7 +29,7 @@
 			<li class='fieldset'>
 				<fieldset>
 					<legend><:titre_compacter_script_css:></legend>
-					<div class='explication'><:texte_compacter_script_css:></div>
+					<p><:texte_compacter_script_css:></p>
 					<ul>
 						<li class='configurer_auto_compress_js[ (#ENV**{erreurs}|table_valeur{auto_compress_js}|oui)erreur]'>
 							<label><:info_question_activer_compactage_js:></label>
@@ -54,7 +52,7 @@
 							</div>
 						</li>
 					</ul>
-					<p class='explication'><em><:texte_compacter_avertissement:></em></p>
+					<p><em><:texte_compacter_avertissement:></em></p>
 				</fieldset>
 			</li>
 		</ul>

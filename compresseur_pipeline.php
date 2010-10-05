@@ -7,7 +7,7 @@ function compresseur_header_prive($flux){
 
 function compresseur_affiche_milieu($flux){
 	
-	if ($flux['args']['exec']=='config_fonctions'){
+	if ($flux['args']['exec']=='configurer_avancees'){
 			// Compression http et compactages CSS ou JS
 			$flux['data'] .= recuperer_fond('prive/squelettes/inclure/configurer',array('configurer'=>'configurer_compresseur'));
 	}

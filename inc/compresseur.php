@@ -1,5 +1,13 @@
 <?php
 
+function compacte_ecrire_balise_script_dist($src){
+	return "<script type='text/javascript' src='$src'></script>";
+}
+function compacte_ecrire_balise_link_dist($src,$media=""){
+	return "<link rel='stylesheet'".($media?" media='$media'":"")." href='$src' type='text/css' />";
+}
+
+
 // http://doc.spip.org/@compacte_css
 function compacte_css ($contenu) {
 	// nettoyer la css de tout ce qui sert pas
@@ -76,10 +84,11 @@ function compacte_head_js($flux) {
 	}
 
 	if (list($src,$comms) = filtre_cache_static($scripts,'js')){
+		$compacte_ecrire_balise_script = charger_fonction('compacte_ecrire_balise_script','');
 		$scripts = array_keys($scripts);
 		$flux = str_replace(reset($scripts),
-			$comms
-			."<script type='text/javascript' src='$src'></script>\n",$flux);
+			$comms .$compacte_ecrire_balise_script($src)."\n",
+			$flux);
 		$flux = str_replace($scripts,"",$flux);
 	}
 
@@ -132,10 +141,11 @@ function compacte_head_css($flux) {
 		// si plus d'une css pour ce media ou si c'est une css dynamique
 		if (count($s)>1 OR is_array(reset($s))){
 			if (list($src,$comms) = filtre_cache_static($s,'css')){
+				$compacte_ecrire_balise_link = charger_fonction('compacte_ecrire_balise_link','');
 				$s = array_keys($s);
 				$flux = str_replace(reset($s),
-					$comms
-					."<link rel='stylesheet'".($m?" media='$m'":"")." href='$src' type='text/css' />\n",$flux);
+								$comms . $compacte_ecrire_balise_link($src,$m)."\n",
+								$flux);
 				$flux = str_replace($s,"",$flux);
 			}
 		}

@@ -11,13 +11,56 @@ function compacte_ecrire_balise_link_dist($src,$media=""){
 // http://doc.spip.org/@compacte_css
 function compacte_css ($contenu) {
 	// nettoyer la css de tout ce qui sert pas
-	$contenu = preg_replace(",/\*.*\*/,Ums","",$contenu); // pas de commentaires
-	$contenu = preg_replace(",\s(?=\s),Ums","",$contenu); // pas d'espaces consecutifs
-	$contenu = preg_replace("/\s?({|;|,)\s?/ms","$1",$contenu); // pas d'espaces dans les declarations css
-	$contenu = preg_replace("/:\s/ms",":",$contenu); // ne pas supprimer les espaces devant :after mais toujours apres :
-	$contenu = preg_replace("/\s}/ms","}",$contenu); // pas d'espaces dans les declarations css
-	$contenu = preg_replace(",#([0-9a-f])(\\1)([0-9a-f])(\\3)([0-9a-f])(\\5),i","#$1$3$5",$contenu); // passser les codes couleurs en 3 car si possible
-	$contenu = preg_replace(",([^{}]*){},Ums"," ",$contenu); // supprimer les declarations vides
+	// pas de commentaires
+	$contenu = preg_replace(",/\*.*\*/,Ums","",$contenu);
+	$contenu = preg_replace(",\s//[^\n]*\n,Ums","",$contenu);
+	// espaces autour des retour lignes
+	$contenu = str_replace("\r\n","\n",$contenu);
+	$contenu = preg_replace(",\s+\n,ms","\n",$contenu);
+	$contenu = preg_replace(",\n\s+,ms","\n",$contenu);
+	// pas d'espaces consecutifs
+	$contenu = preg_replace(",\s(?=\s),Ums","",$contenu);
+	// pas d'espaces avant et apres { ; ,
+	$contenu = preg_replace("/\s?({|;|,)\s?/ms","$1",$contenu);
+	// supprimer les espaces devant : sauf si suivi d'une lettre (:after, :first...)
+	$contenu = preg_replace("/\s:([^a-z])/ims",":$1",$contenu);
+	// supprimer les espaces apres :
+	$contenu = preg_replace("/:\s/ms",":",$contenu);
+	// pas d'espaces devant }
+	$contenu = preg_replace("/\s}/ms","}",$contenu);
+
+	// ni de point virgule sur la derniere declaration
+	$contenu = preg_replace("/;}/ms","}",$contenu);
+	// pas d'espace avant !important
+	$contenu = preg_replace("/\s!important/ms","!important",$contenu);
+	// passser les codes couleurs en 3 car si possible
+	$contenu = preg_replace(",#([0-9a-f])(\\1)([0-9a-f])(\\3)([0-9a-f])(\\5),i","#$1$3$5",$contenu);
+	// remplacer font-weight:bold par font-weight:700
+	$contenu = preg_replace("/font-weight:bold/ims","font-weight:700",$contenu);
+	// remplacer font-weight:normal par font-weight:400
+	$contenu = preg_replace("/font-weight:normal/ims","font-weight:400",$contenu);
+
+	// enlever le 0 des unites decimales
+	$contenu = preg_replace("/0[.]([0-9]+em)/ims",".$1",$contenu);
+	// supprimer les declarations vides
+	$contenu = preg_replace(",([^{}]*){},Ums"," ",$contenu);
+	// zero est zero, quelle que soit l'unite
+	$contenu = preg_replace("/([^0-9.]0)(em|px|pt|%)/ms","$1",$contenu);
+
+	// renommer les couleurs par leurs versions courtes quand c'est possible
+	$contenu = str_replace(
+			array(':black',':fuchsia',':white',':yellow','#800000','#ffa500','#808000','#800080','#008000','#000080','#008080','#c0c0c0','#808080','#f00'),
+			array(':#000' ,':#F0F'   ,':#FFF' ,':#FF0'  ,'maroon' ,'orange' ,'olive'  ,'purple' ,'green'  ,'navy'   ,'teal'   ,'silver' ,'gray'   ,'red'),
+			$contenu);
+
+	// raccourcir les padding qui le peuvent (sur 3 ou 2 valeurs)
+	$contenu = preg_replace(",padding:([^\s;}]+)\s([^\s;}]+)\s([^\s;}]+)\s(\\2),ims","padding:$1 $2 $3",$contenu);
+	$contenu = preg_replace(",padding:([^\s;}]+)\s([^\s;}]+)\s(\\1)([;}!]),ims","padding:$1 $2$4",$contenu);
+
+	// raccourcir les margin qui le peuvent (sur 3 ou 2 valeurs)
+	$contenu = preg_replace(",margin:([^\s;}]+)\s([^\s;}]+)\s([^\s;}]+)\s(\\2),ims","margin:$1 $2 $3",$contenu);
+	$contenu = preg_replace(",margin:([^\s;}]+)\s([^\s;}]+)\s(\\1)([;}!]),ims","margin:$1 $2$4",$contenu);
+
 	$contenu = trim($contenu);
 
 	return $contenu;

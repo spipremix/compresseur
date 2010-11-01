@@ -1,0 +1,22 @@
+[(#REM)
+
+	Teste les filtres |compacte_xx
+
+]
+
+
+[(#REM)
+----------------- compacte_css -----------------
+]
+
+#SET{compacte_css,#CHEMIN{tests/css/source.css}|compacte|spip_file_get_contents}
+[(#GET{compacte_css}|=={#CHEMIN{tests/css/expected.css}|spip_file_get_contents}
+	|non) #SET{err1,Erreur sur la compression CSS} ]
+
+[(#GET{err1})
+<pre>
+#GET{compacte_css}
+</pre>
+]
+
+[(#GET{err1}|sinon{#GET{err2}}|?{'', OK})]

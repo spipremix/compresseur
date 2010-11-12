@@ -34,7 +34,8 @@ function compacte_css ($contenu) {
 	// pas d'espace avant !important
 	$contenu = preg_replace("/\s!important/ms","!important",$contenu);
 	// passser les codes couleurs en 3 car si possible
-	$contenu = preg_replace(",#([0-9a-f])(\\1)([0-9a-f])(\\3)([0-9a-f])(\\5),i","#$1$3$5",$contenu);
+	// BUG: ces couleurs raccourcies ne fonctionnent pas avec les filtres de MSIE
+	// $contenu = preg_replace(",#([0-9a-f])(\\1)([0-9a-f])(\\3)([0-9a-f])(\\5),i","#$1$3$5",$contenu);
 	// remplacer font-weight:bold par font-weight:700
 	$contenu = preg_replace("/font-weight:bold/ims","font-weight:700",$contenu);
 	// remplacer font-weight:normal par font-weight:400
@@ -48,10 +49,13 @@ function compacte_css ($contenu) {
 	$contenu = preg_replace("/([^0-9.]0)(em|px|pt|%)/ms","$1",$contenu);
 
 	// renommer les couleurs par leurs versions courtes quand c'est possible
+	// BUG: ces couleurs raccourcies ne fonctionnent pas avec les filtres de MSIE
+	/*
 	$contenu = str_replace(
 			array(':black',':fuchsia',':white',':yellow','#800000','#ffa500','#808000','#800080','#008000','#000080','#008080','#c0c0c0','#808080','#f00'),
 			array(':#000' ,':#F0F'   ,':#FFF' ,':#FF0'  ,'maroon' ,'orange' ,'olive'  ,'purple' ,'green'  ,'navy'   ,'teal'   ,'silver' ,'gray'   ,'red'),
 			$contenu);
+	*/
 
 	// raccourcir les padding qui le peuvent (sur 3 ou 2 valeurs)
 	$contenu = preg_replace(",padding:([^\s;}]+)\s([^\s;}]+)\s([^\s;}]+)\s(\\2),ims","padding:$1 $2 $3",$contenu);

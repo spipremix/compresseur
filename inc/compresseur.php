@@ -7,69 +7,105 @@ function compacte_ecrire_balise_link_dist($src,$media=""){
 	return "<link rel='stylesheet'".($media?" media='$media'":"")." href='$src' type='text/css' />";
 }
 
+/**
+ * Minifier un contenu CSS
+ * Si $options est non precise, on utilise la methode regxep simple
+ * Si $options sous forme de array(), on pass par csstidy pour parser le code
+ * et produire un contenu plus compact et prefixe eventuellement par un @media
+ * options disponibles :
+ *  string media : media qui seront utilises pour encapsuler par @media
+ *	  les selecteurs sans media
+ *  string template : format de sortie parmi 'low_compression','default','high_compression','highest_compression'
+ * @param string $contenu  contenu css
+ * @param mixed $options options de minification
+ * @return string
+ */
+function compacte_css ($contenu, $options='simple') {
+	if (!is_array($options)){
 
-// http://doc.spip.org/@compacte_css
-function compacte_css ($contenu) {
-	// nettoyer la css de tout ce qui sert pas
-	// pas de commentaires
-	$contenu = preg_replace(",/\*.*\*/,Ums","",$contenu);
-	$contenu = preg_replace(",\s//[^\n]*\n,Ums","",$contenu);
-	// espaces autour des retour lignes
-	$contenu = str_replace("\r\n","\n",$contenu);
-	$contenu = preg_replace(",\s+\n,ms","\n",$contenu);
-	$contenu = preg_replace(",\n\s+,ms","\n",$contenu);
-	// pas d'espaces consecutifs
-	$contenu = preg_replace(",\s(?=\s),Ums","",$contenu);
-	// pas d'espaces avant et apres { ; ,
-	$contenu = preg_replace("/\s?({|;|,)\s?/ms","$1",$contenu);
-	// supprimer les espaces devant : sauf si suivi d'une lettre (:after, :first...)
-	$contenu = preg_replace("/\s:([^a-z])/ims",":$1",$contenu);
-	// supprimer les espaces apres :
-	$contenu = preg_replace("/:\s/ms",":",$contenu);
-	// pas d'espaces devant }
-	$contenu = preg_replace("/\s}/ms","}",$contenu);
+		// nettoyer la css de tout ce qui sert pas
+		// pas de commentaires
+		$contenu = preg_replace(",/\*.*\*/,Ums","",$contenu);
+		$contenu = preg_replace(",\s//[^\n]*\n,Ums","",$contenu);
+		// espaces autour des retour lignes
+		$contenu = str_replace("\r\n","\n",$contenu);
+		$contenu = preg_replace(",\s+\n,ms","\n",$contenu);
+		$contenu = preg_replace(",\n\s+,ms","\n",$contenu);
+		// pas d'espaces consecutifs
+		$contenu = preg_replace(",\s(?=\s),Ums","",$contenu);
+		// pas d'espaces avant et apres { ; ,
+		$contenu = preg_replace("/\s?({|;|,)\s?/ms","$1",$contenu);
+		// supprimer les espaces devant : sauf si suivi d'une lettre (:after, :first...)
+		$contenu = preg_replace("/\s:([^a-z])/ims",":$1",$contenu);
+		// supprimer les espaces apres :
+		$contenu = preg_replace("/:\s/ms",":",$contenu);
+		// pas d'espaces devant }
+		$contenu = preg_replace("/\s}/ms","}",$contenu);
 
-	// ni de point virgule sur la derniere declaration
-	$contenu = preg_replace("/;}/ms","}",$contenu);
-	// pas d'espace avant !important
-	$contenu = preg_replace("/\s!important/ms","!important",$contenu);
-	// passser les codes couleurs en 3 car si possible
-	// uniquement si non precedees d'un [="'] ce qui indique qu'on est dans un filter(xx=#?...)
-	$contenu = preg_replace(",([^=\"'])#([0-9a-f])(\\2)([0-9a-f])(\\4)([0-9a-f])(\\6),i","$1#$2$4$6",$contenu);
-	// remplacer font-weight:bold par font-weight:700
-	$contenu = preg_replace("/font-weight:bold/ims","font-weight:700",$contenu);
-	// remplacer font-weight:normal par font-weight:400
-	$contenu = preg_replace("/font-weight:normal/ims","font-weight:400",$contenu);
+		// ni de point virgule sur la derniere declaration
+		$contenu = preg_replace("/;}/ms","}",$contenu);
+		// pas d'espace avant !important
+		$contenu = preg_replace("/\s!important/ms","!important",$contenu);
+		// passser les codes couleurs en 3 car si possible
+		// uniquement si non precedees d'un [="'] ce qui indique qu'on est dans un filter(xx=#?...)
+		$contenu = preg_replace(",([^=\"'])#([0-9a-f])(\\2)([0-9a-f])(\\4)([0-9a-f])(\\6),i","$1#$2$4$6",$contenu);
+		// remplacer font-weight:bold par font-weight:700
+		$contenu = preg_replace("/font-weight:bold/ims","font-weight:700",$contenu);
+		// remplacer font-weight:normal par font-weight:400
+		$contenu = preg_replace("/font-weight:normal/ims","font-weight:400",$contenu);
 
-	// enlever le 0 des unites decimales
-	$contenu = preg_replace("/0[.]([0-9]+em)/ims",".$1",$contenu);
-	// supprimer les declarations vides
-	$contenu = preg_replace(",([^{}]*){},Ums"," ",$contenu);
-	// zero est zero, quelle que soit l'unite
-	$contenu = preg_replace("/([^0-9.]0)(em|px|pt|%)/ms","$1",$contenu);
+		// enlever le 0 des unites decimales
+		$contenu = preg_replace("/0[.]([0-9]+em)/ims",".$1",$contenu);
+		// supprimer les declarations vides
+		$contenu = preg_replace(",([^{}]*){},Ums"," ",$contenu);
+		// zero est zero, quelle que soit l'unite
+		$contenu = preg_replace("/([^0-9.]0)(em|px|pt|%)/ms","$1",$contenu);
 
-	// renommer les couleurs par leurs versions courtes quand c'est possible
-	$colors = array(
-		'source'=>array('black','fuchsia','white','yellow','#800000','#ffa500','#808000','#800080','#008000','#000080','#008080','#c0c0c0','#808080','#f00'),
-		'replace'=>array('#000' ,'#F0F'   ,'#FFF' ,'#FF0'  ,'maroon' ,'orange' ,'olive'  ,'purple' ,'green'  ,'navy'   ,'teal'   ,'silver' ,'gray'   ,'red')
-	);
-	foreach($colors['source'] as $k=>$v){
-		$colors['source'][$k]=",([^=\"';{])".$v.",ms";
-		$colors['replace'][$k] = "$1".$colors['replace'][$k];
+		// renommer les couleurs par leurs versions courtes quand c'est possible
+		$colors = array(
+			'source'=>array('black','fuchsia','white','yellow','#800000','#ffa500','#808000','#800080','#008000','#000080','#008080','#c0c0c0','#808080','#f00'),
+			'replace'=>array('#000' ,'#F0F'   ,'#FFF' ,'#FF0'  ,'maroon' ,'orange' ,'olive'  ,'purple' ,'green'  ,'navy'   ,'teal'   ,'silver' ,'gray'   ,'red')
+		);
+		foreach($colors['source'] as $k=>$v){
+			$colors['source'][$k]=",([^=\"';{])".$v.",ms";
+			$colors['replace'][$k] = "$1".$colors['replace'][$k];
+		}
+		$contenu = preg_replace($colors['source'],$colors['replace'],$contenu);
+
+		// raccourcir les padding qui le peuvent (sur 3 ou 2 valeurs)
+		$contenu = preg_replace(",padding:([^\s;}]+)\s([^\s;}]+)\s([^\s;}]+)\s(\\2),ims","padding:$1 $2 $3",$contenu);
+		$contenu = preg_replace(",padding:([^\s;}]+)\s([^\s;}]+)\s(\\1)([;}!]),ims","padding:$1 $2$4",$contenu);
+
+		// raccourcir les margin qui le peuvent (sur 3 ou 2 valeurs)
+		$contenu = preg_replace(",margin:([^\s;}]+)\s([^\s;}]+)\s([^\s;}]+)\s(\\2),ims","margin:$1 $2 $3",$contenu);
+		$contenu = preg_replace(",margin:([^\s;}]+)\s([^\s;}]+)\s(\\1)([;}!]),ims","margin:$1 $2$4",$contenu);
+
+		$contenu = trim($contenu);
+
+		return $contenu;
 	}
-	$contenu = preg_replace($colors['source'],$colors['replace'],$contenu);
+	
+	// compression avancee en utilisant csstidy
+	// modele de sortie plus ou moins compact
+	$template = 'high_compression';
+	if (isset($options['template']) AND in_array($options['template'],array('low_compression','default','high_compression','highest_compression')))
+		$template = $options['template'];
+	// @media eventuel pour prefixe toutes les css
+	// et regrouper plusieurs css entre elles
+	$media = "";
+	if (isset($options['media']))
+		$media = "@media ".$options['media']." ";
 
-	// raccourcir les padding qui le peuvent (sur 3 ou 2 valeurs)
-	$contenu = preg_replace(",padding:([^\s;}]+)\s([^\s;}]+)\s([^\s;}]+)\s(\\2),ims","padding:$1 $2 $3",$contenu);
-	$contenu = preg_replace(",padding:([^\s;}]+)\s([^\s;}]+)\s(\\1)([;}!]),ims","padding:$1 $2$4",$contenu);
-
-	// raccourcir les margin qui le peuvent (sur 3 ou 2 valeurs)
-	$contenu = preg_replace(",margin:([^\s;}]+)\s([^\s;}]+)\s([^\s;}]+)\s(\\2),ims","margin:$1 $2 $3",$contenu);
-	$contenu = preg_replace(",margin:([^\s;}]+)\s([^\s;}]+)\s(\\1)([;}!]),ims","margin:$1 $2$4",$contenu);
-
-	$contenu = trim($contenu);
-
-	return $contenu;
+	include_spip("csstidy/class.csstidy");
+	$css = new csstidy();
+	$css->set_cfg('preserve_css',false);
+	$css->set_cfg('remove_last_;',true);
+	$css->set_cfg('merge_selectors',false);
+	$css->load_template($template);
+	$css->parse($contenu);
+	#var_dump($css->log);
+	#var_dump($css->css);
+	return $css->print->plain($media);
 }
 
 // Compacte du javascript grace a Dean Edward's JavaScriptPacker

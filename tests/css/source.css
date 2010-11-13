@@ -17,11 +17,12 @@ Edited by Daz  - http://www.forumimages.com - last updated 26-06-03 */
     .form-input input{
     	font-size: 10px;
     }
-    
+@media print {
     .hide{
     	display:none;
     }
-    
+ }
+ 
     .form-input textarea{
     	font-size: 11px;
     	width: 350px;
@@ -445,4 +446,7 @@ clear:both;
 	filter:progid:DXImageTransform.Microsoft.Shadow(color=#666666,direction=146, Strength=5);
 	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#999999', endColorstr='#666666')";
 	filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#ff999999',endColorstr='#ff666666');
+}
+@media print {
+	.degrade {background:none;}
 }

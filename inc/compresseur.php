@@ -15,7 +15,7 @@ function compacte_ecrire_balise_link_dist($src,$media=""){
  * options disponibles :
  *  string media : media qui seront utilises pour encapsuler par @media
  *	  les selecteurs sans media
- *  string template : format de sortie parmi 'low_compression','default','high_compression','highest_compression'
+ *  string template : format de sortie parmi 'low','default','high','highest'
  * @param string $contenu  contenu css
  * @param mixed $options options de minification
  * @return string
@@ -87,8 +87,8 @@ function compacte_css ($contenu, $options='simple') {
 	
 	// compression avancee en utilisant csstidy
 	// modele de sortie plus ou moins compact
-	$template = 'high_compression';
-	if (isset($options['template']) AND in_array($options['template'],array('low_compression','default','high_compression','highest_compression')))
+	$template = 'high';
+	if (isset($options['template']) AND in_array($options['template'],array('low','default','high','highest')))
 		$template = $options['template'];
 	// @media eventuel pour prefixe toutes les css
 	// et regrouper plusieurs css entre elles
@@ -98,13 +98,10 @@ function compacte_css ($contenu, $options='simple') {
 
 	include_spip("csstidy/class.csstidy");
 	$css = new csstidy();
-	$css->set_cfg('preserve_css',false);
-	$css->set_cfg('remove_last_;',true);
-	$css->set_cfg('merge_selectors',false);
-	$css->load_template($template);
+	// essayer d'optimiser les font, margin, padding avec des ecritures raccoucies
+	$css->set_cfg('optimise_shorthands',2);
+	$css->set_cfg('template',$template);
 	$css->parse($contenu);
-	#var_dump($css->log);
-	#var_dump($css->css);
 	return $css->print->plain($media);
 }
 

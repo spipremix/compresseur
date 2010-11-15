@@ -40,9 +40,9 @@
 	}
 
 	lire_fichier(dirname(__FILE__)."/css/expected_highest_screen.css", $expected);
-	$compacte = compacte_css($css_code,array('media'=>'screen','template'=>'highest_compression'));
+	$compacte = compacte_css($css_code,array('media'=>'screen','template'=>'highest'));
 	if (rtrim($compacte)!=rtrim($expected)) {
-		erreur("compacte_css(array('media'=>'screen','template'=>'highest_compression'))",$compacte,$expected);
+		erreur("compacte_css(array('media'=>'screen','template'=>'highest'))",$compacte,$expected);
 		$ok = false;
 	}
 

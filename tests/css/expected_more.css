@@ -20,7 +20,7 @@ a.admin:hover,a.mod:hover{color:#DD6900}
 a.but,a.but:hover,a.but:visited{color:#000;text-decoration:none}
 a.topictitle:visited{color:#5493B4}
 a.topictitle:hover{color:#DD6900}
-body{color:#000;font:11px Verdana, Arial, Helvetica, sans-serif;overflow:auto;margin:0 10px 10px;padding:0}
+body{color:#000;font:11px Verdana,Arial,Helvetica,sans-serif;margin:0 10px 10px;padding:0;overflow:auto}
 font,th,td,p{font:12px Verdana,Arial,Helvetica,sans-serif}
 form{display:inline}
 hr{border:0 solid #FFF;border-top-width:1px;height:0}
@@ -37,18 +37,18 @@ td.cat{background-color:#C2C6BA;font-weight:700;height:20px;letter-spacing:1px;t
 td.genmed,.genmed{font-size:11px}
 td.rowpic{background:#C2C6BA}
 td.spacerow{background:#E5E6E2}
-th{background-color:#FADD31;background-image:url(images/cellpic3.gif);background-repeat:repeat-x;color:#68685E;font-size:11px;font-weight:700;line-height:16px;height:16px;padding-left:8px;padding-right:8px;text-align:center;white-space:nowrap}
+th{background-color:#FADD31;/background-image:url(images/cellpic3.gif);background-repeat:repeat-x;color:#68685E;font-size:11px;font-weight:700;line-height:16px;height:16px;padding-left:8px;padding-right:8px;text-align:center;white-space:nowrap}
 .admin,.mod{font-size:11px;font-weight:700}
 .admin,a.admin,a.admin:visited{color:#FFA34F}
 .bodyline{background:#FFF;border:1px solid #98AAB1}
 .center{text-align:center}
-.code{background:#FAFAFA;border:1px solid #D1D7DC;color:#060;font:12px Courier, "Courier New",sans-serif;padding:5px}
+.code{background:#FAFAFA;border:1px solid #D1D7DC;color:#060;font:12px Courier,"Courier New",sans-serif;padding:5px}
 .errorline{background:#E5E6E2;border:1px solid #8F8B8B;color:#D92A2A}
 .explaintitle{color:#5C81B1;font-size:11px;font-weight:700}
 .forumline{background:#FFF}
 .gensmall{font-size:10px}
-.h1-font{color:#069;display:inline;font:bold 13px Verdana, Arial, Helvetica, sans-serif;text-decoration:none;margin:.3em}
-.h2-font{display:inline;font-family:Verdana, Arial, Helvetica, sans-serif;font-size:11px}
+.h1-font{color:#069;display:inline;font:bold 13px Verdana,Arial,Helvetica,sans-serif;margin:.3em;text-decoration:none}
+.h2-font{display:inline;font:11px Verdana,Arial,Helvetica,sans-serif}
 .height1{height:1px}
 .height22{height:22px}
 .height25{height:25px}
@@ -80,7 +80,7 @@ th{background-color:#FADD31;background-image:url(images/cellpic3.gif);background
 .top{vertical-align:top}
 .image-hspace{margin-right:3px}
 .clear{clear:both}
-.degrade{background-color:#777;background:-webkit-gradient(linear,lefttop,leftbottom,from(#999999),to(#666666));background-image:-moz-linear-gradient(top,#999999,#666666);-ms-filter:"progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#999999', endColorstr='#666666')";filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#ff999999',endColorstr='#ff666666')}
+.degrade{background-color:#777;background:-webkit-gradient(linear,left top,left bottom,from(#999999),to(#666666));background-image:-moz-linear-gradient(top,#999999,#666666);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#999999',endColorstr='#666666');filter:progid:DXImageTransform.Microsoft.Shadow(color=#666666,direction=146,Strength=5);-ms-filter:"progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#999999',endColorstr='#666666')";filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#ff999999',endColorstr='#ff666666')}
 @media print {
 .degrade{background:none}
 }

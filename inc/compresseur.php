@@ -9,9 +9,15 @@ function compacte_ecrire_balise_link_dist($src,$media=""){
 
 /**
  * Minifier un contenu CSS
- * Si $options est non precise, on utilise la methode regxep simple
- * Si $options sous forme de array(), on pass par csstidy pour parser le code
- * et produire un contenu plus compact et prefixe eventuellement par un @media
+ * Si $options est vide
+ *	on utilise la methode regexp simple
+ * Si $options est une chaine non vide
+ *  elle definit un media a appliquer a la css
+ *	si la css ne contient aucun @media ni @import, on encapsule tout dans "@media $option {...}" et on utilise regexp
+ *  sinon on utilise csstidy pour ne pas faire d'erreur, mais c'est 12 fois plus lent
+ * Si $options sous forme de array()
+ *	on pass par csstidy pour parser le code
+ *  et produire un contenu plus compact et prefixe eventuellement par un @media
  * options disponibles :
  *  string media : media qui seront utilises pour encapsuler par @media
  *	  les selecteurs sans media
@@ -20,7 +26,20 @@ function compacte_ecrire_balise_link_dist($src,$media=""){
  * @param mixed $options options de minification
  * @return string
  */
-function compacte_css ($contenu, $options='simple') {
+function compacte_css ($contenu, $options='') {
+	if (is_string($options) AND $options){
+		if ($options=="all") // facile : media all => ne rien preciser
+			$options = "";
+		elseif (
+					strpos($contenu,"@media")==false
+			AND strpos($contenu,"@import")==false
+			){
+			$contenu = "@media $options {\n$contenu\n}\n";
+			$options="";
+		}
+		else
+			$options = array('media'=>$options);
+	}
 	if (!is_array($options)){
 
 		// nettoyer la css de tout ce qui sert pas
@@ -45,7 +64,7 @@ function compacte_css ($contenu, $options='simple') {
 		// ni de point virgule sur la derniere declaration
 		$contenu = preg_replace("/;}/ms","}",$contenu);
 		// pas d'espace avant !important
-		$contenu = preg_replace("/\s!important/ms","!important",$contenu);
+		$contenu = preg_replace("/\s!\s?important/ms","!important",$contenu);
 		// passser les codes couleurs en 3 car si possible
 		// uniquement si non precedees d'un [="'] ce qui indique qu'on est dans un filter(xx=#?...)
 		$contenu = preg_replace(",([^=\"'])#([0-9a-f])(\\2)([0-9a-f])(\\4)([0-9a-f])(\\6),i","$1#$2$4$6",$contenu);
@@ -84,25 +103,30 @@ function compacte_css ($contenu, $options='simple') {
 
 		return $contenu;
 	}
-	
-	// compression avancee en utilisant csstidy
-	// modele de sortie plus ou moins compact
-	$template = 'high';
-	if (isset($options['template']) AND in_array($options['template'],array('low','default','high','highest')))
-		$template = $options['template'];
-	// @media eventuel pour prefixe toutes les css
-	// et regrouper plusieurs css entre elles
-	$media = "";
-	if (isset($options['media']))
-		$media = "@media ".$options['media']." ";
+	else {
+		// compression avancee en utilisant csstidy
+		// beaucoup plus lent, mais necessaire pour placer des @media la ou il faut
+		// si il y a deja des @media ou des @import
 
-	include_spip("csstidy/class.csstidy");
-	$css = new csstidy();
-	// essayer d'optimiser les font, margin, padding avec des ecritures raccoucies
-	$css->set_cfg('optimise_shorthands',2);
-	$css->set_cfg('template',$template);
-	$css->parse($contenu);
-	return $css->print->plain($media);
+		// modele de sortie plus ou moins compact
+		$template = 'high';
+		if (isset($options['template']) AND in_array($options['template'],array('low','default','high','highest')))
+			$template = $options['template'];
+		// @media eventuel pour prefixe toutes les css
+		// et regrouper plusieurs css entre elles
+		$media = "";
+		if (isset($options['media']))
+			$media = "@media ".$options['media']." ";
+
+		include_spip("csstidy/class.csstidy");
+		$css = new csstidy();
+
+		// essayer d'optimiser les font, margin, padding avec des ecritures raccourcies
+		$css->set_cfg('optimise_shorthands',2);
+		$css->set_cfg('template',$template);
+		$css->parse($contenu);
+		return $css->print->plain($media);
+	}
 }
 
 /**

@@ -21,7 +21,15 @@
 
 	$compacte = compacte_css($css_code);
 	if (rtrim($compacte)!=rtrim($expected)) {
-		erreur("compacte_css('simple')",$compacte,$expected);
+		erreur("compacte_css()",$compacte,$expected);
+		$ok = false;
+	}
+
+	// le compacteur simple doit donner le meme resultat
+	// avec un media all
+	$compacte = compacte_css($css_code,'all');
+	if (rtrim($compacte)!=rtrim($expected)) {
+		erreur("compacte_css('all')",$compacte,$expected);
 		$ok = false;
 	}
 
@@ -33,6 +41,12 @@
 	}
 
 	lire_fichier(dirname(__FILE__)."/css/expected_more_screen.css", $expected);
+	$compacte = compacte_css($css_code,'screen');
+	if (rtrim($compacte)!=rtrim($expected)) {
+		erreur("compacte_css('screen')",$compacte,$expected);
+		$ok = false;
+	}
+
 	$compacte = compacte_css($css_code,array('media'=>'screen'));
 	if (rtrim($compacte)!=rtrim($expected)) {
 		erreur("compacte_css(array('media'=>'screen'))",$compacte,$expected);
@@ -45,6 +59,16 @@
 		erreur("compacte_css(array('media'=>'screen','template'=>'highest'))",$compacte,$expected);
 		$ok = false;
 	}
+
+	lire_fichier(dirname(__FILE__)."/css/source_simple.css", $css_code);
+
+	lire_fichier(dirname(__FILE__)."/css/expected_simple.css", $expected);
+	$compacte = compacte_css($css_code,'screen');
+	if (rtrim($compacte)!=rtrim($expected)) {
+		erreur("compacte_css('screen')",$compacte,$expected);
+		$ok = false;
+	}
+
 
 	if ($ok)
 		echo "OK";

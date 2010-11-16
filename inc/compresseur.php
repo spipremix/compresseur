@@ -105,17 +105,38 @@ function compacte_css ($contenu, $options='simple') {
 	return $css->print->plain($media);
 }
 
-// Compacte du javascript grace a Dean Edward's JavaScriptPacker
-// utile pour prive/jquery.js par exemple
-// http://doc.spip.org/@compacte_js
+/**
+ * Compacte du javascript grace a Dean Edward's JavaScriptPacker
+ *
+ * Bench du 15/11/2010 sur jQuery.js :
+ * JSMIN (https://github.com/rgrove/jsmin-php/)
+ *	61% de la taille initiale / 2 895 ms
+ * JavaScriptPacker
+ *  62% de la taille initiale / 752 ms
+ *
+ * Closure Compiler
+ *  44% de la taille initiale / 3 785 ms
+ *
+ * JavaScriptPacker + Closure Compiler
+ *  43% de la taille initiale / 3 100 ms au total
+ *
+ * Il est donc plus rapide&efficace
+ * - de packer d'abord en local avec JavaScriptPacker
+ * - d'envoyer ensuite au closure compiler
+ * Cela permet en outre d'avoir un niveau de compression decent si closure
+ * compiler echoue
+ *
+ * Dans cette fonction on ne fait que le compactage local,
+ * l'appel a closure compiler est fait une unique fois pour tous les js concatene
+ * afin d'eviter les requetes externes
+ * 
+ * @param string $flux
+ * @return string
+ */
 function compacte_js($flux) {
-	// si la closure est demandee, on pourrait zapper cette etape
-	// mais avec le risque, en localhost, de depasser 200ko et d'echec
-	#if ($GLOBALS['meta']['auto_compress_closure'] == 'oui')
-	#	return $flux;
-
 	if (!strlen($flux))
 		return $flux;
+
 	include_spip('lib/JavascriptPacker/class.JavaScriptPacker');
 	$packer = new JavaScriptPacker($flux, 0, true, false);
 
@@ -124,8 +145,68 @@ function compacte_js($flux) {
 		spip_log('erreur de compacte_js');
 		return $flux;
 	}
-
 	return $t;
+}
+
+/**
+ * Compacter du javascript plus intensivement
+ * grace au google closure compiler
+ * 
+ * @param string $content
+ * @param bool $file
+ * @return string 
+ */
+function compacte_js_more($content,$file=false) {
+	# Closure Compiler n'accepte pas des POST plus gros que 200 000 octets
+	# au-dela il faut stocker dans un fichier, et envoyer l'url du fichier
+	# dans code_url ; en localhost ca ne marche evidemment pas
+	if ($file) {
+		$nom = $content;
+		lire_fichier($nom, $content);
+		$dest = dirname($nom).'/'.md5($content).'.js';
+		if (file_exists($dest))
+			if (filesize($dest))
+				return $dest;
+			else
+				return $nom;
+	}
+
+	if (!$file AND strlen($content)>200000)
+		return $content;
+
+	include_spip('inc/distant');
+
+	$datas=array(
+		'output_format' => 'text',
+		'output_info' => 'compiled_code',
+		'compilation_level' => 'SIMPLE_OPTIMIZATIONS', // 'SIMPLE_OPTIMIZATIONS', 'WHITESPACE_ONLY', 'ADVANCED_OPTIMIZATIONS'
+	);
+	if (!$file OR strlen($content) < 200000)
+		$datas['js_code'] = $content;
+	else
+		$datas['url_code'] = url_absolue($nom);
+
+	$cc = recuperer_page('http://closure-compiler.appspot.com/compile',
+		$trans=false, $get_headers=false,
+		$taille_max = null,
+		$datas,
+		$boundary = -1);
+
+	if ($cc AND !preg_match(',^\s*Error,', $cc)) {
+		spip_log('Closure Compiler: success');
+		$cc = "/* $nom + Closure Compiler */\n".$cc;
+		if ($file){
+			ecrire_fichier ($dest, $cc, true);
+			ecrire_fichier ("$dest.gz", $cc, true);
+			$content = $dest;
+		}
+		else
+			$content = &$cc;
+	} else {
+		if ($file)
+			ecrire_fichier ($dest, '', true);
+	}
+	return $content;
 }
 
 
@@ -314,8 +395,7 @@ function filtre_cache_static($scripts,$type='js'){
 			// ecrire une version .gz pour content-negociation par apache, cf. [11539]
 			ecrire_fichier("$nom.gz",$fichier,true);
 			// closure compiler ou autre super-compresseurs
-			compresse_encore($nom, $type);
-
+			$nom = compresse_encore($nom, $type);
 		}
 
 
@@ -334,37 +414,9 @@ function compresse_encore (&$nom, $type) {
 	$GLOBALS['meta']['auto_compress_closure'] == 'oui'
 	AND $type=='js'
 	) {
-		lire_fichier($nom, $fichier);
-		$dest = dirname($nom).'/'.md5($fichier).'.js';
-		if (!@file_exists($dest)) {
-			include_spip('inc/distant');
-
-			$datas=array(
-				'output_format' => 'text',
-				'output_info' => 'compiled_code',
-				'compilation_level' => 'SIMPLE_OPTIMIZATIONS', // 'SIMPLE_OPTIMIZATIONS', 'WHITESPACE_ONLY', 'ADVANCED_OPTIMIZATIONS'
-			);
-			if (strlen($fichier) < 200000)
-				$datas['js_code'] = $fichier;
-			else
-				$datas['url_code'] = url_absolue($nom);
-
-			$cc = recuperer_page('http://closure-compiler.appspot.com/compile',
-				$trans=false, $get_headers=false,
-				$taille_max = null,
-				$datas,
-				$boundary = -1);
-			if ($cc AND !preg_match(',^\s*Error,', $cc)) {
-				spip_log('Closure Compiler: success');
-				$cc = "/* $nom + Closure Compiler */\n".$cc;
-				ecrire_fichier ($dest, $cc, true);
-				ecrire_fichier ("$dest.gz", $cc, true);
-			} else
-				ecrire_fichier ($dest, '', true);
-		}
-		if (@filesize($dest))
-			$nom = $dest;
+		$nom = compacte_js_more($nom,true);
 	}
+	return $nom;
 }
 
 function appliquer_fonctions_css_fichier($fonctions,$css) {

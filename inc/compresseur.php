@@ -67,7 +67,7 @@ function compacte_css ($contenu, $options='') {
 		$contenu = preg_replace("/\s!\s?important/ms","!important",$contenu);
 		// passser les codes couleurs en 3 car si possible
 		// uniquement si non precedees d'un [="'] ce qui indique qu'on est dans un filter(xx=#?...)
-		$contenu = preg_replace(",([^=\"'])#([0-9a-f])(\\2)([0-9a-f])(\\4)([0-9a-f])(\\6),i","$1#$2$4$6",$contenu);
+		$contenu = preg_replace(";([:\s,(])#([0-9a-f])(\\2)([0-9a-f])(\\4)([0-9a-f])(\\6)(?=[^\w\-]);i","$1#$2$4$6",$contenu);
 		// remplacer font-weight:bold par font-weight:700
 		$contenu = preg_replace("/font-weight:bold/ims","font-weight:700",$contenu);
 		// remplacer font-weight:normal par font-weight:400
@@ -86,7 +86,7 @@ function compacte_css ($contenu, $options='') {
 			'replace'=>array('#000' ,'#F0F'   ,'#FFF' ,'#FF0'  ,'maroon' ,'orange' ,'olive'  ,'purple' ,'green'  ,'navy'   ,'teal'   ,'silver' ,'gray'   ,'red')
 		);
 		foreach($colors['source'] as $k=>$v){
-			$colors['source'][$k]=",([^=\"';{])".$v.",ms";
+			$colors['source'][$k]=";([:\s,(])".$v."(?=[^\w\-]);ms";
 			$colors['replace'][$k] = "$1".$colors['replace'][$k];
 		}
 		$contenu = preg_replace($colors['source'],$colors['replace'],$contenu);

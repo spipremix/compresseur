@@ -118,7 +118,7 @@ function compacte_css ($contenu, $options='') {
 		if (isset($options['media']))
 			$media = "@media ".$options['media']." ";
 
-		include_spip("csstidy/class.csstidy");
+		include_spip("lib/csstidy/class.csstidy");
 		$css = new csstidy();
 
 		// essayer d'optimiser les font, margin, padding avec des ecritures raccourcies

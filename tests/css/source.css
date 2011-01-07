@@ -1,3 +1,10 @@
+.formulaire_spip  textarea.markItUpEditor, .formulaire_spip li.editer_texte textarea {
+	/*width: 96%;
+	clear: both;*/
+}
+
+.markItUpHeader { text-align: left; } /* fix dir=ltr */
+
 /* Based on the original Style Sheet for the fisubsilver v2 Theme for phpBB version 2+
 Edited by Daz  - http://www.forumimages.com - last updated 26-06-03 */
 /* The content of the posts (body of text) */

@@ -1,15 +1,33 @@
 <?php
 
-// Si la source est un chemin, on retourne un chemin avec le contenu compacte
-// dans _DIR_VAR/cache_$format/
-// Si c'est un flux on le renvoit compacte
-// Si on ne sait pas compacter, on renvoie ce qu'on a recu
-// http://doc.spip.org/@compacte
-function compacte($source, $format = null) {
+/***************************************************************************\
+ *  SPIP, Systeme de publication pour l'internet                           *
+ *                                                                         *
+ *  Copyright (c) 2001-2011                                                *
+ *  Arnaud Martin, Antoine Pitrou, Philippe Riviere, Emmanuel Saint-James  *
+ *                                                                         *
+ *  Ce programme est un logiciel libre distribue sous licence GNU/GPL.     *
+ *  Pour plus de details voir le fichier COPYING.txt ou l'aide en ligne.   *
+\***************************************************************************/
+
+if (!defined("_ECRIRE_INC_VERSION")) return;
+
+/**
+ * Minifier un fichier js ou css :
+ * Si la source est un chemin, on retourne un chemin avec le contenu minifie
+ * dans _DIR_VAR/cache_$format/
+ * Si c'est un flux on le renvoit compacte
+ * Si on ne sait pas compacter, on renvoie ce qu'on a recu
+ *
+ * @param string $source
+ * @param string $format
+ * @return string
+ */
+function minifier($source, $format = null) {
 	if (!$format AND preg_match(',\.(js|css)$,', $source, $r))
 		$format = $r[1];
-	include_spip('inc/compresseur');
-	if (!function_exists($compacte = 'compacte_'.$format))
+	include_spip('inc/compresseur_minifier');
+	if (!function_exists($minifier = 'minifier_'.$format))
 		return $source;
 
 	// Si on n'importe pas, est-ce un fichier ?
@@ -22,8 +40,8 @@ function compacte($source, $format = null) {
 
 		$f = basename($source,'.'.$format);
 		$f = sous_repertoire (_DIR_VAR, 'cache-'.$format)
-		. preg_replace(",(.*?)(_rtl|_ltr)?$,","\\1-compacte-"
-		. substr(md5("$source-compacte"), 0,4) . "\\2", $f, 1)
+		. preg_replace(",(.*?)(_rtl|_ltr)?$,","\\1-minify-"
+		. substr(md5("$source-minify"), 0,4) . "\\2", $f, 1)
 		. '.' . $format;
 
 		if ((@filemtime($f) > @filemtime($source))
@@ -34,7 +52,7 @@ function compacte($source, $format = null) {
 			return $source;
 
 		// traiter le contenu
-		$contenu = $compacte($contenu);
+		$contenu = $minifier($contenu);
 
 		// ecrire le fichier destination, en cas d'echec renvoyer la source
 		if (ecrire_fichier($f, $contenu, true))
@@ -43,8 +61,18 @@ function compacte($source, $format = null) {
 			return $source;
 	}
 
-	// Sinon simple compactage de contenu
-	return $compacte($source);
+	// Sinon simple minification de contenu
+	return $minifier($source);
+}
+/**
+ * Synonyme historique de minifier, pour compatibilite
+ * 
+ * @param string $source
+ * @param string $format
+ * @return string
+ */
+function compacte($source, $format = null){
+	return minifier($source, $format = null);
 }
 
 // Cette fonction verifie les reglages du site et traite le compactage
@@ -63,10 +91,10 @@ function compacte_head($flux){
 	include_spip('inc/compresseur');
 	if (!defined('_INTERDIRE_COMPACTE_HEAD')){
 		// dans l'espace prive on compacte toujours, c'est concu pour
-		if ($GLOBALS['meta']['auto_compress_css'] == 'oui' OR (test_espace_prive() AND !defined('_INTERDIRE_COMPACTE_HEAD_ECRIRE')))
-			$flux = compacte_head_css($flux);
-		if ($GLOBALS['meta']['auto_compress_js'] == 'oui' OR (test_espace_prive() AND !defined('_INTERDIRE_COMPACTE_HEAD_ECRIRE')))
-			$flux = compacte_head_js($flux);
+		if ((!test_espace_prive() AND $GLOBALS['meta']['auto_compress_css'] == 'oui') OR (test_espace_prive() AND !defined('_INTERDIRE_COMPACTE_HEAD_ECRIRE')))
+			$flux = compacte_head_files($flux,'css');
+		if ((!test_espace_prive() AND $GLOBALS['meta']['auto_compress_js'] == 'oui') OR (test_espace_prive() AND !defined('_INTERDIRE_COMPACTE_HEAD_ECRIRE')))
+			$flux = compacte_head_files($flux,'js');
 	}
 	return $flux;
 }
@@ -118,7 +146,7 @@ function filtre_embarque_fichier ($src, $base="", $maxsize = 4096) {
  */
 function filtre_embarque_src ($img, $maxsize = 4096){
 	$src = extraire_attribut($img,'src');
-	if ($src2=filtre_embarque_fichier($src) AND $src2!= $src) {
+	if ($src2=filtre_embarque_fichier($src, "", $maxsize) AND $src2!= $src) {
 		$img = inserer_attribut($img, 'src', $src2);
 	}
 	return $img;

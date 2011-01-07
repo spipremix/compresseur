@@ -1,15 +1,21 @@
 <?php
 
-//
-// Reglage de l'output buffering : si possible, generer une sortie
-// compressee pour economiser de la bande passante
-//
+/**
+ *
+ * Reglage de l'output buffering : si possible, generer une sortie
+ * compressee pour economiser de la bande passante
+ *
+ * Utilisation deconseillee et desactivee par defaut
+ * utilisable uniquement via define('auto_compress_http',true)
+ *
+ */
 
 // si un buffer est deja ouvert, stop
 if ($GLOBALS['flag_ob']
-AND $GLOBALS['meta']['auto_compress_http'] == 'oui'
-AND strlen(ob_get_contents())==0
-AND !headers_sent()) {
+	AND $GLOBALS['meta']['auto_compress_http'] == 'oui'
+	AND strlen(ob_get_contents())==0
+	AND !headers_sent()) {
+
 	if (
 	// special bug de proxy
 	!(isset($_SERVER['HTTP_VIA']) AND preg_match(",NetCache|Hasd_proxy,i", $_SERVER['HTTP_VIA']))

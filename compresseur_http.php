@@ -6,13 +6,13 @@
  * compressee pour economiser de la bande passante
  *
  * Utilisation deconseillee et desactivee par defaut
- * utilisable uniquement via define('auto_compress_http',true)
+ * utilisable uniquement via define('_AUTO_GZIP_HTTP',true)
  *
  */
 
 // si un buffer est deja ouvert, stop
 if ($GLOBALS['flag_ob']
-	AND $GLOBALS['meta']['auto_compress_http'] == 'oui'
+	AND defined('_AUTO_GZIP_HTTP') AND _AUTO_GZIP_HTTP
 	AND strlen(ob_get_contents())==0
 	AND !headers_sent()) {
 

@@ -15,6 +15,10 @@ _ dans l'entete des pages html de <code>ecrire/</code> et/ou du site public</des
 		<inclure>compresseur_pipeline.php</inclure>
 	</pipeline>
 	<pipeline>
+		<nom>declarer_filtres_squelettes</nom>
+		<inclure>compresseur_pipeline.php</inclure>
+	</pipeline>
+	<pipeline>
 		<nom>affiche_milieu</nom>
 		<inclure>compresseur_pipeline.php</inclure>
 	</pipeline>

@@ -284,3 +284,26 @@ function callback_minifier_encore(&$nom, $format) {
 	}
 	return $nom;
 }
+
+/**
+ * minifier du HTML
+ * 
+ * @param string $flux
+ * @return string
+ */
+function minifier_html($flux){
+	// si pas de contenu ni de balise html, ne rien faire
+	if (!strlen($flux) OR strpos($flux,"<")===FALSE)
+		return $flux;
+
+	static $options = null;
+	if (is_null($options)){
+		$options = array();
+		if ($GLOBALS['meta']['auto_compress_css'] == 'oui')
+			$options['cssMinifier'] = 'minifier_css';
+		if ($GLOBALS['meta']['auto_compress_js'] == 'oui')
+			$options['jsMinifier'] = 'minifier_js';
+		include_spip('lib/minify_html/class.minify_html');
+	}
+	return Minify_HTML::minify($flux,$options);
+}

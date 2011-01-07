@@ -23,6 +23,11 @@ function compresseur_header_prive($flux){
 	return compacte_head($flux);
 }
 
+/**
+ * Afficher le formulaire de configuration sur la page de config avancees
+ * @param string $flux
+ * @return string
+ */
 function compresseur_affiche_milieu($flux){
 	
 	if ($flux['args']['exec']=='configurer_avancees'){
@@ -33,11 +38,31 @@ function compresseur_affiche_milieu($flux){
 	return $flux;
 }
 
+/**
+ * Lister les metas et leurs valeurs par defaut
+ * @param array $metas
+ * @return array
+ */
 function compresseur_configurer_liste_metas($metas){
 	$metas['auto_compress_js']='non';
 	$metas['auto_compress_closure']='non';
 	$metas['auto_compress_css']='non';
 	return $metas;
+}
+
+/**
+ * Declarer les filtres sur les squelettes mis en cache
+ * ici minification CSS si la meta la demande
+ *
+ * @param array $filtres
+ * @return array
+ */
+function compresseur_declarer_filtres_squelettes($filtres){
+	if ($GLOBALS['meta']['auto_compress_http']=='oui'){
+		include_spip("inc/compresseur_minifier");
+		$filtres[] = 'minifier_html';
+	}
+  return $filtres;
 }
 
 ?>

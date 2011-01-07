@@ -1,10 +1,57 @@
 <?php
 
-function compacte_ecrire_balise_script_dist($src){
-	return "<script type='text/javascript' src='$src'></script>";
+/***************************************************************************\
+ *  SPIP, Systeme de publication pour l'internet                           *
+ *                                                                         *
+ *  Copyright (c) 2001-2011                                                *
+ *  Arnaud Martin, Antoine Pitrou, Philippe Riviere, Emmanuel Saint-James  *
+ *                                                                         *
+ *  Ce programme est un logiciel libre distribue sous licence GNU/GPL.     *
+ *  Pour plus de details voir le fichier COPYING.txt ou l'aide en ligne.   *
+\***************************************************************************/
+
+if (!defined("_ECRIRE_INC_VERSION")) return;
+
+/**
+ * Ecrire la balise javascript pour inserer le fichier compresse
+ * C'est cette fonction qui decide ou il est le plus pertinent
+ * d'inserer le fichier, et dans quelle forme d'ecriture
+ *
+ * @param string $flux
+ *   contenu du head nettoye des fichiers qui ont ete compresse
+ * @param int $pos
+ *   position initiale du premier fichier inclu dans le fichier compresse
+ * @param string $src
+ *   nom du fichier compresse
+ * @param string $comments
+ *   commentaires a inserer devant
+ * @return string
+ */
+function compacte_ecrire_balise_js_dist(&$flux, $pos, $src, $comments = ""){
+	$comments .= "<script type='text/javascript' src='$src'></script>";
+  $flux = substr_replace($flux,$comments,$pos,0);
+  return $flux;
 }
-function compacte_ecrire_balise_link_dist($src,$media=""){
-	return "<link rel='stylesheet'".($media?" media='$media'":"")." href='$src' type='text/css' />";
+
+/**
+ * Ecrire la balise css pour inserer le fichier compresse
+ * C'est cette fonction qui decide ou il est le plus pertinent
+ * d'inserer le fichier, et dans quelle forme d'ecriture
+ *
+ * @param string $flux
+ *   contenu du head nettoye des fichiers qui ont ete compresse
+ * @param int $pos
+ *   position initiale du premier fichier inclu dans le fichier compresse
+ * @param string $src
+ *   nom du fichier compresse
+ * @param string $comments
+ *   commentaires a inserer devant
+ * @return string
+ */
+function compacte_ecrire_balise_css_dist(&$flux, $pos, $src, $comments = "", $media=""){
+	$comments .= "<link rel='stylesheet'".($media?" media='$media'":"")." href='$src' type='text/css' />";
+  $flux = substr_replace($flux,$comments,$pos,0);
+	return $flux;
 }
 
 /**
@@ -130,32 +177,12 @@ function compacte_css ($contenu, $options='') {
 }
 
 /**
- * Compacte du javascript grace a Dean Edward's JavaScriptPacker
- *
- * Bench du 15/11/2010 sur jQuery.js :
- * JSMIN (https://github.com/rgrove/jsmin-php/)
- *	61% de la taille initiale / 2 895 ms
- * JavaScriptPacker
- *  62% de la taille initiale / 752 ms
- *
- * Closure Compiler
- *  44% de la taille initiale / 3 785 ms
- *
- * JavaScriptPacker + Closure Compiler
- *  43% de la taille initiale / 3 100 ms au total
- *
- * Il est donc plus rapide&efficace
- * - de packer d'abord en local avec JavaScriptPacker
- * - d'envoyer ensuite au closure compiler
- * Cela permet en outre d'avoir un niveau de compression decent si closure
- * compiler echoue
- *
- * Dans cette fonction on ne fait que le compactage local,
- * l'appel a closure compiler est fait une unique fois pour tous les js concatene
- * afin d'eviter les requetes externes
+ * Extraire les balises CSS a compacter et retourner un tableau
+ * balise => src
  * 
- * @param string $flux
- * @return string
+ * @param  $flux
+ * @param  $url_base
+ * @return array
  */
 function compacte_js($flux) {
 	if (!strlen($flux))
@@ -175,10 +202,10 @@ function compacte_js($flux) {
 /**
  * Compacter du javascript plus intensivement
  * grace au google closure compiler
- * 
+ *
  * @param string $content
  * @param bool $file
- * @return string 
+ * @return string
  */
 function compacte_js_more($content,$file=false) {
 	# Closure Compiler n'accepte pas des POST plus gros que 200 000 octets
@@ -234,108 +261,100 @@ function compacte_js_more($content,$file=false) {
 }
 
 
-// Appelee par compacte_head() si le webmestre le desire, cette fonction
-// compacte les scripts js dans un fichier statique pose dans local/
-// en entree : un <head> html.
-// http://doc.spip.org/@compacte_head_js
-function compacte_head_js($flux) {
+/**
+ * Extraire les balises CSS a compacter et retourner un tableau
+ * balise => src
+ *
+ * @param  $flux
+ * @param  $url_base
+ * @return array
+ */
+function extraire_balises_css_dist($flux, $url_base){
+	$balises = extraire_balises($flux,'link');
+	$files = array();
+	foreach ($balises as $s){
+		if (extraire_attribut($s, 'rel') === 'stylesheet'
+			AND (!($type = extraire_attribut($s, 'type'))
+				OR $type == 'text/css')
+			AND is_null(extraire_attribut($s, 'name')) # css nommee : pas touche
+			AND is_null(extraire_attribut($s, 'id'))   # idem
+			AND !strlen(strip_tags($s))
+			AND $src = preg_replace(",^$url_base,",_DIR_RACINE,extraire_attribut($s, 'href')))
+			$files[$s] = $src;
+	}
+	return $files;
+}
+
+/**
+ * Extraire les balises JS a compacter et retoruner un tableau
+ * balise => src
+ * @param  $flux
+ * @param  $url_base
+ * @return array
+ */
+function extraire_balises_js_dist($flux, $url_base){
+	$balises = extraire_balises($flux,'script');
+	$files = array();
+	foreach ($balises as $s){
+		if (extraire_attribut($s, 'type') === 'text/javascript'
+			AND $src = extraire_attribut($s, 'src')
+			AND !strlen(strip_tags($s)))
+			$files[$s] = $src;
+	}
+	return $files;
+}
+
+/**
+ * Compacter (concatener+minifier) les fichiers format css ou js
+ * du head. Reperer fichiers statiques vs url squelettes
+ * Compacte le tout dans un fichier statique pose dans local/
+ *
+ * @param string $flux
+ *  contenu du <head> de la page html
+ * @param string $format
+ *  css ou js
+ * @return string
+ */
+function compacte_head_files($flux,$format) {
 	$url_base = url_de_base();
 	$url_page = substr(generer_url_public('A'), 0, -1);
 	$dir = preg_quote($url_page,',').'|'.preg_quote(preg_replace(",^$url_base,",_DIR_RACINE,$url_page),',');
 
-	$scripts = array();
+	if (!$extraire_balises = charger_fonction("extraire_balises_$format",'',true))
+		return $flux;
+
+	$files = array();
 	$flux_nocomment = preg_replace(",<!--.*-->,Uims","",$flux);
-	foreach (extraire_balises($flux_nocomment,'script') as $s) {
-		if (extraire_attribut($s, 'type') === 'text/javascript'
-		AND $src = extraire_attribut($s, 'src')
-		AND !strlen(strip_tags($s))
-		AND (
+	foreach ($extraire_balises($flux_nocomment, $url_base) as $s=>$src) {
+		if (
 			preg_match(',^('.$dir.')(.*)$,', $src, $r)
 			OR (
 				// ou si c'est un fichier
 				$src = preg_replace(',^'.preg_quote(url_de_base(),',').',', '', $src)
 				// enlever un timestamp eventuel derriere un nom de fichier statique
-				AND $src2 = preg_replace(",[.]js[?].+$,",'.js',$src)
+				AND $src2 = preg_replace(",[.]{$format}[?].+$,",".$format",$src)
 				// verifier qu'il n'y a pas de ../ ni / au debut (securite)
 				AND !preg_match(',(^/|\.\.),', substr($src,strlen(_DIR_RACINE)))
 				// et si il est lisible
 				AND @is_readable($src2)
 			)
-		)) {
+		) {
 			if ($r)
-				$scripts[$s] = explode('&',
-					str_replace('&amp;', '&', $r[2]), 2);
+				$files[$s] = explode('&', str_replace('&amp;', '&', $r[2]), 2);
 			else
-				$scripts[$s] = $src;
+				$files[$s] = $src;
 		}
 	}
 
-	if (list($src,$comms) = filtre_cache_static($scripts,'js')){
-		$compacte_ecrire_balise_script = charger_fonction('compacte_ecrire_balise_script','');
-		$scripts = array_keys($scripts);
-		$flux = str_replace(reset($scripts),
-			$comms .$compacte_ecrire_balise_script($src)."\n",
-			$flux);
-		$flux = str_replace($scripts,"",$flux);
-	}
-
-	return $flux;
-}
-
-// Appelee par compacte_head() si le webmestre le desire, cette fonction
-// compacte les feuilles de style css dans un fichier statique pose dans local/
-// en entree : un <head> html.
-// http://doc.spip.org/@compacte_head_css
-function compacte_head_css($flux) {
-	$url_base = url_de_base();
-	$url_page = substr(generer_url_public('A'), 0, -1);
-	$dir = preg_quote($url_page,',').'|'.preg_quote(preg_replace(",^$url_base,",_DIR_RACINE,$url_page),',');
-
-	$css = array();
-	$flux_nocomment = preg_replace(",<!--.*-->,Uims","",$flux);
-	foreach (extraire_balises($flux_nocomment, 'link') as $s) {
-		if (extraire_attribut($s, 'rel') === 'stylesheet'
-		AND (!($type = extraire_attribut($s, 'type'))
-			OR $type == 'text/css')
-		AND is_null(extraire_attribut($s, 'name')) # css nommee : pas touche
-		AND is_null(extraire_attribut($s, 'id'))   # idem
-		AND !strlen(strip_tags($s))
-		AND $src = preg_replace(",^$url_base,",_DIR_RACINE,extraire_attribut($s, 'href'))
-		AND (
-			// regarder si c'est du format spip.php?page=xxx
-			preg_match(',^('.$dir.')(.*)$,', $src, $r)
-			OR (
-				// ou si c'est un fichier
-				// enlever un timestamp eventuel derriere un nom de fichier statique
-				$src2 = preg_replace(",[.]css[?].+$,",'.css',$src)
-				// verifier qu'il n'y a pas de ../ ni / au debut (securite)
-				AND !preg_match(',(^/|\.\.),', substr($src2,strlen(_DIR_RACINE)))
-				// et si il est lisible
-				AND @is_readable($src2)
-			)
-		)) {
-			$media = strval(extraire_attribut($s, 'media'));
-			if ($r)
-				$css[$media][$s] = explode('&',
-					str_replace('&amp;', '&', $r[2]), 2);
-			else
-				$css[$media][$s] = $src;
-		}
-	}
-
-	// et mettre le tout dans un cache statique
-	foreach($css as $m=>$s){
-		// si plus d'une css pour ce media ou si c'est une css dynamique
-		if (count($s)>1 OR is_array(reset($s))){
-			if (list($src,$comms) = filtre_cache_static($s,'css')){
-				$compacte_ecrire_balise_link = charger_fonction('compacte_ecrire_balise_link','');
-				$s = array_keys($s);
-				$flux = str_replace(reset($s),
-								$comms . $compacte_ecrire_balise_link($src,$m)."\n",
-								$flux);
-				$flux = str_replace($s,"",$flux);
-			}
-		}
+	if (list($src,$comms) = filtre_cache_static($files,$format)){
+		$compacte_ecrire_balise = charger_fonction("compacte_ecrire_balise_$format",'');
+		$files = array_keys($files);
+		// retrouver la position du premier fichier compacte
+		$pos = strpos($flux,reset($files));
+		// supprimer tous les fichiers compactes du flux
+		$flux = str_replace($files,"",$flux);
+		// inserer la balise (deleguer a la fonction, en lui donnant le necessaire)
+		$flux = $compacte_ecrire_balise($flux, $pos, $src, $comms);
 	}
 
 	return $flux;
@@ -343,18 +362,27 @@ function compacte_head_css($flux) {
 
 
 // http://doc.spip.org/@filtre_cache_static
-function filtre_cache_static($scripts,$type='js'){
+/**
+ * Retrouve ou genere le fichier statique correspondant a une liste de fichiers
+ * fournis en arguments
+ * @param  $files
+ * @param string $format
+ * @return array
+ */
+function filtre_cache_static($files,$format='js'){
 	$nom = "";
-	if (!is_array($scripts) && $scripts) $scripts = array($scripts);
-	if (count($scripts)){
-		// on trie la liste de scripts pour calculer le nom
+	if (!is_array($files) && $files) $files = array($files);
+	if (count($files)){
+		$minifier = 'compacte_'.$format;
+	  
+		// on trie la liste de files pour calculer le nom
 		// necessaire pour retomber sur le meme fichier
 		// si on renome une url a la volee pour enlever le var_mode=recalcul
 		// mais attention, il faut garder l'ordre initial pour la minification elle meme !
-		$s2 = $scripts;
+		$s2 = $files;
 		ksort($s2);
-		$dir = sous_repertoire(_DIR_VAR,'cache-'.$type);
-		$nom = $dir . md5(serialize($s2)) . ".$type";
+		$dir = sous_repertoire(_DIR_VAR,'cache-'.$format);
+		$nom = $dir . md5(serialize($s2)) . ".$format";
 		if (
 			$GLOBALS['var_mode']=='recalcul'
 			OR !file_exists($nom)
@@ -363,43 +391,44 @@ function filtre_cache_static($scripts,$type='js'){
 			$comms = array();
 			$total = 0;
 			$s2 = false;
-			foreach($scripts as $key=>$script){
-				if (!is_array($script)) {
+			foreach($files as $key=>$file){
+				if (!is_array($file)) {
 					// c'est un fichier
-					$comm = $script;
+					$comm = $file;
 					// enlever le timestamp si besoin
-					$script = preg_replace(",[?].+$,",'',$script);
-					if ($type=='css'){
+					$file = preg_replace(",[?].+$,",'',$file);
+					if ($format=='css'){
 						$fonctions = array('urls_absolues_css');
 						if (isset($GLOBALS['compresseur_filtres_css']) AND is_array($GLOBALS['compresseur_filtres_css']))
 							$fonctions = $GLOBALS['compresseur_filtres_css'] + $fonctions;
-						$script = appliquer_fonctions_css_fichier($fonctions, $script);
+						$file = appliquer_fonctions_css_fichier($fonctions, $file);
 					}
-					lire_fichier($script, $contenu);
+					lire_fichier($file, $contenu);
 				}
 				else {
 					// c'est un squelette
-					$comm = _SPIP_PAGE . "=$script[0]"
-						. (strlen($script[1])?"($script[1])":'');
-					parse_str($script[1],$contexte);
-					$contenu = recuperer_fond($script[0],$contexte);
-					if ($type=='css'){
+					$comm = _SPIP_PAGE . "=$file[0]"
+						. (strlen($file[1])?"($file[1])":'');
+					parse_str($file[1],$contexte);
+					$contenu = recuperer_fond($file[0],$contexte);
+					if ($format=='css'){
 						$fonctions = array('urls_absolues_css');
 						if (isset($GLOBALS['compresseur_filtres_css']) AND is_array($GLOBALS['compresseur_filtres_css']))
 							$fonctions = $GLOBALS['compresseur_filtres_css'] + $fonctions;
 						$contenu = appliquer_fonctions_css_contenu($fonctions, $contenu, self('&'));
 					}
 					// enlever le var_mode si present pour retrouver la css minifiee standard
-					if (strpos($script[1],'var_mode')!==false) {
-						if (!$s2) $s2 = $scripts;
+					if (strpos($file[1],'var_mode')!==false) {
+						if (!$s2) $s2 = $files;
 						unset($s2[$key]);
 						$key = preg_replace(',(&(amp;)?)?var_mode=[^&\'"]*,','',$key);
-						$script[1] = preg_replace(',&?var_mode=[^&\'"]*,','',$script[1]);
-						$s2[$key] = $script;
+						$file[1] = preg_replace(',&?var_mode=[^&\'"]*,','',$file[1]);
+						$s2[$key] = $file;
 					}
 				}
-				$f = 'compacte_'.$type;
-					$fichier .= "/* $comm */\n". $f($contenu) . "\n\n";
+				// minifier en passant le media en option si c'est une css
+				// (ignore pour les js)
+				$fichier .= "/* $comm */\n". $minifier($contenu, extraire_attribut($key,'media')) . "\n\n";
 				$comms[] = $comm;
 				$total += strlen($contenu);
 			}
@@ -411,7 +440,7 @@ function filtre_cache_static($scripts,$type='js'){
 
 			if ($s2) {
 				ksort($s2);
-				$nom = $dir . md5(serialize($s2)) . ".$type";
+				$nom = $dir . md5(serialize($s2)) . ".$format";
 			}
 
 			// ecrire
@@ -419,7 +448,8 @@ function filtre_cache_static($scripts,$type='js'){
 			// ecrire une version .gz pour content-negociation par apache, cf. [11539]
 			ecrire_fichier("$nom.gz",$fichier,true);
 			// closure compiler ou autre super-compresseurs
-			$nom = compresse_encore($nom, $type);
+			// a appliquer sur le fichier final
+			$nom = compresse_encore($nom, $format);
 		}
 
 
@@ -429,14 +459,22 @@ function filtre_cache_static($scripts,$type='js'){
 	return array($nom, (isset($comms) AND $comms) ? "<!-- $comms -->\n" : '');
 }
 
-// experimenter le Closure Compiler de Google
-function compresse_encore (&$nom, $type) {
+/**
+ * Minification additionnelle :
+ * experimenter le Closure Compiler de Google
+ * @param string $nom
+ *   nom d'un fichier a minifier encore plus
+ * @param string $format
+ *   format css ou js
+ * @return string
+ */
+function compresse_encore (&$nom, $format) {
 	# Closure Compiler n'accepte pas des POST plus gros que 200 000 octets
 	# au-dela il faut stocker dans un fichier, et envoyer l'url du fichier
 	# dans code_url ; en localhost ca ne marche evidemment pas
 	if (
 	$GLOBALS['meta']['auto_compress_closure'] == 'oui'
-	AND $type=='js'
+	AND $format=='js'
 	) {
 		$nom = compacte_js_more($nom,true);
 	}

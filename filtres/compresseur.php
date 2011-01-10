@@ -45,7 +45,7 @@ function minifier($source, $format = null) {
 		. '.' . $format;
 
 		if ((@filemtime($f) > @filemtime($source))
-		AND ($GLOBALS['var_mode'] != 'recalcul'))
+		AND (!defined('_VAR_MODE') OR _VAR_MODE != 'recalcul'))
 			return $f;
 
 		if (!lire_fichier($source, $contenu))

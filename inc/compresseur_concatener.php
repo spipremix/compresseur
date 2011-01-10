@@ -44,7 +44,7 @@ function concatener_fichiers($files,$format='js', $callbacks = array()){
 		$dir = sous_repertoire(_DIR_VAR,'cache-'.$format);
 		$nom = $dir . md5(serialize($s2)) . ".$format";
 		if (
-			$GLOBALS['var_mode']=='recalcul'
+			(defined('_VAR_MODE') AND _VAR_MODE=='recalcul')
 			OR !file_exists($nom)
 		) {
 			$fichier = "";

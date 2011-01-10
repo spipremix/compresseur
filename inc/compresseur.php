@@ -204,7 +204,7 @@ function &compresseur_callback_prepare_css(&$css, $is_inline = false, $fonctions
 		. '.css';
 
 	if ((@filemtime($file) > @filemtime($css))
-		AND ($GLOBALS['var_mode'] != 'recalcul'))
+		AND (!defined('_VAR_MODE') OR _VAR_MODE != 'recalcul'))
 		return $file;
 
 	if ($url_absolue_css==$css){

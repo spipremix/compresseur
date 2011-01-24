@@ -121,7 +121,9 @@ class Minify_HTML {
 
         // trim each line.
         // @todo take into account attribute values that span multiple lines.
-        $this->_html = preg_replace('/^\\s+|\\s+$/m', '', $this->_html);
+	      // 2 regexp because merging un /^\\s+|\\s+$/m also del a lot of newline chars ???
+        $this->_html = preg_replace('/\\s+$/m', '', $this->_html);
+        $this->_html = preg_replace('/^\\s+/m', '', $this->_html);
 
         // remove ws around block/undisplayed elements
         $this->_html = preg_replace('/\\s+(<\\/?(?:area|base(?:font)?|blockquote|body'

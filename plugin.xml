@@ -3,7 +3,7 @@
 	<auteur>Collectif SPIP 2009</auteur>
 	<icon>images/compresseur-32.png</icon>
 	<licence>GPL</licence>
-	<version>1.4.0</version>
+	<version>1.4.1</version>
 	<etat>stable</etat>
 	<description>Compression des css et javascript
 _ dans l'entete des pages html de <code>ecrire/</code> et/ou du site public</description>

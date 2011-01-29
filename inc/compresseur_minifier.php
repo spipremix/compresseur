@@ -181,11 +181,15 @@ function minifier_js($flux) {
 
 
 /**
+ * Minification additionnelle :
  * Compacter du javascript plus intensivement
  * grace au google closure compiler
  *
  * @param string $content
+ *  contenu a compresser
  * @param bool $file
+ *  indique si $content est ou non un fichier, et retourne un fichier dans ce dernier cas
+ *  si $file est une chaine, c'est un nom de ficher sous lequel on ecrit aussi le fichier destination
  * @return string
  */
 function minifier_encore_js($content,$file=false) {
@@ -195,12 +199,14 @@ function minifier_encore_js($content,$file=false) {
 	if ($file) {
 		$nom = $content;
 		lire_fichier($nom, $content);
-		$dest = dirname($nom).'/'.md5($content).'.js';
-		if (file_exists($dest))
+		$dest = dirname($nom).'/'.md5($content.$file).'.js';
+		if (file_exists($dest) AND (!is_string($file) OR file_exists($file)))
 			if (filesize($dest))
-				return $dest;
-			else
+				return is_string($file)?$file:$dest;
+			else {
+				spip_log("minifier_encore_js: Fichier $dest vide",_LOG_INFO);
 				return $nom;
+			}
 	}
 
 	if (!$file AND strlen($content)>200000)
@@ -231,12 +237,19 @@ function minifier_encore_js($content,$file=false) {
 			ecrire_fichier ($dest, $cc, true);
 			ecrire_fichier ("$dest.gz", $cc, true);
 			$content = $dest;
+		  if (is_string($file)){
+			  ecrire_fichier ($file, $cc, true);
+			  ecrire_fichier ("$file.gz", $cc, true);
+		    $content = $file;
+		  }
 		}
 		else
 			$content = &$cc;
 	} else {
-		if ($file)
+		if ($file){
+			spip_log("minifier_encore_js:Echec appel Closure Compiler. Ecriture fichier $dest vide",_LOG_INFO_IMPORTANTE);
 			ecrire_fichier ($dest, '', true);
+		}
 	}
 	return $content;
 }
@@ -262,28 +275,6 @@ function callback_minifier_js_file($contenu, $balise){
 	return minifier_js($contenu);
 }
 
-
-/**
- * Minification additionnelle :
- * experimenter le Closure Compiler de Google
- * @param string $nom
- *   nom d'un fichier a minifier encore plus
- * @param string $format
- *   format css ou js
- * @return string
- */
-function callback_minifier_encore(&$nom, $format) {
-	# Closure Compiler n'accepte pas des POST plus gros que 200 000 octets
-	# au-dela il faut stocker dans un fichier, et envoyer l'url du fichier
-	# dans code_url ; en localhost ca ne marche evidemment pas
-	if (
-	$GLOBALS['meta']['auto_compress_closure'] == 'oui'
-	AND $format=='js'
-	) {
-		$nom = minifier_encore_js($nom,true);
-	}
-	return $nom;
-}
 
 /**
  * minifier du HTML

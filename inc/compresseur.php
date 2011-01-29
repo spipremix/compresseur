@@ -139,9 +139,13 @@ function compacte_head_files($flux,$format) {
 		}
 	}
 
-	$callbacks = array('each_min'=>'callback_minifier_'.$format.'_file', 'all_min'=>'callback_minifier_encore');
+	$callbacks = array('each_min'=>'callback_minifier_'.$format.'_file');
+
 	if ($format=="css")
 		$callbacks['each_pre'] = 'compresseur_callback_prepare_css';
+	if ($format=='js' AND $GLOBALS['meta']['auto_compress_closure']=='oui'){
+		$callbacks['all_min'] = 'minifier_encore_js';
+	}
 
 	include_spip('inc/compresseur_concatener');
 	include_spip('inc/compresseur_minifier');

@@ -72,7 +72,7 @@ function minifier($source, $format = null) {
  * @return string
  */
 function compacte($source, $format = null){
-	return minifier($source, $format = null);
+	return minifier($source, $format);
 }
 
 // Cette fonction verifie les reglages du site et traite le compactage

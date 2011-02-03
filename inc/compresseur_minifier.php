@@ -173,7 +173,7 @@ function minifier_js($flux) {
 
 	// en cas d'echec (?) renvoyer l'original
 	if (!strlen($t = $packer->pack())) {
-		spip_log('erreur de minifier_js');
+		spip_log('erreur de minifier_js',_LOG_INFO_IMPORTANTE);
 		return $flux;
 	}
 	return $t;

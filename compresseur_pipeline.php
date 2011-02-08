@@ -58,7 +58,7 @@ function compresseur_configurer_liste_metas($metas){
  * @return array
  */
 function compresseur_declarer_filtres_squelettes($filtres){
-	if ($GLOBALS['meta']['auto_compress_http']=='oui'){
+	if (!test_espace_prive() AND $GLOBALS['meta']['auto_compress_http']=='oui'){
 		include_spip("inc/compresseur_minifier");
 		$filtres[] = 'minifier_html';
 	}

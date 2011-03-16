@@ -24,6 +24,22 @@ function compresseur_header_prive($flux){
 }
 
 /**
+ * injecter l'appel au compresseur sous la forme de filtre
+ * pour intervenir sur l'ensemble du head
+ * du squelette public
+ * 
+ * @param string $flux
+ * @return string
+ */
+function compresseur_insert_head($flux){
+	$flux .= '. \'<'
+		.'?php header("X-Spip-Filtre: \'.'
+			.'\'compacte_head\''
+		. " . '\"); ?'.'>'";
+	return $flux;
+}
+
+/**
  * Afficher le formulaire de configuration sur la page de config avancees
  * @param string $flux
  * @return string

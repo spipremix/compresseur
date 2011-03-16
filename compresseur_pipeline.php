@@ -32,10 +32,10 @@ function compresseur_header_prive($flux){
  * @return string
  */
 function compresseur_insert_head($flux){
-	$flux .= '. \'<'
-		.'?php header("X-Spip-Filtre: \'.'
-			.'\'compacte_head\''
-		. " . '\"); ?'.'>'";
+	$flux .= '<'
+		.'?php header("X-Spip-Filtre: '
+		.'compacte_head'
+		.'"); ?'.'>';
 	return $flux;
 }
 

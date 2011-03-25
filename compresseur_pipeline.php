@@ -73,12 +73,15 @@ function compresseur_configurer_liste_metas($metas){
  * @param array $filtres
  * @return array
  */
-function compresseur_declarer_filtres_squelettes($filtres){
-	if (!test_espace_prive() AND $GLOBALS['meta']['auto_compress_http']=='oui'){
+function compresseur_declarer_filtres_squelettes($flux){
+	if (!test_espace_prive()
+	  AND $GLOBALS['meta']['auto_compress_http']=='oui'
+		AND (!isset($flux['args']['entetes']['Content-Type']) OR strncmp($flux['args']['entetes']['Content-Type'],'text/html',9)==0)
+	){
 		include_spip("inc/compresseur_minifier");
-		$filtres[] = 'minifier_html';
+		$flux['data'][] = 'minifier_html';
 	}
-  return $filtres;
+  return $flux;
 }
 
 ?>

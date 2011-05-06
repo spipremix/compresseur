@@ -13,6 +13,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'info_question_activer_compactage_js' => 'Ha c\'hoant hoc\'h e vefe gwasket ar skriptoù javascript ?',
 	'info_question_activer_compresseur' => 'Ha c\'hoant hoc\'h eus e vefe gwasket al lanvad HTTP ?',
 	'item_compresseur' => 'Gweredekaat ar gwaskañ',
+	'item_compresseur_closure' => 'Utiliser Google Closure Compiler [expérimental]', # NEW
 
 	// T
 	'texte_compacter_avertissement' => 'Diwallit da chom hep gweredekaat an dibarzhioù-mañ e-keit hag emeur o sevel ho lec\'hienn : n\'hall ket an elfennoù gwasket bezañ lennet ken war-lerc\'h.',

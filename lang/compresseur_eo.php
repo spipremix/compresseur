@@ -13,6 +13,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'info_question_activer_compactage_js' => 'Ĉu vi deziras aktivigi la densigon de la skriptoj (Ĝavoskripto) ?',
 	'info_question_activer_compresseur' => 'Ĉu vi volas aktivigi densigon de la HTTP-fluo ?',
 	'item_compresseur' => 'Aktivigi la densigon',
+	'item_compresseur_closure' => 'Utiliser Google Closure Compiler [expérimental]', # NEW
 
 	// T
 	'texte_compacter_avertissement' => 'Attention à ne pas activer ces options durant le développement de votre site : les éléments compactés perdent toute lisibilité.', # NEW

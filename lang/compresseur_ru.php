@@ -13,6 +13,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'info_question_activer_compactage_js' => 'Хотите ли Вы включить сжатие файлов Javascript?',
 	'info_question_activer_compresseur' => 'Хотите ли Вы включить сжатие данных HTTP?',
 	'item_compresseur' => 'Включить сжатие',
+	'item_compresseur_closure' => 'Utiliser Google Closure Compiler [expérimental]', # NEW
 
 	// T
 	'texte_compacter_avertissement' => 'Будьте осторожны, не включайте эти опции во время усовершенствования Вашего сайта: сжатые элементы станут трудными для чтения и исправления.',

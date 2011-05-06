@@ -13,6 +13,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'info_question_activer_compactage_js' => 'هل ترغب في ضغط ملفات جافاسكريبت؟',
 	'info_question_activer_compresseur' => 'هل تريد تفعيل ضغط تدفق HTTP؟',
 	'item_compresseur' => 'تفعيل الضغط',
+	'item_compresseur_closure' => 'Utiliser Google Closure Compiler [expérimental]', # NEW
 
 	// T
 	'texte_compacter_avertissement' => 'حذار من تفعيل هذه الخيارات خلال تطوير الموقع: فالعناصر المضغوطة سوف تفقد مقروئيتها.',

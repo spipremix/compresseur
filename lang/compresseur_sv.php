@@ -13,6 +13,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'info_question_activer_compactage_js' => 'Vill du aktivera komprimering av  Javascript filer?',
 	'info_question_activer_compresseur' => 'Vill du aktivera komprimering av HTTP trafiken?',
 	'item_compresseur' => 'Aktivera komprimering',
+	'item_compresseur_closure' => 'Utiliser Google Closure Compiler [expérimental]', # NEW
 
 	// T
 	'texte_compacter_avertissement' => 'Attention à ne pas activer ces options durant le développement de votre site : les éléments compactés perdent toute lisibilité.', # NEW

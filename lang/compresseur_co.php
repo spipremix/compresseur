@@ -13,6 +13,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'info_question_activer_compactage_js' => 'Vulete attivà a cumpressione di i scripts (javascript)?',
 	'info_question_activer_compresseur' => 'Vulete attivà a cumpressione di u flussu HTTP?',
 	'item_compresseur' => 'Attivà a cumpressione',
+	'item_compresseur_closure' => 'Utiliser Google Closure Compiler [expérimental]', # NEW
 
 	// T
 	'texte_compacter_avertissement' => 'Attenti à ùn attivà st\'opzioni durante u sviluppu di u situ : L\'elementi cumpressi ùn diventenu propriu più leghjitoghji.',

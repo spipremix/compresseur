@@ -13,6 +13,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'info_question_activer_compactage_js' => 'Skriptlerin (javascript) sıkıştırılmasını aktive etmek ister misiniz ?',
 	'info_question_activer_compresseur' => 'HTTP akışının sıkıştırılmasını aktive etmek ister misiniz ?',
 	'item_compresseur' => 'Sıkıştırmayı aktive et',
+	'item_compresseur_closure' => 'Utiliser Google Closure Compiler [expérimental]', # NEW
 
 	// T
 	'texte_compacter_avertissement' => 'Sitenizin geliştirilmesi esnasında bu seçenekleri aktive etmeyin : sıkıştırılmış elemanlar tüm okunabilirliklerini kaybederler.',

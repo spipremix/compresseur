@@ -13,6 +13,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'info_question_activer_compactage_js' => 'آيا مايليد فشرده‌سازي نويسان‌ها (جاوااسكريبت‌) را فعال كنيد؟',
 	'info_question_activer_compresseur' => 'آيا مي‌خواهيد فشرده‌سازي جريان اچ.تي.تي.پي را فعال كنيد؟',
 	'item_compresseur' => 'فعال سازي فشرده سازي ',
+	'item_compresseur_closure' => 'Utiliser Google Closure Compiler [expérimental]', # NEW
 
 	// T
 	'texte_compacter_avertissement' => 'در جريان توسعه‌ي سايت خود مراقب باشيد اين گزينه‌ها را فعال نسازيد:‌ خطازدايي از عناصر فشرده شده دشوار مي‌‌شود.',

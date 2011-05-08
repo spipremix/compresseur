@@ -1,6 +1,6 @@
 <plugin>
 	<nom>Compresseur</nom>
-	<auteur>Collectif SPIP 2009</auteur>
+	<auteur>Collectif SPIP</auteur>
 	<icon>images/compresseur-32.png</icon>
 	<licence>GPL</licence>
 	<version>1.4.3</version>

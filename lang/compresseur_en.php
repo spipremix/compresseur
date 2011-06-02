@@ -13,7 +13,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'info_question_activer_compactage_js' => 'Do you wish to activate compression for Javascript files?',
 	'info_question_activer_compresseur' => 'Do you wish to activate compression for HTTP data?',
 	'item_compresseur' => 'Activate compression',
-	'item_compresseur_closure' => 'Utiliser Google Closure Compiler [expérimental]', # NEW
+	'item_compresseur_closure' => 'Use Google Closure Compiler [experimental]',
 
 	// T
 	'texte_compacter_avertissement' => 'Be careful not to activate these options during site development, as compressed elements are difficult to read and debug.',

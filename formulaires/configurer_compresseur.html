@@ -14,7 +14,7 @@
 					<p><:compresseur:texte_compresseur_page:></p>
 					<p class="small">[(#VAL{info_compresseur_gzip}|_T{#ARRAY{testgzip,#VAL{'<br />'}|concat{#VAL{http://redbot.org/}|parametre_url{uri,#URL_SITE_SPIP}|propre|PtoBR}}})]</p>
 					<ul>
-						<li class='configurer_auto_compress_http[ (#ENV**{erreurs}|table_valeur{auto_compress_http}|oui)erreur]'>
+						<li class='editer configurer_auto_compress_http[ (#ENV**{erreurs}|table_valeur{auto_compress_http}|oui)erreur]'>
 							<label><:compresseur:info_question_activer_compresseur:></label>
 							[<span class='erreur_message'>(#ENV**{erreurs}|table_valeur{auto_compress_http})</span>]
 							<div class='choix'>
@@ -31,7 +31,7 @@
 					<legend><:compresseur:titre_compacter_script_css:></legend>
 					<p><:compresseur:texte_compacter_script_css:></p>
 					<ul>
-						<li class='configurer_auto_compress_js[ (#ENV**{erreurs}|table_valeur{auto_compress_js}|oui)erreur]'>
+						<li class='editer configurer_auto_compress_js[ (#ENV**{erreurs}|table_valeur{auto_compress_js}|oui)erreur]'>
 							<label><:compresseur:info_question_activer_compactage_js:></label>
 							[<span class='erreur_message'>(#ENV**{erreurs}|table_valeur{auto_compress_js})</span>]
 							<div class='choix'>
@@ -43,7 +43,7 @@
 								<label for="auto_compress_closure"><:compresseur:item_compresseur_closure:></label>
 							</div>
 						</li>
-						<li class='configurer_auto_compress_css[ (#ENV**{erreurs}|table_valeur{auto_compress_css}|oui)erreur]'>
+						<li class='editer configurer_auto_compress_css[ (#ENV**{erreurs}|table_valeur{auto_compress_css}|oui)erreur]'>
 							<label><:compresseur:info_question_activer_compactage_css:></label>
 							[<span class='erreur_message'>(#ENV**{erreurs}|table_valeur{auto_compress_css})</span>]
 							<div class='choix'>

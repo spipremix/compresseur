@@ -6,8 +6,8 @@
 	<version>1.4.3</version>
 	<etat>stable</etat>
 	<categorie>performance</categorie>
-	<description>Compression des css et javascript
-_ dans l'entete des pages html de <code>ecrire/</code> et/ou du site public</description>
+	<slogan>Compression des css et javascript</slogan>
+	<description>Compression des css et javascript dans l'entete des pages html de <code>ecrire/</code> et/ou du site public</description>
 	<prefix>compresseur</prefix>
 	<fonctions>filtres/compresseur.php</fonctions>
 	<options>compresseur_http.php</options>

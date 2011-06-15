@@ -87,6 +87,8 @@ function concatener_fichiers($files,$format='js', $callbacks = array()){
 						$old_key = $key;
 						$key = preg_replace(',(&(amp;)?)?var_mode=[^&\'"]*,','',$key);
 						$file[1] = preg_replace(',&?var_mode=[^&\'"]*,','',$file[1]);
+						if (!strlen($file[1]))
+							unset($file[1]);
 						$files2 = array_replace_key($files2,$old_key,$key,$file);
 					}
 				}

@@ -90,6 +90,7 @@ function compresseur_extraire_balises_js_dist($flux, $url_base){
 	$files = array();
 	foreach ($balises as $s){
 		if (extraire_attribut($s, 'type') === 'text/javascript'
+			AND is_null(extraire_attribut($s, 'id')) # script avec un id : pas touche
 			AND $src = extraire_attribut($s, 'src')
 			AND !strlen(strip_tags($s)))
 			$files[$s] = $src;

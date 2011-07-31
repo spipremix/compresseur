@@ -19,7 +19,7 @@ if (!defined("_ECRIRE_INC_VERSION")) return;
  * @return string
  */
 function compresseur_header_prive($flux){
-	include_spip('filtres/compresseur');
+	include_spip('compresseur_fonctions');
 	return compacte_head($flux);
 }
 

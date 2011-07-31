@@ -3,7 +3,7 @@
 	categorie="performance"
 	version="1.4.3"
 	etat="stable"
-	compatibilite="[2.1.0 dev;["
+	compatibilite="[3.0.0-alpha2;["
 	logo="images/compresseur-32.png"
 >	
 

@@ -75,6 +75,7 @@ function compresseur_configurer_liste_metas($metas){
  */
 function compresseur_declarer_filtres_squelettes($flux){
 	if (!test_espace_prive()
+	  AND !defined('_INTERDIRE_COMPRESSION_HTML')
 	  AND $GLOBALS['meta']['auto_compress_http']=='oui'
 		AND (!isset($flux['args']['entetes']['Content-Type']) OR strncmp($flux['args']['entetes']['Content-Type'],'text/html',9)==0)
 	){

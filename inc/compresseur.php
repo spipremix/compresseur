@@ -46,6 +46,7 @@ function compresseur_ecrire_balise_js_dist(&$flux, $pos, $src, $comments = ""){
  *   nom du fichier compresse
  * @param string $comments
  *   commentaires a inserer devant
+ * @param string $media
  * @return string
  */
 function compresseur_ecrire_balise_css_dist(&$flux, $pos, $src, $comments = "", $media=""){
@@ -142,8 +143,14 @@ function compacte_head_files($flux,$format) {
 
 	$callbacks = array('each_min'=>'callback_minifier_'.$format.'_file');
 
-	if ($format=="css")
+	if ($format=="css"){
 		$callbacks['each_pre'] = 'compresseur_callback_prepare_css';
+		// ce n'est pas une callback, mais en injectant l'url de base ici
+		// on differencie les caches quand l'url de base change
+		// puisque la css compresse inclue l'url courante du site (en url absolue)
+		// on exclue le protocole car la compression se fait en url relative au protocole
+		$callbacks[] = url_relative_protocole($url_base);
+	}
 	if ($format=='js' AND $GLOBALS['meta']['auto_compress_closure']=='oui'){
 		$callbacks['all_min'] = 'minifier_encore_js';
 	}
@@ -189,6 +196,7 @@ function compresseur_liste_fonctions_prepare_css(){
  * Preparer un fichier CSS avant sa minification
  * @param string $css
  * @param bool|string $is_inline
+ * @param string $fonctions
  * @return bool|int|null|string
  */
 function &compresseur_callback_prepare_css(&$css, $is_inline = false, $fonctions=null) {
@@ -223,7 +231,9 @@ function &compresseur_callback_prepare_css(&$css, $is_inline = false, $fonctions
 	elseif (!lire_fichier($css, $contenu))
 		return $css;
 
-	$contenu = compresseur_callback_prepare_css_inline($contenu, $css, $fonctions);
+	// retirer le protocole de $url_absolue_css
+	$url_absolue_css = url_relative_protocole($url_absolue_css);
+	$contenu = compresseur_callback_prepare_css_inline($contenu, $url_absolue_css, $fonctions);
 
 	// ecrire la css
 	if (!ecrire_fichier($file, $contenu))
@@ -237,11 +247,15 @@ function &compresseur_callback_prepare_css(&$css, $is_inline = false, $fonctions
  * 
  * @param string $contenu
  * @param string $url_base
+ * @param array $fonctions
  * @return string
  */
 function &compresseur_callback_prepare_css_inline(&$contenu, $url_base, $fonctions=null) {
 	if (!$fonctions) $fonctions = compresseur_liste_fonctions_prepare_css();
 	elseif (is_string($fonctions)) $fonctions = array($fonctions);
+
+	// retirer le protocole de $url_base
+	$url_base = url_relative_protocole(url_absolue($url_base));
 
 	foreach($fonctions as $f)
 		if (function_exists($f))

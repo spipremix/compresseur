@@ -149,7 +149,7 @@ function compacte_head_files($flux,$format) {
 		// on differencie les caches quand l'url de base change
 		// puisque la css compresse inclue l'url courante du site (en url absolue)
 		// on exclue le protocole car la compression se fait en url relative au protocole
-		$callbacks[] = url_relative_protocole($url_base);
+		$callbacks[] = protocole_implicite($url_base);
 	}
 	if ($format=='js' AND $GLOBALS['meta']['auto_compress_closure']=='oui'){
 		$callbacks['all_min'] = 'minifier_encore_js';
@@ -232,7 +232,7 @@ function &compresseur_callback_prepare_css(&$css, $is_inline = false, $fonctions
 		return $css;
 
 	// retirer le protocole de $url_absolue_css
-	$url_absolue_css = url_relative_protocole($url_absolue_css);
+	$url_absolue_css = protocole_implicite($url_absolue_css);
 	$contenu = compresseur_callback_prepare_css_inline($contenu, $url_absolue_css, $fonctions);
 
 	// ecrire la css
@@ -255,7 +255,7 @@ function &compresseur_callback_prepare_css_inline(&$contenu, $url_base, $fonctio
 	elseif (is_string($fonctions)) $fonctions = array($fonctions);
 
 	// retirer le protocole de $url_base
-	$url_base = url_relative_protocole(url_absolue($url_base));
+	$url_base = protocole_implicite(url_absolue($url_base));
 
 	foreach($fonctions as $f)
 		if (function_exists($f))

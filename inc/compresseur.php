@@ -148,8 +148,10 @@ function compacte_head_files($flux,$format) {
 		// ce n'est pas une callback, mais en injectant l'url de base ici
 		// on differencie les caches quand l'url de base change
 		// puisque la css compresse inclue l'url courante du site (en url absolue)
-		// on exclue le protocole car la compression se fait en url relative au protocole
-		$callbacks[] = protocole_implicite($url_base);
+		// l'exclusion du protocole pour partager la CSS entre http et https
+		// casse les font-face dans FF6
+		// $callbacks[] = protocole_implicite($url_base);
+		$callbacks[] = $url_base;
 	}
 	if ($format=='js' AND $GLOBALS['meta']['auto_compress_closure']=='oui'){
 		$callbacks['all_min'] = 'minifier_encore_js';
@@ -232,7 +234,8 @@ function &compresseur_callback_prepare_css(&$css, $is_inline = false, $fonctions
 		return $css;
 
 	// retirer le protocole de $url_absolue_css
-	$url_absolue_css = protocole_implicite($url_absolue_css);
+	// casse les font-face dans FF6.0
+	// $url_absolue_css = protocole_implicite($url_absolue_css);
 	$contenu = compresseur_callback_prepare_css_inline($contenu, $url_absolue_css, $fonctions);
 
 	// ecrire la css
@@ -254,8 +257,11 @@ function &compresseur_callback_prepare_css_inline(&$contenu, $url_base, $fonctio
 	if (!$fonctions) $fonctions = compresseur_liste_fonctions_prepare_css();
 	elseif (is_string($fonctions)) $fonctions = array($fonctions);
 
+	// securite
+	$url_base = url_absolue($url_base);
 	// retirer le protocole de $url_base
-	$url_base = protocole_implicite(url_absolue($url_base));
+	// casse les font-face dans FF6.0
+	// $url_base = protocole_implicite($url_base);
 
 	foreach($fonctions as $f)
 		if (function_exists($f))

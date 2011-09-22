@@ -145,8 +145,9 @@ class JavaScriptPacker {
 		// remove: ;;; doSomething();
 		if ($this->_specialChars) $parser->add('/;;;[^\\n\\r]+[\\n\\r]/');
 		// remove redundant semi-colons
-		$parser->add('/\\(;;\\)/', $this->IGNORE); // protect for (;;) loops
-		$parser->add('/;+\\s*([};])/', '$2');
+		// Disabled : breaks for(i=0; ;i++) {...}
+		// $parser->add('/\\(;;\\)/', $this->IGNORE); // protect for (;;) loops
+		// $parser->add('/;+\\s*([};])/', '$2');
 		// apply the above
 		$script = $parser->exec($script);
 

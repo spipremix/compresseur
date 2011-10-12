@@ -5,6 +5,8 @@
  *
  */
 
+if (!defined('_ECRIRE_INC_VERSION')) return;
+
 	$test = 'minifier_css';
 	$remonte = "../";
 	while (!is_dir($remonte."ecrire"))

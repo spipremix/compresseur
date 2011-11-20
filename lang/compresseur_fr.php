@@ -7,10 +7,13 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 
 	// I
 	'info_compresseur_titre' => 'Optimisations et compression',
-	'info_question_activer_compactage_css' => 'Feuilles de style (CSS)',
-	'info_question_activer_compactage_js' => 'Scripts (javascript)',
-	'info_question_activer_compresseur' => 'Flux HTTP',
-	'item_compresseur' => 'Activer la compression',
+	'info_question_activer_compactage_css' => 'CSS',
+	'info_question_activer_compactage_js' => 'Scripts',
+	'info_question_activer_compresseur' => 'HTML',
+	
+	'item_compresseur_html' => 'Activer la compression du HTML',
+	'item_compresseur_css' => 'Activer la compression des feuilles de styles (CSS)',
+	'item_compresseur_js' => 'Activer la compression des scripts (javascript)',
 	'item_compresseur_closure' => 'Utiliser Google Closure Compiler [expérimental]',
 
 	// T
@@ -21,7 +24,7 @@ visiteurs du site. Ce réglage permet d\'optimiser la bande passante (le
 site est plus rapide derrière une liaison à faible débit), mais
 demande plus de puissance au serveur.',
 	'titre_compacter_script_css' => 'Compactage des scripts et CSS',
-	'titre_compresser_flux_http' => 'Compression du flux HTTP'
+	'titre_compresser_flux_http' => 'Compression du HTML'
 );
 
 ?>

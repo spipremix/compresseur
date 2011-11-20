@@ -19,7 +19,7 @@
 							[<span class='erreur_message'>(#ENV**{erreurs}|table_valeur{auto_compress_http})</span>]
 							<div class='choix'>
 								<input class='checkbox' type="checkbox" name="auto_compress_http" value='oui' [checked="(#ENV{auto_compress_http}|=={oui}|?{checked})"] id="auto_compress_http"/>
-								<label for="auto_compress_http"><:compresseur:item_compresseur:></label>
+								<label for="auto_compress_http"><:compresseur:item_compresseur_html:></label>
 							</div>
 						</li>			
 					</ul>
@@ -36,7 +36,7 @@
 							[<span class='erreur_message'>(#ENV**{erreurs}|table_valeur{auto_compress_js})</span>]
 							<div class='choix'>
 								<input class='checkbox' type="checkbox" name="auto_compress_js" value='oui' [checked="(#ENV{auto_compress_js}|=={oui}|?{checked})"] id="auto_compress_js"/>
-								<label for="auto_compress_js"><:compresseur:item_compresseur:></label>
+								<label for="auto_compress_js"><:compresseur:item_compresseur_js:></label>
 							</div>
 							<div class='choix'>
 								<input class='checkbox' type="checkbox" name="auto_compress_closure" value='oui' [checked="(#ENV{auto_compress_closure}|=={oui}|?{checked})"] id="auto_compress_closure"/>
@@ -48,7 +48,7 @@
 							[<span class='erreur_message'>(#ENV**{erreurs}|table_valeur{auto_compress_css})</span>]
 							<div class='choix'>
 								<input class='checkbox' type="checkbox" name="auto_compress_css" value='oui' [checked="(#ENV{auto_compress_css}|=={oui}|?{checked})"] id="auto_compress_css"/>
-								<label for="auto_compress_css"><:compresseur:item_compresseur:></label>
+								<label for="auto_compress_css"><:compresseur:item_compresseur_css:></label>
 							</div>
 						</li>
 					</ul>

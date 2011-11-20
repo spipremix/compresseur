@@ -12,7 +12,7 @@
 				<fieldset>
 					<legend><:compresseur:titre_compresser_flux_http:></legend>
 					<p><:compresseur:texte_compresseur_page:></p>
-					<p class="small">[(#VAL{info_compresseur_gzip}|_T{#ARRAY{testgzip,#VAL{'<br />'}|concat{#VAL{http://redbot.org/}|parametre_url{uri,#URL_SITE_SPIP}|propre|PtoBR}}})]</p>
+					<p class="explication">[(#VAL{info_compresseur_gzip}|_T{#ARRAY{testgzip,#VAL{'<br />'}|concat{#VAL{http://redbot.org/}|parametre_url{uri,#URL_SITE_SPIP}|propre|PtoBR}}})]</p>
 					<ul>
 						<li class='editer configurer_auto_compress_http[ (#ENV**{erreurs}|table_valeur{auto_compress_http}|oui)erreur]'>
 							<label><:compresseur:info_question_activer_compresseur:></label>
@@ -52,7 +52,7 @@
 							</div>
 						</li>
 					</ul>
-					<p><em><:compresseur:texte_compacter_avertissement:></em></p>
+					<p class='notice'><:compresseur:texte_compacter_avertissement:></p>
 				</fieldset>
 			</li>
 		</ul>

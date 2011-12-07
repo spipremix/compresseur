@@ -9,11 +9,13 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 
 	// I
 	'info_compresseur_titre' => 'Ottimizzazione e compressione',
-	'info_question_activer_compactage_css' => 'Si desidera attivare la compressione dei fogli di stile (CSS)?',
-	'info_question_activer_compactage_js' => 'Si desidera attivare la compressione degli script (javascript)?',
-	'info_question_activer_compresseur' => 'Si desidera attivare la compressione del flusso HTTP?',
-	'item_compresseur' => 'Attiva la compressione',
+	'info_question_activer_compactage_css' => 'Si desidera attivare la compressione dei fogli di stile (CSS)?', # MODIF
+	'info_question_activer_compactage_js' => 'Si desidera attivare la compressione degli script (javascript)?', # MODIF
+	'info_question_activer_compresseur' => 'Si desidera attivare la compressione del flusso HTTP?', # MODIF
 	'item_compresseur_closure' => 'Utiliser Google Closure Compiler [expérimental]', # NEW
+	'item_compresseur_css' => 'Activer la compression des feuilles de styles (CSS)', # NEW
+	'item_compresseur_html' => 'Activer la compression du HTML', # NEW
+	'item_compresseur_js' => 'Activer la compression des scripts (javascript)', # NEW
 
 	// T
 	'texte_compacter_avertissement' => 'Fare attenzione a non attivare queste opzioni durante la fase di sviluppo del sito: gli elementi compressi sono completamente illeggibili.',
@@ -23,7 +25,7 @@ visitatori del sito. Questa impostazione permette di ottimizzare la banda passan
 sito è più rapido in una connessione a bassa velocità), ma
 richiede una maggiore potenza del server.',
 	'titre_compacter_script_css' => 'Compressione degli script e dei CSS',
-	'titre_compresser_flux_http' => 'Compressione del flusso HTTP'
+	'titre_compresser_flux_http' => 'Compressione del flusso HTTP' # MODIF
 );
 
 ?>

@@ -9,11 +9,13 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 
 	// I
 	'info_compresseur_titre' => 'Optimering och komprimering',
-	'info_question_activer_compactage_css' => 'Vill du aktivera komprimering av CSS stylesheets?',
-	'info_question_activer_compactage_js' => 'Vill du aktivera komprimering av  Javascript filer?',
-	'info_question_activer_compresseur' => 'Vill du aktivera komprimering av HTTP trafiken?',
-	'item_compresseur' => 'Aktivera komprimering',
+	'info_question_activer_compactage_css' => 'Vill du aktivera komprimering av CSS stylesheets?', # MODIF
+	'info_question_activer_compactage_js' => 'Vill du aktivera komprimering av  Javascript filer?', # MODIF
+	'info_question_activer_compresseur' => 'Vill du aktivera komprimering av HTTP trafiken?', # MODIF
 	'item_compresseur_closure' => 'Utiliser Google Closure Compiler [expérimental]', # NEW
+	'item_compresseur_css' => 'Activer la compression des feuilles de styles (CSS)', # NEW
+	'item_compresseur_html' => 'Activer la compression du HTML', # NEW
+	'item_compresseur_js' => 'Activer la compression des scripts (javascript)', # NEW
 
 	// T
 	'texte_compacter_avertissement' => 'Attention à ne pas activer ces options durant le développement de votre site : les éléments compactés perdent toute lisibilité.', # NEW
@@ -23,7 +25,7 @@ visiteurs du site. Ce réglage permet d\'optimiser la bande passante (le
 site est plus rapide derrière une liaison à faible débit), mais
 demande plus de puissance au serveur.', # NEW
 	'titre_compacter_script_css' => 'Compactage des scripts et CSS', # NEW
-	'titre_compresser_flux_http' => 'Compression du flux HTTP' # NEW
+	'titre_compresser_flux_http' => 'Compression du flux HTTP' # MODIF
 );
 
 ?>

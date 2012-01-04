@@ -8,7 +8,7 @@ if (!defined('_ECRIRE_INC_VERSION')) return;
 $GLOBALS[$GLOBALS['idx_lang']] = array(
 
 	// C
-	'compresseur_description' => 'Compression des css et javascript dans l\'entete des pages html de <code>ecrire/</code> et/ou du site public', # NEW
+	'compresseur_description' => 'Compression of css and javascript in the header of the HTML pages of <code>ecrire/</code> and/or of the public site',
 	'compresseur_slogan' => 'CSS and javascript compression'
 );
 

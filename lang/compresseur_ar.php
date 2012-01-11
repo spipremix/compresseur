@@ -9,13 +9,13 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 
 	// I
 	'info_compresseur_titre' => 'التحسين والضغط',
-	'info_question_activer_compactage_css' => 'هل ترغب في تفعيل ضغط اوراق الانماط (CSS)؟', # MODIF
-	'info_question_activer_compactage_js' => 'هل ترغب في ضغط ملفات جافاسكريبت؟', # MODIF
-	'info_question_activer_compresseur' => 'هل تريد تفعيل ضغط تدفق HTTP؟', # MODIF
+	'info_question_activer_compactage_css' => 'أوراق الانماط (CSS)؟',
+	'info_question_activer_compactage_js' => 'ملفات جافاسكريبت؟',
+	'info_question_activer_compresseur' => 'تدفق HTTP؟',
 	'item_compresseur_closure' => 'استخدام Google Closure Compiler [قيد التجرية]',
-	'item_compresseur_css' => 'Activer la compression des feuilles de styles (CSS)', # NEW
-	'item_compresseur_html' => 'Activer la compression du HTML', # NEW
-	'item_compresseur_js' => 'Activer la compression des scripts (javascript)', # NEW
+	'item_compresseur_css' => 'تفعيل ضغط أوراق الأنماط (CSS)',
+	'item_compresseur_html' => 'تفعيل ضغط HTML',
+	'item_compresseur_js' => 'تفعيل ضغط جافاسكريبت',
 
 	// T
 	'texte_compacter_avertissement' => 'حذار من تفعيل هذه الخيارات خلال تطوير الموقع: فالعناصر المضغوطة سوف تفقد مقروئيتها.',
@@ -25,7 +25,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 الموقع اسرع حتى اذا كان الاتصال عبر تدفق ضعيف)، لكن
  يتطلب قوة اكبر من خادم الموقع.',
 	'titre_compacter_script_css' => 'ضغط الرموز البرمجية وأوراق الأنماط',
-	'titre_compresser_flux_http' => 'ضغط تدفق HTTP' # MODIF
+	'titre_compresser_flux_http' => 'ضغط صفحات HTML'
 );
 
 ?>

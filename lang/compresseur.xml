@@ -27,6 +27,7 @@
 	<langue code="it_fem" />
 	<langue code="lb" />
 	<langue code="nl">
+		<traducteur nom="Suske" lien="http://trad.spip.org/auteur/suske" />
 		<traducteur nom="mpossoz" lien="http://trad.spip.org/auteur/mpossoz" />
 	</langue>
 	<langue code="pt_br" />

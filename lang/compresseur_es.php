@@ -9,13 +9,13 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 
 	// I
 	'info_compresseur_titre' => 'Optimizaciones y compresión',
-	'info_question_activer_compactage_css' => '¿Desea activar la compresión de las hojas de estilo (CSS)?', # MODIF
-	'info_question_activer_compactage_js' => '¿Desea activar la compresión de los scripts (javascript) ?', # MODIF
-	'info_question_activer_compresseur' => '¿Desea activar la compresión del flujo HTTP ?', # MODIF
-	'item_compresseur_closure' => 'Utiliser Google Closure Compiler [expérimental]', # NEW
-	'item_compresseur_css' => 'Activer la compression des feuilles de styles (CSS)', # NEW
-	'item_compresseur_html' => 'Activer la compression du HTML', # NEW
-	'item_compresseur_js' => 'Activer la compression des scripts (javascript)', # NEW
+	'info_question_activer_compactage_css' => 'CSS',
+	'info_question_activer_compactage_js' => 'Scripts',
+	'info_question_activer_compresseur' => 'HTML',
+	'item_compresseur_closure' => 'Utilizar Google Closure Compiler [experimental]',
+	'item_compresseur_css' => 'Activar la compresión de hojas de estilo (CSS)', # MODIF
+	'item_compresseur_html' => 'Activar la compresión del HTML',
+	'item_compresseur_js' => 'Activar la compresión de los scripts (javascript)',
 
 	// T
 	'texte_compacter_avertissement' => 'Atención a no activar estas opciones durante el desarrollo de tu sitio: los elementos compactados pierden toda legibilidad.',
@@ -25,7 +25,7 @@ visitantes del sitio. Este ajuste permite optimizar la banda pasante (el
 sitio es más rápido en caso de una conexión de baja banda pasante), pero
 requiere más potencia del servidor.',
 	'titre_compacter_script_css' => 'Compresión de los scripts y CSS',
-	'titre_compresser_flux_http' => 'Compresión del flujo HTTP' # MODIF
+	'titre_compresser_flux_http' => 'Compresión del HTML'
 );
 
 ?>

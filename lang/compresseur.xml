@@ -15,7 +15,9 @@
 		<traducteur nom="sQuonk" lien="http://trad.spip.org/auteur/squonk" />
 		<traducteur nom="Paolo" lien="http://trad.spip.org/auteur/paolo" />
 	</langue>
-	<langue code="es" />
+	<langue code="es">
+		<traducteur nom="dani" lien="http://trad.spip.org/auteur/dani" />
+	</langue>
 	<langue code="eu" />
 	<langue code="fa">
 		<traducteur nom="Davood Hossein" lien="http://trad.spip.org/auteur/davood-hossein" />

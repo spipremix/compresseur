@@ -13,7 +13,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'info_question_activer_compactage_js' => 'Scripts',
 	'info_question_activer_compresseur' => 'HTML',
 	'item_compresseur_closure' => 'Gebruik Google Sluiting Compiler [experimental]',
-	'item_compresseur_css' => 'De samendrukking van stijl bladen (CSS) activeren',
+	'item_compresseur_css' => 'De samendrukking van stijl bladen (CSS) activeren', # MODIF
 	'item_compresseur_html' => 'De samendrukking van het HTML activeren',
 	'item_compresseur_js' => 'De samendrukking van de scripts activeren (javascript)',
 

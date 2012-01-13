@@ -8,7 +8,7 @@ if (!defined('_ECRIRE_INC_VERSION')) return;
 $GLOBALS[$GLOBALS['idx_lang']] = array(
 
 	// C
-	'compresseur_description' => 'Kompresia css a javascriptu v hlavičke html stránok <code>ecrire/</code> a/lebo verejne prístupnej stránky',
+	'compresseur_description' => 'Kompresia css a javascriptu v hlavičke html stránok <code>ecrire/</code> a/lebo verejne prístupnej stránky', # MODIF
 	'compresseur_slogan' => 'Kompresia css a javascriptu'
 );
 

@@ -14,6 +14,7 @@
 	<langue code="en">
 		<traducteur nom="sQuonk" lien="http://trad.spip.org/auteur/squonk" />
 		<traducteur nom="Paolo" lien="http://trad.spip.org/auteur/paolo" />
+		<traducteur nom="kent1" lien="http://trad.spip.org/auteur/kent1" />
 	</langue>
 	<langue code="es">
 		<traducteur nom="dani" lien="http://trad.spip.org/auteur/dani" />
@@ -30,6 +31,7 @@
 	<langue code="lb" />
 	<langue code="nl">
 		<traducteur nom="Suske" lien="http://trad.spip.org/auteur/suske" />
+		<traducteur nom="gerbrand" lien="http://trad.spip.org/auteur/gerbrand" />
 		<traducteur nom="mpossoz" lien="http://trad.spip.org/auteur/mpossoz" />
 	</langue>
 	<langue code="pt_br" />

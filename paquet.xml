@@ -21,6 +21,7 @@
 	<pipeline nom="declarer_filtres_squelettes" inclure="compresseur_pipeline.php" />
 	<pipeline nom="affiche_milieu" inclure="compresseur_pipeline.php" />
 	<pipeline nom="configurer_liste_metas" inclure="compresseur_pipeline.php" />
+	<pipeline nom="ieconfig_metas" inclure="compresseur_ieconfig.php" />
 
 	<utilise nom="porte_plume" compatibilite="[1.6.3;[" />
 </paquet>

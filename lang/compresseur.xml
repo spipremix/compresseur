@@ -26,7 +26,9 @@
 	<langue code="fr" />
 	<langue code="fr_tu" />
 	<langue code="gl" />
-	<langue code="it" />
+	<langue code="it" url="http://trad.spip.org/tradlang_module/compresseur?lang_cible=it">
+		<traducteur nom="phante" lien="http://trad.spip.org/auteur/phante" />
+	</langue>
 	<langue code="it_fem" />
 	<langue code="lb" />
 	<langue code="nl" url="http://trad.spip.org/tradlang_module/compresseur?lang_cible=nl">

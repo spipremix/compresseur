@@ -38,6 +38,7 @@ function minifier_css ($contenu, $options='') {
 		elseif (
 					strpos($contenu,"@media")==false
 			AND strpos($contenu,"@import")==false
+			AND strpos($contenu,"@font-face")==false
 			){
 			$contenu = "@media $options {\n$contenu\n}\n";
 			$options="";

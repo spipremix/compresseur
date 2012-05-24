@@ -284,6 +284,7 @@ function callback_minifier_js_file($contenu, $balise){
  * @return string
  */
 function minifier_html($flux){
+
 	// si pas de contenu ni de balise html, ne rien faire
 	if (!strlen($flux) OR strpos($flux,"<")===FALSE)
 		return $flux;
@@ -297,5 +298,6 @@ function minifier_html($flux){
 			$options['jsMinifier'] = 'minifier_js';
 		include_spip('lib/minify_html/class.minify_html');
 	}
-	return Minify_HTML::minify($flux,$options);
+
+	return Minify_HTML_SPIP::minify($flux,$options);
 }

@@ -1,4 +1,29 @@
 <?php
+
+/**
+ * Surcharge pour ne pas manger les commentaires <!--extra-->
+ * qui servent parfois aux plugins, et parfois meme apres
+ * le passage du compacteur HTML
+ * (c'etait le cas du bouton statistiques du formulaire admin par exemple)
+ *
+**/
+class Minify_HTML_SPIP extends Minify_HTML {
+
+    // appeler la bonne classe dans l'instanciateur
+    public static function minify($html, $options = array()) {
+        $min = new Minify_HTML_SPIP($html, $options);
+        return $min->process();
+    }
+
+    // le cas extras doit etre conserve dans les commentaires.
+    protected function _commentCB($m)
+    {
+        if ($m[1] === 'extra') return $m[0];
+        return parent::_commentCB($m);
+    }
+}
+
+
 /**
  * Class Minify_HTML
  * @package Minify

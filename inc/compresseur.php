@@ -157,7 +157,8 @@ function compacte_head_files($flux,$format) {
 
 	include_spip('inc/compresseur_concatener');
 	include_spip('inc/compresseur_minifier');
-	if (list($src,$comms) = concatener_fichiers($files, $format, $callbacks)){
+	if (list($src,$comms) = concatener_fichiers($files, $format, $callbacks)
+		AND $src){
 		$compacte_ecrire_balise = charger_fonction("compresseur_ecrire_balise_$format",'');
 		$files = array_keys($files);
 		// retrouver la position du premier fichier compacte

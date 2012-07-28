@@ -31,7 +31,9 @@
 		<traducteur nom="phante" lien="http://trad.spip.net/auteur/phante" />
 	</langue>
 	<langue code="it_fem" />
-	<langue code="lb" />
+	<langue code="lb" url="http://trad.spip.net/tradlang_module/compresseur?lang_cible=lb">
+		<traducteur nom="jwander" lien="http://trad.spip.net/auteur/jwander" />
+	</langue>
 	<langue code="nl" url="http://trad.spip.net/tradlang_module/compresseur?lang_cible=nl">
 		<traducteur nom="Suske" lien="http://trad.spip.net/auteur/suske" />
 		<traducteur nom="gerbrand" lien="http://trad.spip.net/auteur/gerbrand" />

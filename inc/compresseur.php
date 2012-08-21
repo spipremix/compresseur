@@ -10,22 +10,29 @@
  *  Pour plus de details voir le fichier COPYING.txt ou l'aide en ligne.   *
 \***************************************************************************/
 
+/**
+ * Fonctions d'aide pour le compresseur
+ * 
+ * @package SPIP\Compresseur\Fonctions
+ */
 if (!defined("_ECRIRE_INC_VERSION")) return;
 
 /**
- * Ecrire la balise javascript pour inserer le fichier compresse
- * C'est cette fonction qui decide ou il est le plus pertinent
- * d'inserer le fichier, et dans quelle forme d'ecriture
+ * Ecrire la balise javascript pour insérer le fichier compressé
+ * 
+ * C'est cette fonction qui décide où il est le plus pertinent
+ * d'insérer le fichier, et dans quelle forme d'ecriture
  *
  * @param string $flux
- *   contenu du head nettoye des fichiers qui ont ete compresse
+ *   Contenu du head nettoyé des fichiers qui ont été compressé
  * @param int $pos
- *   position initiale du premier fichier inclu dans le fichier compresse
+ *   Position initiale du premier fichier inclu dans le fichier compressé
  * @param string $src
- *   nom du fichier compresse
+ *   Nom du fichier compressé
  * @param string $comments
- *   commentaires a inserer devant
+ *   Commentaires à insérer devant
  * @return string
+ *   Code HTML de la balise <script>
  */
 function compresseur_ecrire_balise_js_dist(&$flux, $pos, $src, $comments = ""){
 	$comments .= "<script type='text/javascript' src='$src'></script>";
@@ -34,20 +41,23 @@ function compresseur_ecrire_balise_js_dist(&$flux, $pos, $src, $comments = ""){
 }
 
 /**
- * Ecrire la balise css pour inserer le fichier compresse
- * C'est cette fonction qui decide ou il est le plus pertinent
- * d'inserer le fichier, et dans quelle forme d'ecriture
+ * Ecrire la balise CSS pour insérer le fichier compressé
+ * 
+ * C'est cette fonction qui décide ou il est le plus pertinent
+ * d'insérer le fichier, et dans quelle forme d'écriture
  *
  * @param string $flux
- *   contenu du head nettoye des fichiers qui ont ete compresse
+ *   Contenu du head nettoyé des fichiers qui ont ete compressé
  * @param int $pos
- *   position initiale du premier fichier inclu dans le fichier compresse
+ *   Position initiale du premier fichier inclu dans le fichier compressé
  * @param string $src
- *   nom du fichier compresse
+ *   Nom du fichier compressé
  * @param string $comments
- *   commentaires a inserer devant
+ *   Commentaires à insérer devant
  * @param string $media
+ *   Type de media si précisé (print|screen...)
  * @return string
+ *   Code HTML de la balise <link>
  */
 function compresseur_ecrire_balise_css_dist(&$flux, $pos, $src, $comments = "", $media=""){
 	$comments .= "<link rel='stylesheet'".($media?" media='$media'":"")." href='$src' type='text/css' />";
@@ -56,12 +66,13 @@ function compresseur_ecrire_balise_css_dist(&$flux, $pos, $src, $comments = "", 
 }
 
 /**
- * Extraire les balises CSS a compacter et retourner un tableau
- * balise => src
- *
- * @param  $flux
- * @param  $url_base
+ * Extraire les balises CSS à compacter
+ * 
+ * @param string $flux
+ *     Contenu HTML dont on extrait les balises CSS
+ * @param string $url_base
  * @return array
+ *     Couples (balise => src)
  */
 function compresseur_extraire_balises_css_dist($flux, $url_base){
 	$balises = extraire_balises($flux,'link');
@@ -80,11 +91,13 @@ function compresseur_extraire_balises_css_dist($flux, $url_base){
 }
 
 /**
- * Extraire les balises JS a compacter et retoruner un tableau
- * balise => src
- * @param  $flux
- * @param  $url_base
+ * Extraire les balises JS à compacter
+ * 
+ * @param string $flux
+ *     Contenu HTML dont on extrait les balises CSS
+ * @param string $url_base
  * @return array
+ *     Couples (balise => src)
  */
 function compresseur_extraire_balises_js_dist($flux, $url_base){
 	$balises = extraire_balises($flux,'script');
@@ -100,15 +113,18 @@ function compresseur_extraire_balises_js_dist($flux, $url_base){
 }
 
 /**
- * Compacter (concatener+minifier) les fichiers format css ou js
- * du head. Reperer fichiers statiques vs url squelettes
- * Compacte le tout dans un fichier statique pose dans local/
+ * Compacter (concaténer+minifier) les fichiers format CSS ou JS
+ * du head.
+ *
+ * Repérer fichiers statiques vs. url squelettes
+ * Compacte le tout dans un fichier statique posé dans local/
  *
  * @param string $flux
- *  contenu du <head> de la page html
+ *    Contenu du <head> de la page html
  * @param string $format
- *  css ou js
+ *    css ou js
  * @return string
+ *    Contenu compressé du <head> de la page html
  */
 function compacte_head_files($flux,$format) {
 	$url_base = url_de_base();
@@ -174,10 +190,11 @@ function compacte_head_files($flux,$format) {
 
 
 /**
- * lister les fonctions de preparation des feuilles css
+ * Lister les fonctions de préparation des feuilles css
  * avant minification
  * 
  * @return array
+ *     Liste des fonctions à appliquer sur les feuilles CSS
  */
 function compresseur_liste_fonctions_prepare_css(){
 	static $fonctions = null;
@@ -189,12 +206,13 @@ function compresseur_liste_fonctions_prepare_css(){
 		if (isset($GLOBALS['compresseur_filtres_css']) AND is_array($GLOBALS['compresseur_filtres_css']))
 			$fonctions = $GLOBALS['compresseur_filtres_css'] + $fonctions;
 	}
-  return $fonctions;
+	return $fonctions;
 }
 
 
 /**
- * Preparer un fichier CSS avant sa minification
+ * Préparer un fichier CSS avant sa minification
+ * 
  * @param string $css
  * @param bool|string $is_inline
  * @param string $fonctions
@@ -244,7 +262,7 @@ function &compresseur_callback_prepare_css(&$css, $is_inline = false, $fonctions
 }
 
 /**
- * Preparer du contenu CSS inline avant minification
+ * Préparer du contenu CSS inline avant minification
  * 
  * @param string $contenu
  * @param string $url_base

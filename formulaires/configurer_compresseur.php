@@ -10,8 +10,19 @@
  *  Pour plus de details voir le fichier COPYING.txt ou l'aide en ligne.   *
 \***************************************************************************/
 
+/**
+ * Gestion du formulaire de configuration du compresseur
+ *
+ * @package SPIP\Compresseur\Formulaires
+**/
 if (!defined("_ECRIRE_INC_VERSION")) return;
 
+/**
+ * Chargement du formulaire de configuration du compresseur
+ *
+ * @return array
+ *     Environnement du formulaire
+**/
 function formulaires_configurer_compresseur_charger_dist(){
 
 	$valeurs = array();
@@ -26,6 +37,12 @@ function formulaires_configurer_compresseur_charger_dist(){
 	
 }
 
+/**
+ * Vérifications du formulaire de configuration du compresseur
+ *
+ * @return array
+ *     Tableau des erreurs
+**/
 function formulaires_configurer_compresseur_verifier_dist(){
 	$erreurs = array();
 	
@@ -37,6 +54,12 @@ function formulaires_configurer_compresseur_verifier_dist(){
 	return $erreurs;
 }
 
+/**
+ * Traitement du formulaire de configuration du compresseur
+ *
+ * @return array
+ *     Retours du traitement
+**/
 function formulaires_configurer_compresseur_traiter_dist(){
 	include_spip('inc/config');
 	appliquer_modifs_config();

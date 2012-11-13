@@ -8,6 +8,9 @@
 	<langue code="en" url="http://trad.spip.net/tradlang_module/paquet-compresseur?lang_cible=en">
 		<traducteur nom="kent1" lien="http://trad.spip.net/auteur/kent1" />
 	</langue>
+	<langue code="eo" url="http://trad.spip.net/tradlang_module/paquet-compresseur?lang_cible=eo">
+		<traducteur nom="Matthieu Marcillaud" lien="http://trad.spip.net/auteur/matthieu-marcillaud" />
+	</langue>
 	<langue code="es" url="http://trad.spip.net/tradlang_module/paquet-compresseur?lang_cible=es">
 		<traducteur nom="jotacese" lien="http://trad.spip.net/auteur/jotacese" />
 	</langue>

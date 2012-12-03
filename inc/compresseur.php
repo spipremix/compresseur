@@ -200,7 +200,7 @@ function compresseur_liste_fonctions_prepare_css(){
 	static $fonctions = null;
 
 	if (is_null($fonctions)){
-		$fonctions = array('urls_absolues_css');
+		$fonctions = array('css_resolve_atimport','urls_absolues_css');
 		// les fonctions de preparation aux CSS peuvent etre personalisees
 		// via la globale $compresseur_filtres_css sous forme de tableau de fonctions ordonnees
 		if (isset($GLOBALS['compresseur_filtres_css']) AND is_array($GLOBALS['compresseur_filtres_css']))
@@ -240,7 +240,7 @@ function &compresseur_callback_prepare_css(&$css, $is_inline = false, $fonctions
 		return $file;
 
 	if ($url_absolue_css==$css){
-		if (strncmp($GLOBALS['meta']['adresse_site'],$css,$l=strlen($GLOBALS['meta']['adresse_site']))!=0
+		if (strncmp($GLOBALS['meta']['adresse_site']."/",$css,$l=strlen($GLOBALS['meta']['adresse_site']."/"))!=0
 		 OR !lire_fichier(_DIR_RACINE . substr($css,$l), $contenu)){
 		 		include_spip('inc/distant');
 		 		if (!$contenu = recuperer_page($css))
@@ -283,3 +283,60 @@ function &compresseur_callback_prepare_css_inline(&$contenu, $url_base, $fonctio
 	return $contenu;
 }
 
+/**
+ * Resoudre et inliner les @import
+ * ceux-ci ne peuvent etre presents qu'en debut de CSS et on ne veut pas changer l'ordre des directives
+ *
+ * @param string $contenu
+ * @param string $url_base
+ * @return string
+ */
+function css_resolve_atimport($contenu, $url_base){
+	// vite si rien a faire
+	if (strpos($contenu,"@import")===false)
+		return $contenu;
+
+	while (preg_match(",@import ([^;]*);,UmsS",$contenu,$m)){
+		$url = $media = $erreur = "";
+		if (preg_match(",^\s*url\s*\(\s*['\"]?([^'\"]*)['\"]?\s*\),Ums",$m[1],$r)){
+			$url = $r[1];
+			$media = trim(substr($m[1],strlen($r[0])));
+		}
+		elseif(preg_match(",^\s*['\"]([^'\"]+)['\"],Ums",$m[1],$r)){
+			$url = $r[1];
+			$media = trim(substr($m[1],strlen($r[0])));
+		}
+		if (!$url){
+			$erreur = "Compresseur : <tt>".$m[0].";</tt> non resolu dans <tt>$url_base</tt>";
+		}
+		else {
+			$url = suivre_lien($url_base,$url);
+			// url relative ?
+			$root = protocole_implicite($GLOBALS['meta']['adresse_site']."/");
+			if (strncmp($url,$root,strlen($root))==0){
+				$url = _DIR_RACINE . substr($url,strlen($root));
+			}
+			else
+				$url = "http:$url";
+
+			// on renvoit dans la boucle pour que le fichier inclus soit aussi processe (@import, url absolue etc...)
+			$css = compresseur_callback_prepare_css($url);
+			if ($css==$url
+				OR !lire_fichier($css,$contenu_imported)){
+				$erreur = "Compresseur : url $url de <tt>".$m[0].";</tt> non resolu dans <tt>$url_base</tt>";
+			}
+			else {
+				if ($media){
+					$contenu_imported = "@media $media{\n$contenu_imported\n}\n";
+				}
+				$contenu = str_replace($m[0],$contenu_imported,$contenu);
+			}
+		}
+
+		if ($erreur){
+			$contenu = str_replace($m[0],"/* erreur @ import ".$m[1]."*/",$contenu);
+			erreur_squelette($erreur);
+		}
+	}
+	return $contenu;
+}

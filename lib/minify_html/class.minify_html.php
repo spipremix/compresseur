@@ -15,6 +15,8 @@
  * 
  * C'était le cas du bouton statistiques du formulaire admin par exemple
  *
+ * On permet de conserver également tout commentaire commençant par <!--keepme: -->
+ *
  * @package SPIP\Compresseur\Minifieur
 **/
 class Minify_HTML_SPIP extends Minify_HTML {
@@ -44,7 +46,8 @@ class Minify_HTML_SPIP extends Minify_HTML {
     /**
      * Minification des commentaires
      * 
-     * Le cas <!--extra--> doit être conservé dans les commentaires.
+     * Le cas <!--extra--> doit être conservé dans les commentaires,
+     * tout comme <!--keepme: xxx -->
      *
      * @param array $m    Matches du preg_match d'un commentaire HTML
      * @return string     Contenu minifié
@@ -52,6 +55,7 @@ class Minify_HTML_SPIP extends Minify_HTML {
     protected function _commentCB($m)
     {
         if ($m[1] === 'extra') return $m[0];
+        if ($m[1] AND $m[1][0] === 'k' AND substr($m[1],0,7) === 'keepme:') return $m[0];
         return parent::_commentCB($m);
     }
 }

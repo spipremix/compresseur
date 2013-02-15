@@ -161,6 +161,7 @@ function compacte_head_files($flux,$format) {
 
 	if ($format=="css"){
 		$callbacks['each_pre'] = 'compresseur_callback_prepare_css';
+		$callbacks['all_min'] = 'css_regroup_atimport';
 		// ce n'est pas une callback, mais en injectant l'url de base ici
 		// on differencie les caches quand l'url de base change
 		// puisque la css compresse inclue l'url courante du site (en url absolue)
@@ -296,47 +297,89 @@ function css_resolve_atimport($contenu, $url_base){
 	if (strpos($contenu,"@import")===false)
 		return $contenu;
 
-	while (preg_match(",@import ([^;]*);,UmsS",$contenu,$m)){
-		$url = $media = $erreur = "";
-		if (preg_match(",^\s*url\s*\(\s*['\"]?([^'\"]*)['\"]?\s*\),Ums",$m[1],$r)){
-			$url = $r[1];
-			$media = trim(substr($m[1],strlen($r[0])));
-		}
-		elseif(preg_match(",^\s*['\"]([^'\"]+)['\"],Ums",$m[1],$r)){
-			$url = $r[1];
-			$media = trim(substr($m[1],strlen($r[0])));
-		}
-		if (!$url){
-			$erreur = "Compresseur : <tt>".$m[0].";</tt> non resolu dans <tt>$url_base</tt>";
-		}
-		else {
-			$url = suivre_lien($url_base,$url);
-			// url relative ?
-			$root = protocole_implicite($GLOBALS['meta']['adresse_site']."/");
-			if (strncmp($url,$root,strlen($root))==0){
-				$url = _DIR_RACINE . substr($url,strlen($root));
-			}
-			else
-				$url = "http:$url";
+	$imports_non_resolvables = array();
+	preg_match_all(",@import ([^;]*);,UmsS",$contenu,$matches,PREG_SET_ORDER);
 
-			// on renvoit dans la boucle pour que le fichier inclus soit aussi processe (@import, url absolue etc...)
-			$css = compresseur_callback_prepare_css($url);
-			if ($css==$url
-				OR !lire_fichier($css,$contenu_imported)){
-				$erreur = "Compresseur : url $url de <tt>".$m[0].";</tt> non resolu dans <tt>$url_base</tt>";
+	if ($matches AND count($matches)){
+		foreach($matches as $m){
+			$url = $media = $erreur = "";
+			if (preg_match(",^\s*url\s*\(\s*['\"]?([^'\"]*)['\"]?\s*\),Ums",$m[1],$r)){
+				$url = $r[1];
+				$media = trim(substr($m[1],strlen($r[0])));
+			}
+			elseif(preg_match(",^\s*['\"]([^'\"]+)['\"],Ums",$m[1],$r)){
+				$url = $r[1];
+				$media = trim(substr($m[1],strlen($r[0])));
+			}
+			if (!$url){
+				$erreur = "Compresseur : <tt>".$m[0].";</tt> non resolu dans <tt>$url_base</tt>";
 			}
 			else {
-				if ($media){
-					$contenu_imported = "@media $media{\n$contenu_imported\n}\n";
+				$url = suivre_lien($url_base,$url);
+				// url relative ?
+				$root = protocole_implicite($GLOBALS['meta']['adresse_site']."/");
+				if (strncmp($url,$root,strlen($root))==0){
+					$url = _DIR_RACINE . substr($url,strlen($root));
 				}
-				$contenu = str_replace($m[0],$contenu_imported,$contenu);
+				else {
+					// si l'url a un protocole http(s):// on ne considère qu'on ne peut pas
+					// résoudre le stockage. Par exemple
+					// @import url(https://fonts.googleapis.com/css?family=Ubuntu);
+					// retournant un contenu différent en fonction navigateur
+					// tous les @import restant seront remontes en tete de CSS en fin de concatenation
+					if (preg_match(',^https?://,', $url)) {
+						$url = "";
+					} else {
+						// protocole implicite //
+						$url = "http:$url";
+					}
+				}
+
+				if ($url) {
+					// on renvoit dans la boucle pour que le fichier inclus
+					// soit aussi processe (@import, url absolue etc...)
+					$css = compresseur_callback_prepare_css($url);
+					if ($css==$url
+						OR !lire_fichier($css,$contenu_imported)){
+						$erreur = "Compresseur : url $url de <tt>".$m[0].";</tt> non resolu dans <tt>$url_base</tt>";
+					}
+					else {
+						if ($media){
+							$contenu_imported = "@media $media{\n$contenu_imported\n}\n";
+						}
+						$contenu = str_replace($m[0],$contenu_imported,$contenu);
+					}
+				}
+			}
+
+			if ($erreur){
+				$contenu = str_replace($m[0],"/* erreur @ import ".$m[1]."*/",$contenu);
+				erreur_squelette($erreur);
 			}
 		}
-
-		if ($erreur){
-			$contenu = str_replace($m[0],"/* erreur @ import ".$m[1]."*/",$contenu);
-			erreur_squelette($erreur);
-		}
 	}
+
 	return $contenu;
+}
+
+/**
+ * Regrouper les @import restants dans la CSS concatenee en debut de celle-ci
+ *
+ * @param string $nom_tmp
+ * @param string $nom
+ * @return bool|string
+ */
+function css_regroup_atimport($nom_tmp, $nom){
+	lire_fichier($nom_tmp,$contenu);
+	if (!$contenu OR strpos($contenu,"@import")===false) return false; // rien a faire
+
+	preg_match_all(",@import ([^;]*);,UmsS",$contenu,$matches,PREG_SET_ORDER);
+	$imports = array_map("reset",$matches);
+	$contenu = str_replace($imports,"",$contenu);
+	$contenu = implode("\n",$imports)."\n".$contenu;
+	ecrire_fichier($nom,$contenu,true);
+	// ecrire une version .gz pour content-negociation par apache, cf. [11539]
+	ecrire_fichier("$nom.gz",$contenu,true);
+
+	return $nom;
 }

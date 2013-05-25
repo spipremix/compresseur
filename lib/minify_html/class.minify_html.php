@@ -185,6 +185,12 @@ class Minify_HTML {
             ,array($this, '_removeTextareaCB')
             ,$this->_html);
 
+        // replace INPUTs with placeholders
+        $this->_html = preg_replace_callback(
+            '/\\s*<input(\\b[^>]*?>)\\s*/i'
+            ,array($this, '_removeInputCB')
+            ,$this->_html);
+
         // trim each line.
         // @todo take into account attribute values that span multiple lines.
 	      // 2 regexp because merging un /^\\s+|\\s+$/m also del a lot of newline chars ???
@@ -246,6 +252,11 @@ class Minify_HTML {
     {
         return $this->_reservePlace("<pre{$m[1]}");
     }
+
+		protected function _removeInputCB($m)
+		{
+	     return $this->_reservePlace("<input{$m[1]}");
+		}
 
     protected function _removeTextareaCB($m)
     {

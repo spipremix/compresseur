@@ -131,7 +131,7 @@ function compacte_head($flux){
  * 
  * Experimental
  *
- * @filtre embarque_fichier
+ * @filtre
  * 
  * @staticvar array $mime
  *     Couples (extension de fichier => type myme)

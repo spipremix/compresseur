@@ -12,10 +12,6 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'info_question_activer_compactage_css' => 'Ha c\'hoant hoc\'h eus ma vefe gwasket ar follennoù stil (CSS) ?', # MODIF
 	'info_question_activer_compactage_js' => 'Ha c\'hoant hoc\'h e vefe gwasket ar skriptoù javascript ?', # MODIF
 	'info_question_activer_compresseur' => 'Ha c\'hoant hoc\'h eus e vefe gwasket al lanvad HTTP ?', # MODIF
-	'item_compresseur_closure' => 'Utiliser Google Closure Compiler [expérimental]', # NEW
-	'item_compresseur_css' => 'Activer la compression des feuilles de styles (CSS)', # NEW
-	'item_compresseur_html' => 'Activer la compression du HTML', # NEW
-	'item_compresseur_js' => 'Activer la compression des scripts (javascript)', # NEW
 
 	// T
 	'texte_compacter_avertissement' => 'Diwallit da chom hep gweredekaat an dibarzhioù-mañ e-keit hag emeur o sevel ho lec\'hienn : n\'hall ket an elfennoù gwasket bezañ lennet ken war-lerc\'h.',

@@ -40,6 +40,8 @@
 	</langue>
 	<langue code="gl" url="http://trad.spip.net/tradlang_module/compresseur?lang_cible=gl" total="13" traduits="5" relire="0" modifs="4" nouveaux="4" pourcent="38.46">
 	</langue>
+	<langue code="he" url="http://trad.spip.net/tradlang_module/compresseur?lang_cible=he" total="13" traduits="1" relire="0" modifs="0" nouveaux="12" pourcent="7.69">
+	</langue>
 	<langue code="it" url="http://trad.spip.net/tradlang_module/compresseur?lang_cible=it" total="13" traduits="13" relire="0" modifs="0" nouveaux="0" pourcent="100.00">
 		<traducteur nom="phante" lien="http://trad.spip.net/auteur/phante" />
 	</langue>
@@ -67,6 +69,10 @@
 	<langue code="sk" url="http://trad.spip.net/tradlang_module/compresseur?lang_cible=sk" total="13" traduits="13" relire="0" modifs="0" nouveaux="0" pourcent="100.00">
 		<traducteur nom="jaro" lien="http://trad.spip.net/auteur/jaro" />
 	</langue>
+	<langue code="sv" url="http://trad.spip.net/tradlang_module/compresseur?lang_cible=sv" total="13" traduits="2" relire="0" modifs="2" nouveaux="9" pourcent="15.38">
+	</langue>
 	<langue code="tr" url="http://trad.spip.net/tradlang_module/compresseur?lang_cible=tr" total="13" traduits="5" relire="0" modifs="4" nouveaux="4" pourcent="38.46">
+	</langue>
+	<langue code="uk" url="http://trad.spip.net/tradlang_module/compresseur?lang_cible=uk" total="13" traduits="1" relire="0" modifs="0" nouveaux="12" pourcent="7.69">
 	</langue>
 </traduction>

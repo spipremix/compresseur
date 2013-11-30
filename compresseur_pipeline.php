@@ -90,25 +90,4 @@ function compresseur_configurer_liste_metas($metas){
 	return $metas;
 }
 
-/**
- * Déclarer les filtres sur les squelettes mis en cache
- * 
- * Ici minification CSS si la meta la demande
- *
- * @pipeline declarer_filtres_squelettes
- * @param array $flux    Données du pipeline
- * @return array         Données du pipeline
- */
-function compresseur_declarer_filtres_squelettes($flux){
-	if (!test_espace_prive()
-	  AND !defined('_INTERDIRE_COMPRESSION_HTML')
-	  AND $GLOBALS['meta']['auto_compress_http']=='oui'
-		AND (!isset($flux['args']['entetes']['Content-Type']) OR strncmp($flux['args']['entetes']['Content-Type'],'text/html',9)==0)
-	){
-		include_spip("inc/compresseur_minifier");
-		$flux['data'][] = 'minifier_html';
-	}
-  return $flux;
-}
-
 ?>

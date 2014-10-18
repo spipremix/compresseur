@@ -37,6 +37,14 @@ if (!defined("_ECRIRE_INC_VERSION")) return;
 function compresseur_ecrire_balise_js_dist(&$flux, $pos, $src, $comments = ""){
 	$src = timestamp($src);
 	$comments .= "<script type='text/javascript' src='$src'></script>";
+	// option chargement JS async par jQl
+	if (defined('_JS_ASYNC_LOAD') AND !test_espace_prive()){
+		lire_fichier(find_in_path("lib/jQl/jQl.min.js"), $jQl);
+		if ($jQl){
+			$comments .= "<script type='text/javascript'>\n$jQl\njQl.loadjQ('$src')\n</script>";
+		}
+	}
+
   $flux = substr_replace($flux,$comments,$pos,0);
   return $flux;
 }

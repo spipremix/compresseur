@@ -35,6 +35,7 @@ if (!defined("_ECRIRE_INC_VERSION")) return;
  *   Code HTML de la balise <script>
  */
 function compresseur_ecrire_balise_js_dist(&$flux, $pos, $src, $comments = ""){
+	$src = timestamp($src);
 	$comments .= "<script type='text/javascript' src='$src'></script>";
   $flux = substr_replace($flux,$comments,$pos,0);
   return $flux;
@@ -60,6 +61,7 @@ function compresseur_ecrire_balise_js_dist(&$flux, $pos, $src, $comments = ""){
  *   Code HTML de la balise <link>
  */
 function compresseur_ecrire_balise_css_dist(&$flux, $pos, $src, $comments = "", $media=""){
+	$src = timestamp($src);
 	$comments .= "<link rel='stylesheet'".($media?" media='$media'":"")." href='$src' type='text/css' />";
   $flux = substr_replace($flux,$comments,$pos,0);
 	return $flux;

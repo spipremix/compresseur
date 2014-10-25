@@ -138,7 +138,7 @@ function minifier_css ($contenu, $options='') {
 		$css = new csstidy();
 
 		// essayer d'optimiser les font, margin, padding avec des ecritures raccourcies
-		$css->set_cfg('optimise_shorthands',2);
+		$css->set_cfg('optimise_shorthands',1);
 		$css->set_cfg('template',$template);
 		$css->parse($contenu);
 		return $css->print->plain($media);

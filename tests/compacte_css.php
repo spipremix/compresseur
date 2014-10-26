@@ -13,6 +13,7 @@
 	$ok = true;
 
 	include_spip('inc/compresseur_minifier');
+	include_spip('inc/filtres');
 
 	lire_fichier(dirname(__FILE__)."/css/source.css", $css_code);
 
@@ -66,6 +67,14 @@
 	$compacte = minifier_css($css_code,'screen');
 	if (rtrim($compacte)!=rtrim($expected)) {
 		erreur("minifier_css('screen')",$compacte,$expected);
+		$ok = false;
+	}
+
+	lire_fichier(dirname(__FILE__)."/css/expected_url_abs.css", $expected);
+	lire_fichier(dirname(__FILE__)."/css/source_url_abs.css", $source);
+	$compacte = urls_absolues_css($source,"http://example.org/squelettes/source.css");
+	if (rtrim($compacte)!=rtrim($expected)) {
+		erreur("urls_absolues_css()",$compacte,$expected);
 		$ok = false;
 	}
 

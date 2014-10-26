@@ -89,3 +89,7 @@ th{background-color:#FADD31;background-repeat:repeat-x;color:#68685E;font-size:1
 @media print {
 .degrade{background:none}
 }
+@keyframes NAME-YOUR-ANIMATION {
+0%{opacity:0}
+100%{opacity:1}
+}

@@ -76,6 +76,7 @@
 	</langue>
 	<langue code="tr" url="http://trad.spip.net/tradlang_module/compresseur?lang_cible=tr" total="9" traduits="4" relire="0" modifs="2" nouveaux="3" pourcent="44.44">
 	</langue>
-	<langue code="uk" url="http://trad.spip.net/tradlang_module/compresseur?lang_cible=uk" total="9" traduits="1" relire="0" modifs="0" nouveaux="8" pourcent="11.11">
+	<langue code="uk" url="http://trad.spip.net/tradlang_module/compresseur?lang_cible=uk" total="9" traduits="9" relire="0" modifs="0" nouveaux="0" pourcent="100.00">
+		<traducteur nom="olly" lien="http://trad.spip.net/auteur/olly" />
 	</langue>
 </traduction>

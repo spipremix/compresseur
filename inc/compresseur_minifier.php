@@ -93,7 +93,7 @@ function minifier_css ($contenu, $options='') {
 		$contenu = preg_replace("/\b0+\.(\d+em)/ims",".$1",$contenu);
 		// supprimer les declarations vides
 		$contenu = preg_replace(",(^|})([^{}]*){},Ums","$1",$contenu);
-		// zero est zero, quelle que soit l'unite (sauf pour % car casse les @keyframes cf http://core.spip.org/issues/3128)
+		// zero est zero, quelle que soit l'unite (sauf pour % car casse les @keyframes cf https://core.spip.net/issues/3128)
 		$contenu = preg_replace("/([^0-9.]0)(em|px|pt)/ms","$1",$contenu);
 
 		// renommer les couleurs par leurs versions courtes quand c'est possible

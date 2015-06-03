@@ -16,7 +16,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'item_compresseur_js' => 'Ativà la coumpressioun dei script (javascript)',
 
 	// T
-	'texte_compacter_avertissement' => 'Mèfi da noun ativà aqueli oupcioun dau desfouloupamen dóu vouòstre sit : lu elemen serat perdon touta legibilità.',
+	'texte_compacter_avertissement' => 'Mèfi da noun ativà aqueli oupcioun dau tems dóu desfouloupamen dóu vouòstre sit : lu elemen serat perdon touta legibilità.',
 	'texte_compacter_script_css' => 'SPIP pòu serà lu script javascript e li fuèi de stil CSS, per li registrà en dei fichié estàticou ; acò achelerà l’afichage dóu sit.',
 	'titre_compacter_script_css' => 'Coumpressioun dei script e CSS'
 );

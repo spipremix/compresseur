@@ -381,7 +381,7 @@ class csstidy {
 	 * @return bool
 	 * @version 1.0
 	 */
-	public function set_cfg($setting, $value=null) {
+	public function set_cfg($setting, $value = null) {
 		if (is_array($setting) && $value === null) {
 			foreach ($setting as $setprop => $setval) {
 				$this->settings[$setprop] = $setval;
@@ -488,7 +488,7 @@ class csstidy {
 	 * @access public
 	 * @version 1.4
 	 */
-	public function write_page($filename, $doctype='xhtml1.1', $externalcss=true, $title='', $lang='en') {
+	public function write_page($filename, $doctype = 'xhtml1.1', $externalcss = true, $title = '', $lang = 'en') {
 		$this->write($filename, true);
 	}
 
@@ -504,7 +504,7 @@ class csstidy {
 	 * @access public
 	 * @version 1.4
 	 */
-	public function write($filename, $formatted=false, $doctype='xhtml1.1', $externalcss=true, $title='', $lang='en', $pre_code=true) {
+	public function write($filename, $formatted = false, $doctype = 'xhtml1.1', $externalcss = true, $title = '', $lang = 'en', $pre_code = true) {
 		$filename .= ( $formatted) ? '.xhtml' : '.css';
 
 		if (!is_dir('temp')) {
@@ -533,7 +533,7 @@ class csstidy {
 	 * @version 1.1
 	 * @see http://csstidy.sourceforge.net/templates.php
 	 */
-	public function load_template($content, $from_file=true) {
+	public function load_template($content, $from_file = true) {
 		$predefined_templates = & $this->data['csstidy']['predefined_templates'];
 		if ($content === 'high_compression' || $content === 'default' || $content === 'highest_compression' || $content === 'low_compression') {
 			$this->template = $predefined_templates[$content];
@@ -1104,7 +1104,7 @@ class csstidy {
 	 * @param string $selector
 	 * @return string
 	 */
-	public function css_new_selector($media,$selector) {
+	public function css_new_selector($media, $selector) {
 		if ($this->get_cfg('preserve_css')) {
 			return $selector;
 		}

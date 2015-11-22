@@ -145,7 +145,7 @@ function compacte_head($flux){
  *     URI Scheme du fichier si la compression est faite,
  *     URL du fichier sinon (la source)
  */
-function filtre_embarque_fichier ($src, $base="", $maxsize = 4096) {
+function filtre_embarque_fichier ($src, $base = "", $maxsize = 4096) {
 	static $mime = array();
 	$extension = substr(strrchr($src,'.'),1);
 	$filename = $base . $src;

@@ -41,7 +41,7 @@ if (!defined("_ECRIRE_INC_VERSION")) return;
  * @return array
  *     Tableau a 2 entrées retournant le nom du fichier et des commentaires HTML à insérer dans la page initiale
  */
-function concatener_fichiers($files,$format='js', $callbacks = array()){
+function concatener_fichiers($files, $format = 'js', $callbacks = array()){
 	$nom = "";
 	if (!is_array($files) && $files) $files = array($files);
 	if (count($files)){
@@ -178,7 +178,7 @@ function &concatener_callback_identite(&$contenu){
  * @return array
  *     
  */
-function &array_replace_key($tableau,$orig_key,$new_key,$new_value=null){
+function &array_replace_key($tableau, $orig_key, $new_key, $new_value = null){
 	$t = array();
 	foreach($tableau as $k=>$v) {
 		if ($k==$orig_key) {

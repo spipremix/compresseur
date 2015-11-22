@@ -71,7 +71,7 @@ function compresseur_ecrire_balise_js_dist(&$flux, $pos, $src, $comments = ""){
  * @return string
  *   Code HTML de la balise <link>
  */
-function compresseur_ecrire_balise_css_dist(&$flux, $pos, $src, $comments = "", $media=""){
+function compresseur_ecrire_balise_css_dist(&$flux, $pos, $src, $comments = "", $media = ""){
 	$src = timestamp($src);
 	$comments .= "<link rel='stylesheet'".($media?" media='$media'":"")." href='$src' type='text/css' />";
 	// Envoyer aussi un entete http pour demarer le chargement de la CSS plus tot
@@ -142,7 +142,7 @@ function compresseur_extraire_balises_js_dist($flux, $url_base){
  * @return string
  *    Contenu compressé du <head> de la page html
  */
-function compacte_head_files($flux,$format) {
+function compacte_head_files($flux, $format) {
 	$url_base = url_de_base();
 	$url_page = substr(generer_url_public('A'), 0, -1);
 	$dir = preg_quote($url_page,',').'|'.preg_quote(preg_replace(",^$url_base,",_DIR_RACINE,$url_page),',');
@@ -235,7 +235,7 @@ function compresseur_liste_fonctions_prepare_css(){
  * @param string $fonctions
  * @return bool|int|null|string
  */
-function &compresseur_callback_prepare_css(&$css, $is_inline = false, $fonctions=null) {
+function &compresseur_callback_prepare_css(&$css, $is_inline = false, $fonctions = null) {
 	if ($is_inline) return compresseur_callback_prepare_css_inline($css,$is_inline);
 	if (!preg_match(',\.css$,i', $css, $r)) return $css;
 
@@ -286,7 +286,7 @@ function &compresseur_callback_prepare_css(&$css, $is_inline = false, $fonctions
  * @param array $fonctions
  * @return string
  */
-function &compresseur_callback_prepare_css_inline(&$contenu, $url_base, $fonctions=null) {
+function &compresseur_callback_prepare_css_inline(&$contenu, $url_base, $fonctions = null) {
 	if (!$fonctions) $fonctions = compresseur_liste_fonctions_prepare_css();
 	elseif (is_string($fonctions)) $fonctions = array($fonctions);
 

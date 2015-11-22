@@ -82,7 +82,7 @@
 	if ($ok)
 		echo "OK";
 
-	function erreur($titre,$result,$expected){
+	function erreur($titre, $result, $expected){
 		echo "Erreur $titre<br />";
 		echo "<tt>Resultat:</tt><pre>$result</pre>";
 		echo "<tt>Attendu :</tt><pre>$expected</pre>";

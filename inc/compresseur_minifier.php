@@ -41,7 +41,7 @@ if (!defined("_ECRIRE_INC_VERSION")) return;
  * @return string
  *     Contenu CSS minifié
  */
-function minifier_css ($contenu, $options='') {
+function minifier_css ($contenu, $options = '') {
 	if (is_string($options) AND $options){
 		if ($options=="all") // facile : media all => ne rien preciser
 			$options = "";
@@ -206,7 +206,7 @@ function minifier_js($flux) {
  * @return string
  *     Contenu JS compressé
  */
-function minifier_encore_js($content,$file=false) {
+function minifier_encore_js($content, $file = false) {
 	# Closure Compiler n'accepte pas des POST plus gros que 200 000 octets
 	# au-dela il faut stocker dans un fichier, et envoyer l'url du fichier
 	# dans code_url ; en localhost ca ne marche evidemment pas

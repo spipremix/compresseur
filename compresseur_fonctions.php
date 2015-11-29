@@ -16,6 +16,7 @@
  * @package SPIP\Compresseur\Fonctions
  */
 if (!defined("_ECRIRE_INC_VERSION")) return;
+$GLOBALS['spip_matrice']['compresseur_embarquer_images_css'] = 'inc/compresseur_embarquer.php';
 
 /**
  * Minifier un fichier JS ou CSS

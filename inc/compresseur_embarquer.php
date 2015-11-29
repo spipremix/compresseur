@@ -28,18 +28,23 @@ if (!defined("_ECRIRE_INC_VERSION")) return;
  * @param string $contenu
  *     Contenu d'un fichier CSS
  * @param string $source
- *     Source de ce fichier CSS
+ *     URL Source de ce fichier CSS
+ * @param string $source_file
+ *     filename Source de ce fichier CSS, si connu
  * @return string
  *     Contenu du fichier CSS avec les images embarquées
 **/
-function compresseur_embarquer_images_css($contenu, $source){
+function compresseur_embarquer_images_css($contenu, $source, $source_file=null){
 	#$path = suivre_lien(url_absolue($source),'./');
-	$base = ((substr($source,-1)=='/')?$source:(dirname($source).'/'));
+	$base = ($source_file?$source_file:$source);
+	$base = ((substr($base,-1)=='/')?$base:(dirname($base).'/'));
+	$filtre_embarque_fichier = chercher_filtre("filtre_embarque_fichier");
+	if (!defined("_CSS_EMBARQUE_FICHIER_MAX_SIZE")) define('_CSS_EMBARQUE_FICHIER_MAX_SIZE',16*1024);
 
 	return preg_replace_callback(
 		",url\s*\(\s*['\"]?([^'\"/][^:]*[.](png|gif|jpg))['\"]?\s*\),Uims",
 		create_function('$x',
-			'return "url(\"".filtre_embarque_fichier($x[1],"'.$base.'")."\")";'
+			'return "url(\"".'.$filtre_embarque_fichier.'($x[1],"'.$base.'",_CSS_EMBARQUE_FICHIER_MAX_SIZE)."\")";'
 		), $contenu);
 }
 

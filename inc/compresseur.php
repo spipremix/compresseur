@@ -269,7 +269,7 @@ function &compresseur_callback_prepare_css(&$css, $is_inline = false, $fonctions
 	elseif (!lire_fichier($css, $contenu))
 		return $css;
 
-	$contenu = compresseur_callback_prepare_css_inline($contenu, $url_absolue_css_implicite, $fonctions);
+	$contenu = compresseur_callback_prepare_css_inline($contenu, $url_absolue_css_implicite, $css, $fonctions);
 
 	// ecrire la css
 	if (!ecrire_fichier($file, $contenu))
@@ -282,20 +282,30 @@ function &compresseur_callback_prepare_css(&$css, $is_inline = false, $fonctions
  * Préparer du contenu CSS inline avant minification
  * 
  * @param string $contenu
+ *   contenu de la CSS
  * @param string $url_base
+ *   url de la CSS ou de la page si c'est un style inline
+ * @param string $filename
+ *   nom du fichier de la CSS (ou vide si c'est un style inline)
  * @param array $fonctions
+ *   liste des fonctions appliquees a la CSS
  * @return string
  */
-function &compresseur_callback_prepare_css_inline(&$contenu, $url_base, $fonctions = null) {
+function &compresseur_callback_prepare_css_inline(&$contenu, $url_base, $filename='', $fonctions = null) {
 	if (!$fonctions) $fonctions = compresseur_liste_fonctions_prepare_css();
 	elseif (is_string($fonctions)) $fonctions = array($fonctions);
 
 	// retirer le protocole de $url_base
 	$url_base = protocole_implicite(url_absolue($url_base));
 
-	foreach($fonctions as $f)
-		if (function_exists($f))
-			$contenu = $f($contenu, $url_base);
+	foreach($fonctions as $f){
+		if (!function_exists($f)){
+			$f = chercher_filtre($f);
+		}
+		if ($f AND function_exists($f)){
+			$contenu = $f($contenu, $url_base, $filename);
+		}
+	}
 	
 	return $contenu;
 }

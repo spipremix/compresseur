@@ -39,7 +39,7 @@ function compresseur_embarquer_images_css($contenu, $source, $source_file=null){
 	$base = ($source_file?$source_file:$source);
 	$base = ((substr($base,-1)=='/')?$base:(dirname($base).'/'));
 	$filtre_embarque_fichier = chercher_filtre("filtre_embarque_fichier");
-	if (!defined("_CSS_EMBARQUE_FICHIER_MAX_SIZE")) define('_CSS_EMBARQUE_FICHIER_MAX_SIZE',16*1024);
+	if (!defined("_CSS_EMBARQUE_FICHIER_MAX_SIZE")) define('_CSS_EMBARQUE_FICHIER_MAX_SIZE',4*1024);
 
 	return preg_replace_callback(
 		",url\s*\(\s*['\"]?([^'\"/][^:]*[.](png|gif|jpg))['\"]?\s*\),Uims",

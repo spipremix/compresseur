@@ -26,5 +26,3 @@ function compresseur_ieconfig_metas($table) {
 
 	return $table;
 }
-
-?>

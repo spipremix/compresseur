@@ -44,14 +44,14 @@ if (!defined("_ECRIRE_INC_VERSION")) {
  *     Contenu CSS minifié
  */
 function minifier_css($contenu, $options = '') {
-	if (is_string($options) AND $options) {
+	if (is_string($options) and $options) {
 		if ($options == "all") // facile : media all => ne rien preciser
 		{
 			$options = "";
 		} elseif (
 			strpos($contenu, "@media") == false
-			AND strpos($contenu, "@import") == false
-			AND strpos($contenu, "@font-face") == false
+			and strpos($contenu, "@import") == false
+			and strpos($contenu, "@font-face") == false
 		) {
 			$contenu = "@media $options {\n$contenu\n}\n";
 			$options = "";
@@ -159,7 +159,7 @@ function minifier_css($contenu, $options = '') {
 
 		// modele de sortie plus ou moins compact
 		$template = 'high';
-		if (isset($options['template']) AND in_array($options['template'], array('low', 'default', 'high', 'highest'))) {
+		if (isset($options['template']) and in_array($options['template'], array('low', 'default', 'high', 'highest'))) {
 			$template = $options['template'];
 		}
 		// @media eventuel pour prefixe toutes les css
@@ -253,7 +253,7 @@ function minifier_encore_js($content, $file = false) {
 		$nom = $content;
 		lire_fichier($nom, $content);
 		$dest = dirname($nom) . '/' . md5($content . $file) . '.js';
-		if (file_exists($dest) AND (!is_string($file) OR file_exists($file))) {
+		if (file_exists($dest) and (!is_string($file) or file_exists($file))) {
 			if (filesize($dest)) {
 				return is_string($file) ? $file : $dest;
 			} else {
@@ -264,7 +264,7 @@ function minifier_encore_js($content, $file = false) {
 		}
 	}
 
-	if (!$file AND strlen($content) > 200000) {
+	if (!$file and strlen($content) > 200000) {
 		return $content;
 	}
 
@@ -276,7 +276,7 @@ function minifier_encore_js($content, $file = false) {
 		'compilation_level' => 'SIMPLE_OPTIMIZATIONS',
 		// 'SIMPLE_OPTIMIZATIONS', 'WHITESPACE_ONLY', 'ADVANCED_OPTIMIZATIONS'
 	);
-	if (!$file OR strlen($content) < 200000) {
+	if (!$file or strlen($content) < 200000) {
 		$datas['js_code'] = $content;
 	} else {
 		$datas['url_code'] = url_absolue($nom);
@@ -288,7 +288,7 @@ function minifier_encore_js($content, $file = false) {
 		$datas,
 		$boundary = -1);
 
-	if ($cc AND !preg_match(',^\s*Error,', $cc)) {
+	if ($cc and !preg_match(',^\s*Error,', $cc)) {
 		spip_log('Closure Compiler: success');
 		$cc = "/* $nom + Closure Compiler */\n" . $cc;
 		if ($file) {
@@ -347,7 +347,7 @@ function callback_minifier_js_file($contenu, $balise) {
 function minifier_html($flux) {
 
 	// si pas de contenu ni de balise html, ne rien faire
-	if (!strlen($flux) OR strpos($flux, "<") === false) {
+	if (!strlen($flux) or strpos($flux, "<") === false) {
 		return $flux;
 	}
 

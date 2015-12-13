@@ -39,7 +39,7 @@ if (!defined("_ECRIRE_INC_VERSION")) {
 function compresseur_ecrire_balise_js_dist(&$flux, $pos, $src, $comments = "") {
 	$src = timestamp($src);
 	// option chargement JS async par jQl
-	if (defined('_JS_ASYNC_LOAD') AND !test_espace_prive()) {
+	if (defined('_JS_ASYNC_LOAD') and !test_espace_prive()) {
 		lire_fichier(find_in_path("lib/jQl/jQl.min.js"), $jQl);
 		if ($jQl) {
 			$comments .= "<script type='text/javascript'>\n$jQl\njQl.loadjQ('$src')\n</script>";
@@ -99,12 +99,12 @@ function compresseur_extraire_balises_css_dist($flux, $url_base) {
 	$files = array();
 	foreach ($balises as $s) {
 		if (extraire_attribut($s, 'rel') === 'stylesheet'
-			AND (!($type = extraire_attribut($s, 'type'))
-				OR $type == 'text/css')
-			AND is_null(extraire_attribut($s, 'name')) # css nommee : pas touche
-			AND is_null(extraire_attribut($s, 'id'))   # idem
-			AND !strlen(strip_tags($s))
-			AND $src = preg_replace(",^$url_base,", _DIR_RACINE, extraire_attribut($s, 'href'))
+			and (!($type = extraire_attribut($s, 'type'))
+				or $type == 'text/css')
+			and is_null(extraire_attribut($s, 'name')) # css nommee : pas touche
+			and is_null(extraire_attribut($s, 'id'))   # idem
+			and !strlen(strip_tags($s))
+			and $src = preg_replace(",^$url_base,", _DIR_RACINE, extraire_attribut($s, 'href'))
 		) {
 			$files[$s] = $src;
 		}
@@ -127,9 +127,9 @@ function compresseur_extraire_balises_js_dist($flux, $url_base) {
 	$files = array();
 	foreach ($balises as $s) {
 		if (extraire_attribut($s, 'type') === 'text/javascript'
-			AND is_null(extraire_attribut($s, 'id')) # script avec un id : pas touche
-			AND $src = extraire_attribut($s, 'src')
-			AND !strlen(strip_tags($s))
+			and is_null(extraire_attribut($s, 'id')) # script avec un id : pas touche
+			and $src = extraire_attribut($s, 'src')
+			and !strlen(strip_tags($s))
 		) {
 			$files[$s] = $src;
 		}
@@ -166,15 +166,15 @@ function compacte_head_files($flux, $format) {
 	foreach ($extraire_balises($flux_nocomment, $url_base) as $s => $src) {
 		if (
 			preg_match(',^(' . $dir . ')(.*)$,', $src, $r)
-			OR (
+			or (
 				// ou si c'est un fichier
 				$src = preg_replace(',^' . preg_quote(url_de_base(), ',') . ',', '', $src)
 				// enlever un timestamp eventuel derriere un nom de fichier statique
-				AND $src2 = preg_replace(",[.]{$format}[?].+$,", ".$format", $src)
+				and $src2 = preg_replace(",[.]{$format}[?].+$,", ".$format", $src)
 				// verifier qu'il n'y a pas de ../ ni / au debut (securite)
-				AND !preg_match(',(^/|\.\.),', substr($src, strlen(_DIR_RACINE)))
+				and !preg_match(',(^/|\.\.),', substr($src, strlen(_DIR_RACINE)))
 				// et si il est lisible
-				AND @is_readable($src2)
+				and @is_readable($src2)
 			)
 		) {
 			if ($r) {
@@ -196,14 +196,14 @@ function compacte_head_files($flux, $format) {
 		// on exclue le protocole car la compression se fait en url relative au protocole
 		$callbacks[] = protocole_implicite($url_base);
 	}
-	if ($format == 'js' AND $GLOBALS['meta']['auto_compress_closure'] == 'oui') {
+	if ($format == 'js' and $GLOBALS['meta']['auto_compress_closure'] == 'oui') {
 		$callbacks['all_min'] = 'minifier_encore_js';
 	}
 
 	include_spip('inc/compresseur_concatener');
 	include_spip('inc/compresseur_minifier');
 	if (list($src, $comms) = concatener_fichiers($files, $format, $callbacks)
-		AND $src
+		and $src
 	) {
 		$compacte_ecrire_balise = charger_fonction("compresseur_ecrire_balise_$format", '');
 		$files = array_keys($files);
@@ -233,8 +233,8 @@ function compresseur_liste_fonctions_prepare_css() {
 		$fonctions = array('css_resolve_atimport', 'urls_absolues_css');
 		// les fonctions de preparation aux CSS peuvent etre personalisees
 		// via la globale $compresseur_filtres_css sous forme de tableau de fonctions ordonnees
-		if (isset($GLOBALS['compresseur_filtres_css']) AND is_array($GLOBALS['compresseur_filtres_css'])) {
-			$fonctions = $GLOBALS['compresseur_filtres_css']+$fonctions;
+		if (isset($GLOBALS['compresseur_filtres_css']) and is_array($GLOBALS['compresseur_filtres_css'])) {
+			$fonctions = $GLOBALS['compresseur_filtres_css'] + $fonctions;
 		}
 	}
 
@@ -277,14 +277,14 @@ function &compresseur_callback_prepare_css(&$css, $is_inline = false, $fonctions
 		. '.css';
 
 	if ((@filemtime($file) > @filemtime($css))
-		AND (!defined('_VAR_MODE') OR _VAR_MODE != 'recalcul')
+		and (!defined('_VAR_MODE') or _VAR_MODE != 'recalcul')
 	) {
 		return $file;
 	}
 
 	if ($url_absolue_css == $css) {
 		if (strncmp($GLOBALS['meta']['adresse_site'] . "/", $css, $l = strlen($GLOBALS['meta']['adresse_site'] . "/")) != 0
-			OR !lire_fichier(_DIR_RACINE . substr($css, $l), $contenu)
+			or !lire_fichier(_DIR_RACINE . substr($css, $l), $contenu)
 		) {
 			include_spip('inc/distant');
 			if (!$contenu = recuperer_page($css)) {
@@ -332,7 +332,7 @@ function &compresseur_callback_prepare_css_inline(&$contenu, $url_base, $filenam
 		if (!function_exists($f)) {
 			$f = chercher_filtre($f);
 		}
-		if ($f AND function_exists($f)) {
+		if ($f and function_exists($f)) {
 			$contenu = $f($contenu, $url_base, $filename);
 		}
 	}
@@ -357,7 +357,7 @@ function css_resolve_atimport($contenu, $url_base) {
 	$imports_non_resolvables = array();
 	preg_match_all(",@import ([^;]*);,UmsS", $contenu, $matches, PREG_SET_ORDER);
 
-	if ($matches AND count($matches)) {
+	if ($matches and count($matches)) {
 		foreach ($matches as $m) {
 			$url = $media = $erreur = "";
 			if (preg_match(",^\s*url\s*\(\s*['\"]?([^'\"]*)['\"]?\s*\),Ums", $m[1], $r)) {
@@ -394,7 +394,7 @@ function css_resolve_atimport($contenu, $url_base) {
 					// soit aussi processe (@import, url absolue etc...)
 					$css = compresseur_callback_prepare_css($url);
 					if ($css == $url
-						OR !lire_fichier($css, $contenu_imported)
+						or !lire_fichier($css, $contenu_imported)
 					) {
 						$erreur = "Compresseur : url $url de <tt>" . $m[0] . ";</tt> non resolu dans <tt>$url_base</tt>";
 					} else {
@@ -425,7 +425,7 @@ function css_resolve_atimport($contenu, $url_base) {
  */
 function css_regroup_atimport($nom_tmp, $nom) {
 	lire_fichier($nom_tmp, $contenu);
-	if (!$contenu OR strpos($contenu, "@import") === false) {
+	if (!$contenu or strpos($contenu, "@import") === false) {
 		return false;
 	} // rien a faire
 

@@ -60,8 +60,8 @@ function concatener_fichiers($files, $format = 'js', $callbacks = array()) {
 		$dir = sous_repertoire(_DIR_VAR, 'cache-' . $format);
 		$nom = $dir . md5(serialize($files) . serialize($callbacks)) . ".$format";
 		if (
-			(defined('_VAR_MODE') AND _VAR_MODE == 'recalcul')
-			OR !file_exists($nom)
+			(defined('_VAR_MODE') and _VAR_MODE == 'recalcul')
+			or !file_exists($nom)
 		) {
 			$fichier = "";
 			$comms = array();
@@ -116,7 +116,7 @@ function concatener_fichiers($files, $format = 'js', $callbacks = array()) {
 			}
 
 			// calcul du % de compactage
-			$pc = intval(1000*strlen($fichier)/$total)/10;
+			$pc = intval(1000 * strlen($fichier) / $total) / 10;
 			$comms = "compact [\n\t" . join("\n\t", $comms) . "\n] $pc%";
 			$fichier = "/* $comms */\n\n" . $fichier;
 
@@ -159,7 +159,7 @@ function concatener_fichiers($files, $format = 'js', $callbacks = array()) {
 	}
 
 	// Le commentaire detaille n'apparait qu'au recalcul, pour debug
-	return array($nom, (isset($comms) AND $comms) ? "<!-- $comms -->\n" : '');
+	return array($nom, (isset($comms) and $comms) ? "<!-- $comms -->\n" : '');
 }
 
 /**

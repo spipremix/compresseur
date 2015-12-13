@@ -37,7 +37,7 @@ $GLOBALS['spip_matrice']['compresseur_embarquer_images_css'] = 'inc/compresseur_
  *     - Chemin vers un fichier ayant le contenu minifié (si source est un fichier)
  */
 function minifier($source, $format = null) {
-	if (!$format AND preg_match(',\.(js|css)$,', $source, $r)) {
+	if (!$format and preg_match(',\.(js|css)$,', $source, $r)) {
 		$format = $r[1];
 	}
 	include_spip('inc/compresseur_minifier');
@@ -47,8 +47,8 @@ function minifier($source, $format = null) {
 
 	// Si on n'importe pas, est-ce un fichier ?
 	if (!preg_match(',[\s{}],', $source)
-		AND preg_match(',\.' . $format . '$,i', $source, $r)
-		AND file_exists($source)
+		and preg_match(',\.' . $format . '$,i', $source, $r)
+		and file_exists($source)
 	) {
 		// si c'est une css, il faut reecrire les url en absolu
 		if ($format == 'css') {
@@ -62,7 +62,7 @@ function minifier($source, $format = null) {
 			. '.' . $format;
 
 		if ((@filemtime($f) > @filemtime($source))
-			AND (!defined('_VAR_MODE') OR _VAR_MODE != 'recalcul')
+			and (!defined('_VAR_MODE') or _VAR_MODE != 'recalcul')
 		) {
 			return $f;
 		}
@@ -127,10 +127,10 @@ function compacte_head($flux) {
 	include_spip('inc/compresseur');
 	if (!defined('_INTERDIRE_COMPACTE_HEAD')) {
 		// dans l'espace prive on compacte toujours, c'est concu pour
-		if ((!test_espace_prive() AND $GLOBALS['meta']['auto_compress_css'] == 'oui') OR (test_espace_prive() AND !defined('_INTERDIRE_COMPACTE_HEAD_ECRIRE'))) {
+		if ((!test_espace_prive() and $GLOBALS['meta']['auto_compress_css'] == 'oui') or (test_espace_prive() and !defined('_INTERDIRE_COMPACTE_HEAD_ECRIRE'))) {
 			$flux = compacte_head_files($flux, 'css');
 		}
-		if ((!test_espace_prive() AND $GLOBALS['meta']['auto_compress_js'] == 'oui') OR (test_espace_prive() AND !defined('_INTERDIRE_COMPACTE_HEAD_ECRIRE'))) {
+		if ((!test_espace_prive() and $GLOBALS['meta']['auto_compress_js'] == 'oui') or (test_espace_prive() and !defined('_INTERDIRE_COMPACTE_HEAD_ECRIRE'))) {
 			$flux = compacte_head_files($flux, 'js');
 		}
 	}
@@ -165,14 +165,14 @@ function filtre_embarque_fichier($src, $base = "", $maxsize = 4096) {
 	$filename = $base . $src;
 
 	if (!file_exists($filename)
-		OR filesize($filename) > $maxsize
-		OR !lire_fichier($filename, $contenu)
+		or filesize($filename) > $maxsize
+		or !lire_fichier($filename, $contenu)
 	) {
 		return $src;
 	}
 
 	if (!isset($mime[$extension])) {
-		if (isset($GLOBALS['tables_mime']) AND isset($GLOBALS['tables_mime'][$extension])) {
+		if (isset($GLOBALS['tables_mime']) and isset($GLOBALS['tables_mime'][$extension])) {
 			$mime[$extension] = $GLOBALS['tables_mime'][$extension];
 		}
 	}
@@ -204,11 +204,9 @@ function filtre_embarque_fichier($src, $base = "", $maxsize = 4096) {
  */
 function filtre_embarque_src($img, $maxsize = 4096) {
 	$src = extraire_attribut($img, 'src');
-	if ($src2 = filtre_embarque_fichier($src, "", $maxsize) AND $src2 != $src) {
+	if ($src2 = filtre_embarque_fichier($src, "", $maxsize) and $src2 != $src) {
 		$img = inserer_attribut($img, 'src', $src2);
 	}
 
 	return $img;
 }
-
-?>

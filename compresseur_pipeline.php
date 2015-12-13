@@ -95,5 +95,3 @@ function compresseur_configurer_liste_metas($metas) {
 
 	return $metas;
 }
-
-?>

@@ -79,7 +79,7 @@ function compresseur_ecrire_balise_css_dist(&$flux, $pos, $src, $comments = "", 
 	$comments .= "<link rel='stylesheet'" . ($media ? " media='$media'" : "") . " href='$src' type='text/css' />";
 	// Envoyer aussi un entete http pour demarer le chargement de la CSS plus tot
 	// Link: <http://href.here/to/resource.html>;rel="stylesheet prefetch"
-	$comments .= "<" . "?php header('Link: <$src>;rel=\"stylesheet prefetch\"'); ?>";
+	$comments .= "<" . "?php header('Link: <' . url_de_base() . (_DIR_RACINE ? _DIR_RESTREINT_ABS : '') . '$src>;rel=\"stylesheet prefetch\"'); ?>";
 	$flux = substr_replace($flux, $comments, $pos, 0);
 
 	return $flux;

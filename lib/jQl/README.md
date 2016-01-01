@@ -43,4 +43,4 @@ are run before inline scripts. But if some modules are longer to load and arrive
 after jQuery, they will be run after queued inline calls.
 
 v 1.2.0
-(c) 2010-2013 Cedric Morin licence GPL
+(c) 2010-2016 Cedric Morin licence GPL

@@ -9,6 +9,9 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 
 $GLOBALS[$GLOBALS['idx_lang']] = array(
 
+	// E
+	'explication_url_statique_ressources' => 'A URL that can serve static files (images, JS ...) without cookie. Usually an alternative subdomain that also points to the site.',
+
 	// I
 	'info_compresseur_titre' => 'Optimisation and compression',
 	'info_question_activer_compactage_css' => 'CSS',
@@ -16,6 +19,9 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'item_compresseur_closure' => 'Use Google Closure Compiler [experimental]',
 	'item_compresseur_css' => 'Enable stylesheets compression (CSS)',
 	'item_compresseur_js' => 'Enable scripts compression (javascript)',
+
+	// L
+	'label_url_statique_ressources' => 'URL resources',
 
 	// T
 	'texte_compacter_avertissement' => 'Be careful not to activate these options during site development, as compressed elements are difficult to read and debug.',

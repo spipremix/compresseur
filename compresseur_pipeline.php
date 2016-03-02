@@ -81,25 +81,6 @@ function compresseur_affiche_milieu($flux) {
 
 
 /**
- * Transformer toutes les URLs relatives image,js en url absolues qui pointent sur le domaine statique
- * on applique pas a l'URL de la CSS, car on envoie un header http link qui permet au navigateur de la pre-fetch
- * sur le meme domaine, sans avoir a faire de requete DNS
- * @param string $flux
- * @return string
- */
-function compresseur_affichage_final($flux) {
-	if (isset($GLOBALS['meta']['url_statique_ressources'])
-	  and isset($GLOBALS['html'])
-	  and $GLOBALS['html']
-	  and $url_statique = $GLOBALS['meta']['url_statique_ressources']){
-		$url_statique = rtrim(protocole_implicite($url_statique), "/") . "/";
-		$flux = preg_replace(",(href|src)=([\"'])([^/][^:\"']*[.](?:png|gif|jpg|js)(?:\?[0-9]+)?)\\2,Uims","\\1=\\2".$url_statique."\\3\\2",$flux);
-	}
-
-  return $flux;
-}
-
-/**
  * Lister les metas du compresseur et leurs valeurs par défaut
  *
  * @pipeline configurer_liste_metas

@@ -9,18 +9,24 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 
 $GLOBALS[$GLOBALS['idx_lang']] = array(
 
+	// E
+	'explication_url_statique_ressources' => 'Een URL die kan dienen voor statische bestanden (afbeeldingen, JS…) zonder cookie. In het algemeen een alternatief subdomein dat ook naar de site verwijst.',
+
 	// I
 	'info_compresseur_titre' => 'Optimalisering en compressie',
 	'info_question_activer_compactage_css' => 'CSS',
 	'info_question_activer_compactage_js' => 'Scripts',
-	'item_compresseur_closure' => 'Gebruik Google Sluiting Compiler [experimental]',
-	'item_compresseur_css' => 'Activeer de compressie van stijlbladen (CSS)',
+	'item_compresseur_closure' => 'Gebruik Google Closure Compiler [experimenteel]',
+	'item_compresseur_css' => 'Activeer de compressie van stylesheets (CSS)',
 	'item_compresseur_js' => 'De compressie van de scripts activeren (javascript)',
 
+	// L
+	'label_url_statique_ressources' => 'URL bronnen',
+
 	// T
-	'texte_compacter_avertissement' => 'Wees voorzichtig om deze opties niet te activeren tijdens de ontwikkeling van uw site: compacte elementen verliezen hun leesbaarheid.',
-	'texte_compacter_script_css' => 'SPIP kan compact de javascript scripts en de CSS stijl bladen, om ze te registreren in statische bestanden; dat versnelt de display van de site.',
-	'titre_compacter_script_css' => 'Compressie van de scripts en CSS'
+	'texte_compacter_avertissement' => 'Gebruik deze opties liever niet tijdens de ontwikkeling van de site: gecomprimeerde elementen verliezen hun leesbaarheid.',
+	'texte_compacter_script_css' => 'SPIP kan JavaScript en stylesheets (CSS) comprimeren, om ze vervolgens op te slaan in statische bestanden, wat de weergave van de site versnelt.',
+	'titre_compacter_script_css' => 'Compressie van scripts en CSS'
 );
 
 ?>

@@ -10,8 +10,8 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 $GLOBALS[$GLOBALS['idx_lang']] = array(
 
 	// C
-	'compresseur_description' => 'Compressie van de css en javascript in de hoofding van html paginas uit <code>ecrire/</code> en/of van het publiek site.', # Wikipedia: compressie van bestanden
-	'compresseur_slogan' => 'Compressie van css en javascript'
+	'compresseur_description' => 'Compressie van CSS en JavaScript in de heading van HTML-paginas uit <code>ecrire/</code> en/of van het publieke site.', # Wikipedia: compressie van bestanden
+	'compresseur_slogan' => 'Compressie van CSS en JavaScript'
 );
 
 ?>

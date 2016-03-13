@@ -9,6 +9,9 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 
 $GLOBALS[$GLOBALS['idx_lang']] = array(
 
+	// E
+	'explication_url_statique_ressources' => 'URL, ktorá môže obslúžiť statické súbory (obrázky, JS...) bez cookie. Obyčajne je to alternatívna subdoména, ktorá aj odkazuje na stránku.',
+
 	// I
 	'info_compresseur_titre' => 'Optimalizácia a kompresia',
 	'info_question_activer_compactage_css' => 'CSS',
@@ -17,6 +20,9 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'item_compresseur_css' => 'Aktivovať kompresiu súborov so štýlmi (CSS)',
 	'item_compresseur_js' => 'Aktivovať kompresiu skriptov
 (javascript)',
+
+	// L
+	'label_url_statique_ressources' => 'Zdroje URL',
 
 	// T
 	'texte_compacter_avertissement' => 'Dajte si pozor na to, aby ste tieto možnosti nenastavili počas vývoja svojej stránky, lebo kompaktné prvky sa stanú nečitateľné.',

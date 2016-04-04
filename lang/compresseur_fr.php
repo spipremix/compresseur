@@ -17,7 +17,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 
 	// L
 	'label_url_statique_ressources' => 'URL ressources',
-	'explication_url_statique_ressources' => 'Une URL qui permet de servir les fichiers statiques (images, CSS…) sans cookie. Généralement un sous-domaine alternatif qui pointe aussi sur le site.',
+	'explication_url_statique_ressources' => 'Une URL qui permet de servir les fichiers statiques (images, JS…) sans cookie. Généralement un sous-domaine alternatif qui pointe aussi sur le site.',
 
 	// T
 	'texte_compacter_avertissement' => 'Attention à ne pas activer ces options durant le développement de votre site : les éléments compactés perdent toute lisibilité.',

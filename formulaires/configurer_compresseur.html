@@ -15,7 +15,7 @@
 				<p class="explication"><:compresseur:explication_url_statique_ressources:></p>
 				<style>
 					.editer_url_statique_ressources input.text{padding-right: 32px;background-image: none;}
-					.editer_url_statique_ressources input.text{background-position: right center;background-repeat: no-repeat; background-image:url([(#CHEMIN_IMAGE{ok-24.png}|url_absolue{#ENV*{#GET{name},#GET{defaut}}|sinon{#URL_SITE_SPIP}|concat{'/',#EVAL{_DIR_RACINE?_DIR_RESTREINT_ABS:''}}})]);}
+					.editer_url_statique_ressources input.text{background-position: right center;background-repeat: no-repeat; background-image:url([(#CHEMIN_IMAGE{ok-24.png}|url_absolue{#ENV*{#GET{name},#GET{defaut}}|sinon{#URL_SITE_SPIP}|concat{'/',#EVAL{_DIR_RACINE?_DIR_RESTREINT_ABS:''}}}|protocole_implicite)]);}
 				</style>
 			</div>
 			<div class='fieldset'>

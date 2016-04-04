@@ -195,6 +195,10 @@ function compacte_head_files($flux, $format) {
 		// puisque la css compresse inclue l'url courante du site (en url absolue)
 		// on exclue le protocole car la compression se fait en url relative au protocole
 		$callbacks[] = protocole_implicite($url_base);
+		// et l'URL des ressources statiques si configuree
+		if (isset($GLOBALS['meta']['url_statique_ressources']) and $GLOBALS['meta']['url_statique_ressources']){
+			$callbacks[] = protocole_implicite($GLOBALS['meta']['url_statique_ressources']);
+		}
 	}
 	if ($format == 'js' and $GLOBALS['meta']['auto_compress_closure'] == 'oui') {
 		$callbacks['all_min'] = 'minifier_encore_js';
@@ -230,7 +234,7 @@ function compresseur_liste_fonctions_prepare_css() {
 	static $fonctions = null;
 
 	if (is_null($fonctions)) {
-		$fonctions = array('css_resolve_atimport', 'urls_absolues_css');
+		$fonctions = array('css_resolve_atimport', 'urls_absolues_css', 'css_url_statique_ressources');
 		// les fonctions de preparation aux CSS peuvent etre personalisees
 		// via la globale $compresseur_filtres_css sous forme de tableau de fonctions ordonnees
 		if (isset($GLOBALS['compresseur_filtres_css']) and is_array($GLOBALS['compresseur_filtres_css'])) {
@@ -346,9 +350,10 @@ function &compresseur_callback_prepare_css_inline(&$contenu, $url_base, $filenam
  *
  * @param string $contenu
  * @param string $url_base
+ * @param string $filename
  * @return string
  */
-function css_resolve_atimport($contenu, $url_base) {
+function css_resolve_atimport($contenu, $url_base, $filename) {
 	// vite si rien a faire
 	if (strpos($contenu, "@import") === false) {
 		return $contenu;
@@ -438,4 +443,25 @@ function css_regroup_atimport($nom_tmp, $nom) {
 	ecrire_fichier("$nom.gz", $contenu, true);
 
 	return $nom;
+}
+
+/**
+ * Remplacer l'URL du site par une url de ressource genre static.example.org
+ * qui evite les echanges de cookie pour les ressources images
+ * (peut aussi etre l'URL d'un CDN ou autre provider de ressources statiques)
+ *
+ * @param string $contenu
+ * @param string $url_base
+ * @param string $filename
+ * @return mixed
+ */
+function css_url_statique_ressources($contenu, $url_base, $filename){
+
+	if (isset($GLOBALS['meta']['url_statique_ressources'])
+	  and $url_statique = $GLOBALS['meta']['url_statique_ressources']) {
+		$url_statique = rtrim(protocole_implicite($url_statique),"/")."/";
+		$url_site = rtrim(protocole_implicite($GLOBALS['meta']['adresse_site']),"/")."/";
+		$contenu = str_replace($url_site, $url_statique, $contenu);
+	}
+	return $contenu;
 }

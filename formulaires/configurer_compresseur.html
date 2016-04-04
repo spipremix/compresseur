@@ -7,6 +7,17 @@
 	<form action="#ENV{action}#formulaire_configurer_compresseur" method="post"><div>
 		[(#ACTION_FORMULAIRE{#ENV{action}})]
 		<div class="editer-groupe">
+			#SET{name,url_statique_ressources}#SET{obli,''}#SET{defaut,''}#SET{erreurs,#ENV**{erreurs}|table_valeur{#GET{name}}}
+			<div class="editer editer_[(#GET{name})][ (#GET{obli})][ (#GET{erreurs}|oui)erreur]">
+				<label for="#GET{name}"><:compresseur:label_url_statique_ressources:></label>[
+				<span class='erreur_message'>(#GET{erreurs})</span>
+				]<input type="text" name="#GET{name}" class="text" value="#ENV*{#GET{name},#GET{defaut}}" id="#GET{name}" [(#HTML5|et{#GET{obli}})required='required']/>
+				<p class="explication"><:compresseur:explication_url_statique_ressources:></p>
+				<style>
+					.editer_url_statique_ressources input.text{padding-right: 32px;background-image: none;}
+					.editer_url_statique_ressources input.text{background-position: right center;background-repeat: no-repeat; background-image:url([(#CHEMIN_IMAGE{ok-24.png}|url_absolue{#ENV*{#GET{name},#GET{defaut}}|sinon{#URL_SITE_SPIP}|concat{'/',#EVAL{_DIR_RACINE?_DIR_RESTREINT_ABS:''}}})]);}
+				</style>
+			</div>
 			<div class='fieldset'>
 				<fieldset>
 					<legend><:compresseur:titre_compacter_script_css:></legend>

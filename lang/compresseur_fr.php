@@ -15,6 +15,10 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'item_compresseur_css' => 'Activer la compression des feuilles de style (CSS)',
 	'item_compresseur_js' => 'Activer la compression des scripts (javascript)',
 
+	// L
+	'label_url_statique_ressources' => 'URL ressources',
+	'explication_url_statique_ressources' => 'Une URL qui permet de servir les fichiers statiques (images, CSS…) sans cookie. Généralement un sous-domaine alternatif qui pointe aussi sur le site.',
+
 	// T
 	'texte_compacter_avertissement' => 'Attention à ne pas activer ces options durant le développement de votre site : les éléments compactés perdent toute lisibilité.',
 	'texte_compacter_script_css' => 'SPIP peut compacter les scripts javascript et les feuilles de style CSS, pour les enregistrer dans des fichiers statiques ; cela accélère l’affichage du site.',

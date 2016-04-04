@@ -32,6 +32,7 @@ function formulaires_configurer_compresseur_charger_dist() {
 	$valeurs['auto_compress_js'] = $GLOBALS['meta']['auto_compress_js'];
 	$valeurs['auto_compress_css'] = $GLOBALS['meta']['auto_compress_css'];
 	$valeurs['auto_compress_closure'] = $GLOBALS['meta']['auto_compress_closure'];
+	$valeurs['url_statique_ressources'] = $GLOBALS['meta']['url_statique_ressources'];
 
 	return $valeurs;
 
@@ -52,6 +53,17 @@ function formulaires_configurer_compresseur_verifier_dist() {
 			set_request($champ, 'non');
 		}
 	}
+
+	if ($url = _request('url_statique_ressources')){
+		$url = preg_replace(",/?\s*$,", "", $url);
+		if (!tester_url_absolue($url)) {
+			$protocole = explode('://',$GLOBALS['meta']['adresse_site']);
+			$protocole = reset($protocole);
+			$url = $protocole . "://$url";
+		}
+		set_request('url_statique_ressources',$url);
+	}
+
 
 	return $erreurs;
 }

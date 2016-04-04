@@ -9,6 +9,10 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 
 $GLOBALS[$GLOBALS['idx_lang']] = array(
 
+	// E
+	'explication_url_statique_ressources' => 'عنوان URL يتيح خدمة الملفات الثابتة (الصور، جافاسكريبت...) بدون الكعكة.
+هو عموماً نطاق فرعي بديل يدل ايضاً الى الموقع.',
+
 	// I
 	'info_compresseur_titre' => 'التحسين والضغط',
 	'info_question_activer_compactage_css' => 'أوراق الانماط (CSS)؟',
@@ -16,6 +20,9 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'item_compresseur_closure' => 'استخدام Google Closure Compiler [قيد التجرية]',
 	'item_compresseur_css' => 'تفعيل ضغط أوراق الأنماط (CSS)',
 	'item_compresseur_js' => 'تفعيل ضغط جافاسكريبت',
+
+	// L
+	'label_url_statique_ressources' => 'موارد عناوين URL',
 
 	// T
 	'texte_compacter_avertissement' => 'حذار من تفعيل هذه الخيارات خلال تطوير الموقع: فالعناصر المضغوطة سوف تفقد مقروئيتها.',

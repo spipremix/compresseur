@@ -22,4 +22,3 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'texte_compacter_script_css' => 'SPIP povas densigi ĝavoskriptaj skriptoj kaj CSS stilfolioj, por registri ilin en statikaj dosieroj. Tio plirapidigas la afiŝon de la retejo.',
 	'titre_compacter_script_css' => 'Densigo de skriptojn kaj CSS'
 );
-

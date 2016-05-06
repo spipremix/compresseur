@@ -19,4 +19,3 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'texte_compacter_script_css' => 'Gallout a ra SPIP gwaskañ ar skriptoù javascript hag ar follennoù-stil CSS, evit o enrollañ er restroù difiñv;  buanoc’h e teu al lec’hienn war wel.',
 	'titre_compacter_script_css' => 'Gwaskañ ar furmskridoù hag ar follennoù-stil'
 );
-

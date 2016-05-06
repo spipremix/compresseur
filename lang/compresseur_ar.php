@@ -29,4 +29,3 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'texte_compacter_script_css' => 'يستطيع SPIP ضغط رموز جافاسكريبت واوراق الأنماط ليخزنها في ملفات ثابتة، مما يسرّع عرض الموقع.',
 	'titre_compacter_script_css' => 'ضغط الرموز البرمجية وأوراق الأنماط'
 );
-

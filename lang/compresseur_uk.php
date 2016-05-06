@@ -22,4 +22,3 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'texte_compacter_script_css' => 'Для прискорення завантаження сайту SPIP може об’єднувати і стискати (мінімізувати) Javascript та CSS файли.',
 	'titre_compacter_script_css' => 'Стискання javascript и CSS'
 );
-

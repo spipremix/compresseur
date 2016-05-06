@@ -22,4 +22,3 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'texte_compacter_script_css' => 'SPIP pòu serà lu script javascript e li fuèi de stil CSS, per li registrà en de fichié estàticou ; acò achelerà l’afichage dóu sit.',
 	'titre_compacter_script_css' => 'Coumpressioun dei script e CSS'
 );
-

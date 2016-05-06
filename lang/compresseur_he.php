@@ -12,4 +12,3 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	// I
 	'info_compresseur_titre' => 'אופטימציה וכיווץ'
 );
-

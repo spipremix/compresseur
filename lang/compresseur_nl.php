@@ -28,4 +28,3 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'texte_compacter_script_css' => 'SPIP kan JavaScript en stylesheets (CSS) comprimeren, om ze vervolgens op te slaan in statische bestanden, wat de weergave van de site versnelt.',
 	'titre_compacter_script_css' => 'Compressie van scripts en CSS'
 );
-

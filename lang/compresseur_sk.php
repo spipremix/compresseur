@@ -29,4 +29,3 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'texte_compacter_script_css' => 'SPIP dokáže zmenšiť Javascriptove súbory a súbory so štýlmi a uložiť ich ako statické súbory. Tak zrýchľuje zobrazenie stránky.',
 	'titre_compacter_script_css' => 'Kompresia skriptov a CSS'
 );
-

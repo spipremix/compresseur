@@ -19,4 +19,3 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'texte_compacter_script_css' => 'SPIP javascript sktripleri ve CSSleri sıkıştırabilir ve bunları statik dosyalara kaydedebilir ; böylece sitenin gösterilmesi hızlanır.',
 	'titre_compacter_script_css' => 'Skriptlerin ve CSSlerin sıkıştırılması'
 );
-

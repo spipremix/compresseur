@@ -20,4 +20,3 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	cusì u situ diventa più veloce.',
 	'titre_compacter_script_css' => 'Cumpressione di i scripts è CSS'
 );
-

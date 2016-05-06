@@ -22,4 +22,3 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'texte_compacter_script_css' => 'SPIP ka Javascript oder CSS Style-Sheets kompriméieren an als statesch Dokumenter späicheren; da ginn d’Säite vum Site méi séier gewisen.',
 	'titre_compacter_script_css' => 'Skripten an CSS kompriméieren'
 );
-

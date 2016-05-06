@@ -28,4 +28,3 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'texte_compacter_script_css' => 'SPIP kann Javascripte und CSS Stilvorlagen komprimieren. Dadurch wird die Anzeigegeschwindigkeit der Website erhöht.',
 	'titre_compacter_script_css' => 'Skripte und CSS komprimieren'
 );
-

@@ -19,4 +19,3 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'texte_compacter_script_css' => 'SPIP pue compautar los scripts JavaScript y les fueyes d’estilu CSS, pa guardalos como archivos estáticos; esto acelera l’amosamientu del sitiu.',
 	'titre_compacter_script_css' => 'Compautación de los scripts y CSS'
 );
-

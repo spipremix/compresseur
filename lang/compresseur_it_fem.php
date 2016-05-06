@@ -20,4 +20,3 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'titre_compacter_script_css' => 'Compressione degli script e dei CSS'
 );
 
-?>

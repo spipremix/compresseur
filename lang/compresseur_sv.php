@@ -15,4 +15,3 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'info_question_activer_compactage_js' => 'Vill du aktivera komprimering av  Javascript filer?' # MODIF
 );
 
-?>

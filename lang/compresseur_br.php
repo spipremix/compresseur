@@ -20,4 +20,3 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'titre_compacter_script_css' => 'Gwaskañ ar furmskridoù hag ar follennoù-stil'
 );
 
-?>

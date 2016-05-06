@@ -13,4 +13,3 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'compresseur_description' => 'Стискає css та javascript файли для зменьшення часу завантаження. Використовується як на основному сайті, так і в його адміністративній частині <code>ecrire/</code> ',
 	'compresseur_slogan' => 'Плагін для стискання CSS та Javascript файлів'
 );
-

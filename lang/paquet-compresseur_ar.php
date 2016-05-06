@@ -13,4 +13,3 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'compresseur_description' => 'ضغط أوراق الأنماط ورموز جافاسكريبت في ترويسة الصفحات في <code>ecrire/</code> و/او الموقع العمومي',
 	'compresseur_slogan' => 'ضغط أوراق الأنماط ورموز جافاسكريبت'
 );
-

@@ -13,4 +13,3 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'compresseur_description' => '     و/يا سايت همگاني <code>ecrire/</code> فشرده‌سازي سي.اس.اس‌ها و جاوا اسكريپت در سرصفحه‌ي صفحات اچ.تي.ام.ال‌ ',
 	'compresseur_slogan' => 'فشرده سازي سي.اس.اس‌ها و جاوااسكريبت'
 );
-

@@ -13,4 +13,3 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'compresseur_description' => 'Kompression von CSS und Javascript-Code im Kopf der Seiten unter <code>ecrire/</code> und/oder auf der öffentlichen Website',
 	'compresseur_slogan' => 'Kompression von CSS und Javascript-Code'
 );
-

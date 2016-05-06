@@ -13,4 +13,3 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'compresseur_description' => 'Compressie van CSS en JavaScript in de heading van HTML-paginas uit <code>ecrire/</code> en/of van het publieke site.', # Wikipedia: compressie van bestanden
 	'compresseur_slogan' => 'Compressie van CSS en JavaScript'
 );
-

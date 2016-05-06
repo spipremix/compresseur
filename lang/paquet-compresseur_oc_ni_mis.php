@@ -13,4 +13,3 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'compresseur_description' => 'Coumpressioun dei css e javascript en la prima-testa dei pàgina html de <code>ecrire/</code> e/o dóu sit pùblicou',
 	'compresseur_slogan' => 'Coumpressioun dei css e javascript'
 );
-

@@ -14,4 +14,3 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'compresseur_slogan' => 'Плагин для сжатия CSS и Javascript файлов'
 );
 
-?>

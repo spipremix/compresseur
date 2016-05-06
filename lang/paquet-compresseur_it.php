@@ -15,4 +15,3 @@ nell’intestazione delle pagine html di <code>ecrire/</code> e/o del sito pubbl
 	'compresseur_slogan' => 'Compressione di CSS e javascript'
 );
 
-?>

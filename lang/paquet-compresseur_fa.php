@@ -14,4 +14,3 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'compresseur_slogan' => 'فشرده سازي سي.اس.اس‌ها و جاوااسكريبت'
 );
 
-?>

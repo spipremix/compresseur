@@ -14,4 +14,3 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'compresseur_slogan' => 'ضغط أوراق الأنماط ورموز جافاسكريبت'
 );
 
-?>

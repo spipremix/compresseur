@@ -15,7 +15,7 @@
  *
  * @package SPIP\Compresseur\Pipelines
  */
-if (!defined("_ECRIRE_INC_VERSION")) {
+if (!defined('_ECRIRE_INC_VERSION')) {
 	return;
 }
 
@@ -72,8 +72,10 @@ function compresseur_affiche_milieu($flux) {
 
 	if ($flux['args']['exec'] == 'configurer_avancees') {
 		// Compression http et compactages CSS ou JS
-		$flux['data'] .= recuperer_fond('prive/squelettes/inclure/configurer',
-			array('configurer' => 'configurer_compresseur'));
+		$flux['data'] .= recuperer_fond(
+			'prive/squelettes/inclure/configurer',
+			array('configurer' => 'configurer_compresseur')
+		);
 	}
 
 	return $flux;

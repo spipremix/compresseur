@@ -15,7 +15,7 @@
  *
  * @package SPIP\Compresseur\Fonctions
  */
-if (!defined("_ECRIRE_INC_VERSION")) {
+if (!defined('_ECRIRE_INC_VERSION')) {
 	return;
 }
 $GLOBALS['spip_matrice']['compresseur_embarquer_images_css'] = 'inc/compresseur_embarquer.php';
@@ -57,7 +57,7 @@ function minifier($source, $format = null) {
 
 		$f = basename($source, '.' . $format);
 		$f = sous_repertoire(_DIR_VAR, 'cache-' . $format)
-			. preg_replace(",(.*?)(_rtl|_ltr)?$,", "\\1-minify-"
+			. preg_replace(',(.*?)(_rtl|_ltr)?$,', "\\1-minify-"
 				. substr(md5("$source-minify"), 0, 4) . "\\2", $f, 1)
 			. '.' . $format;
 
@@ -159,7 +159,7 @@ function compacte_head($flux) {
  *     URI Scheme du fichier si la compression est faite,
  *     URL du fichier sinon (la source)
  */
-function filtre_embarque_fichier($src, $base = "", $maxsize = 4096) {
+function filtre_embarque_fichier($src, $base = '', $maxsize = 4096) {
 	static $mime = array();
 	$extension = substr(strrchr($src, '.'), 1);
 	$filename = $base . $src;
@@ -177,8 +177,8 @@ function filtre_embarque_fichier($src, $base = "", $maxsize = 4096) {
 		}
 	}
 	if (!isset($mime[$extension])) {
-		if (!function_exists("sql_getfetsel")) {
-			include_spip("base/abstract_sql");
+		if (!function_exists('sql_getfetsel')) {
+			include_spip('base/abstract_sql');
 		}
 		$mime[$extension] = sql_getfetsel('mime_type', 'spip_types_documents', 'extension=' . sql_quote($extension));
 	}
@@ -204,7 +204,7 @@ function filtre_embarque_fichier($src, $base = "", $maxsize = 4096) {
  */
 function filtre_embarque_src($img, $maxsize = 4096) {
 	$src = extraire_attribut($img, 'src');
-	if ($src2 = filtre_embarque_fichier($src, "", $maxsize) and $src2 != $src) {
+	if ($src2 = filtre_embarque_fichier($src, '', $maxsize) and $src2 != $src) {
 		$img = inserer_attribut($img, 'src', $src2);
 	}
 

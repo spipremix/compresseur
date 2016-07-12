@@ -6,8 +6,8 @@
  */
 
 $test = 'minifier_css';
-$remonte = "../";
-while (!is_dir($remonte . "ecrire")) {
+$remonte = '../';
+while (!is_dir($remonte . 'ecrire')) {
 	$remonte = "../$remonte";
 }
 require $remonte . 'tests/test.inc';
@@ -16,14 +16,14 @@ $ok = true;
 include_spip('inc/compresseur_minifier');
 include_spip('inc/filtres');
 
-lire_fichier(dirname(__FILE__) . "/css/source.css", $css_code);
+lire_fichier(dirname(__FILE__) . '/css/source.css', $css_code);
 
 // test du compacteur simple
-lire_fichier(dirname(__FILE__) . "/css/expected.css", $expected);
+lire_fichier(dirname(__FILE__) . '/css/expected.css', $expected);
 
 $compacte = minifier_css($css_code);
 if (rtrim($compacte) != rtrim($expected)) {
-	erreur("minifier_css()", $compacte, $expected);
+	erreur('minifier_css()', $compacte, $expected);
 	$ok = false;
 }
 
@@ -35,14 +35,14 @@ if (rtrim($compacte) != rtrim($expected)) {
 	$ok = false;
 }
 
-lire_fichier(dirname(__FILE__) . "/css/expected_more.css", $expected);
+lire_fichier(dirname(__FILE__) . '/css/expected_more.css', $expected);
 $compacte = minifier_css($css_code, array());
 if (rtrim($compacte) != rtrim($expected)) {
-	erreur("minifier_css(array())", $compacte, $expected);
+	erreur('minifier_css(array())', $compacte, $expected);
 	$ok = false;
 }
 
-lire_fichier(dirname(__FILE__) . "/css/expected_more_screen.css", $expected);
+lire_fichier(dirname(__FILE__) . '/css/expected_more_screen.css', $expected);
 $compacte = minifier_css($css_code, 'screen');
 if (rtrim($compacte) != rtrim($expected)) {
 	erreur("minifier_css('screen')", $compacte, $expected);
@@ -55,33 +55,33 @@ if (rtrim($compacte) != rtrim($expected)) {
 	$ok = false;
 }
 
-lire_fichier(dirname(__FILE__) . "/css/expected_highest_screen.css", $expected);
+lire_fichier(dirname(__FILE__) . '/css/expected_highest_screen.css', $expected);
 $compacte = minifier_css($css_code, array('media' => 'screen', 'template' => 'highest'));
 if (rtrim($compacte) != rtrim($expected)) {
 	erreur("minifier_css(array('media'=>'screen','template'=>'highest'))", $compacte, $expected);
 	$ok = false;
 }
 
-lire_fichier(dirname(__FILE__) . "/css/source_simple.css", $css_code);
+lire_fichier(dirname(__FILE__) . '/css/source_simple.css', $css_code);
 
-lire_fichier(dirname(__FILE__) . "/css/expected_simple.css", $expected);
+lire_fichier(dirname(__FILE__) . '/css/expected_simple.css', $expected);
 $compacte = minifier_css($css_code, 'screen');
 if (rtrim($compacte) != rtrim($expected)) {
 	erreur("minifier_css('screen')", $compacte, $expected);
 	$ok = false;
 }
 
-lire_fichier(dirname(__FILE__) . "/css/expected_url_abs.css", $expected);
-lire_fichier(dirname(__FILE__) . "/css/source_url_abs.css", $source);
-$compacte = urls_absolues_css($source, "http://example.org/squelettes/source.css");
+lire_fichier(dirname(__FILE__) . '/css/expected_url_abs.css', $expected);
+lire_fichier(dirname(__FILE__) . '/css/source_url_abs.css', $source);
+$compacte = urls_absolues_css($source, 'http://example.org/squelettes/source.css');
 if (rtrim($compacte) != rtrim($expected)) {
-	erreur("urls_absolues_css()", $compacte, $expected);
+	erreur('urls_absolues_css()', $compacte, $expected);
 	$ok = false;
 }
 
 
 if ($ok) {
-	echo "OK";
+	echo 'OK';
 }
 
 function erreur($titre, $result, $expected) {
@@ -89,5 +89,3 @@ function erreur($titre, $result, $expected) {
 	echo "<tt>Resultat:</tt><pre>$result</pre>";
 	echo "<tt>Attendu :</tt><pre>$expected</pre>";
 }
-
-?>

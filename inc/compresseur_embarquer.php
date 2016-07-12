@@ -15,7 +15,7 @@
  *
  * @package SPIP\Compresseur\Embarquer
  */
-if (!defined("_ECRIRE_INC_VERSION")) {
+if (!defined('_ECRIRE_INC_VERSION')) {
 	return;
 }
 
@@ -40,16 +40,19 @@ function compresseur_embarquer_images_css($contenu, $source, $source_file = null
 	#$path = suivre_lien(url_absolue($source),'./');
 	$base = ($source_file ? $source_file : $source);
 	$base = ((substr($base, -1) == '/') ? $base : (dirname($base) . '/'));
-	$filtre_embarque_fichier = chercher_filtre("filtre_embarque_fichier");
-	if (!defined("_CSS_EMBARQUE_FICHIER_MAX_SIZE")) {
+	$filtre_embarque_fichier = chercher_filtre('filtre_embarque_fichier');
+	if (!defined('_CSS_EMBARQUE_FICHIER_MAX_SIZE')) {
 		define('_CSS_EMBARQUE_FICHIER_MAX_SIZE', 4 * 1024);
 	}
 
 	return preg_replace_callback(
 		",url\s*\(\s*['\"]?([^'\"/][^:]*[.](png|gif|jpg))['\"]?\s*\),Uims",
-		create_function('$x',
+		create_function(
+			'$x',
 			'return "url(\"".' . $filtre_embarque_fichier . '($x[1],"' . $base . '",_CSS_EMBARQUE_FICHIER_MAX_SIZE)."\")";'
-		), $contenu);
+		),
+		$contenu
+	);
 }
 
 

@@ -15,7 +15,7 @@
  *
  * @package SPIP\Compresseur\Formulaires
  **/
-if (!defined("_ECRIRE_INC_VERSION")) {
+if (!defined('_ECRIRE_INC_VERSION')) {
 	return;
 }
 
@@ -54,14 +54,14 @@ function formulaires_configurer_compresseur_verifier_dist() {
 		}
 	}
 
-	if ($url = _request('url_statique_ressources')){
-		$url = preg_replace(",/?\s*$,", "", $url);
+	if ($url = _request('url_statique_ressources')) {
+		$url = preg_replace(',/?\s*$,', '', $url);
 		if (!tester_url_absolue($url)) {
-			$protocole = explode('://',$GLOBALS['meta']['adresse_site']);
+			$protocole = explode('://', $GLOBALS['meta']['adresse_site']);
 			$protocole = reset($protocole);
 			$url = $protocole . "://$url";
 		}
-		set_request('url_statique_ressources',$url);
+		set_request('url_statique_ressources', $url);
 	}
 
 

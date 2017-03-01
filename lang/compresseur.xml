@@ -59,7 +59,7 @@
 		<traducteur nom="mpossoz" lien="https://trad.spip.net/auteur/mpossoz" />
 		<traducteur nom="Suske" lien="https://trad.spip.net/auteur/suske" />
 	</langue>
-	<langue code="oc_ni_mis" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=oc_ni_mis" total="11" traduits="9" relire="0" modifs="0" nouveaux="2" pourcent="81.82">
+	<langue code="oc_ni_mis" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=oc_ni_mis" total="11" traduits="10" relire="0" modifs="0" nouveaux="1" pourcent="90.91">
 		<traducteur nom="sylvain" lien="https://trad.spip.net/auteur/sylvain" />
 	</langue>
 	<langue code="pt" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=pt" total="11" traduits="9" relire="0" modifs="0" nouveaux="2" pourcent="81.82">

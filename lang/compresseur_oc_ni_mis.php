@@ -9,11 +9,14 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 
 $GLOBALS[$GLOBALS['idx_lang']] = array(
 
+	// E
+	'explication_url_statique_ressources' => 'Una URL que permete de servì lu fichié estàticou (image, JS…) sensa cookie. Generalamen un souta-doumani alternatiéu que pounta finda soubre soubre lou sit.',
+
 	// I
 	'info_compresseur_titre' => 'Òtimisacioun e coumpressioun',
 	'info_question_activer_compactage_css' => 'CSS',
 	'info_question_activer_compactage_js' => 'Script',
-	'item_compresseur_closure' => 'Utilisà Google Closure Compiler [expérimental]',
+	'item_compresseur_closure' => 'Utilisà Google Closure Compiler [esperimental]',
 	'item_compresseur_css' => 'Ativà la coumpressioun dei fuèi de stil (CSS)',
 	'item_compresseur_js' => 'Ativà la coumpressioun dei script (javascript)',
 

@@ -22,7 +22,7 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 function compresseur_ieconfig_metas($table) {
 	$table['compresseur']['titre'] = _T('compresseur:info_compresseur_titre');
 	$table['compresseur']['icone'] = 'compresseur-16.png';
-	$table['compresseur']['metas_brutes'] = 'auto_compress_js,auto_compress_css,auto_compress_closure';
+	$table['compresseur']['metas_brutes'] = 'auto_compress_js,auto_compress_css';
 
 	return $table;
 }

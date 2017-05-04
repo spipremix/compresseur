@@ -93,7 +93,6 @@ function compresseur_affiche_milieu($flux) {
  */
 function compresseur_configurer_liste_metas($metas) {
 	$metas['auto_compress_js'] = 'non';
-	$metas['auto_compress_closure'] = 'non';
 	$metas['auto_compress_css'] = 'non';
 	$metas['url_statique_ressources'] = '';
 

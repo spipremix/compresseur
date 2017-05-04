@@ -200,9 +200,6 @@ function compacte_head_files($flux, $format) {
 			$callbacks[] = protocole_implicite($GLOBALS['meta']['url_statique_ressources']);
 		}
 	}
-	if ($format == 'js' and $GLOBALS['meta']['auto_compress_closure'] == 'oui') {
-		$callbacks['all_min'] = 'minifier_encore_js';
-	}
 
 	include_spip('inc/compresseur_concatener');
 	include_spip('inc/compresseur_minifier');

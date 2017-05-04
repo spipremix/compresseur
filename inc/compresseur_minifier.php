@@ -191,22 +191,6 @@ function minifier_css($contenu, $options = '') {
  * JavaScriptPacker
  *  62% de la taille initiale / 752 ms
  *
- * Closure Compiler
- *  44% de la taille initiale / 3 785 ms
- *
- * JavaScriptPacker + Closure Compiler
- *  43% de la taille initiale / 3 100 ms au total
- *
- * Il est donc plus rapide&efficace
- * - de packer d'abord en local avec JavaScriptPacker
- * - d'envoyer ensuite au closure compiler
- * Cela permet en outre d'avoir un niveau de compression decent si closure
- * compiler echoue
- *
- * Dans cette fonction on ne fait que le compactage local,
- * l'appel a closure compiler est fait une unique fois pour tous les js concatene
- * afin d'eviter les requetes externes
- *
  * @param string $flux
  *     Contenu JS
  * @return string
@@ -228,90 +212,6 @@ function minifier_js($flux) {
 	}
 
 	return $t;
-}
-
-
-/**
- * Minification additionnelle de JS
- *
- * Compacter du javascript plus intensivement
- * grâce au google closure compiler
- *
- * @param string $content
- *     Contenu JS à compresser
- * @param bool $file
- *     Indique si $content est ou non un fichier, et retourne un fichier dans ce dernier cas
- *     Si $file est une chaîne, c'est un nom de ficher sous lequel on écrit aussi le fichier destination
- * @return string
- *     Contenu JS compressé
- */
-function minifier_encore_js($content, $file = false) {
-	# Closure Compiler n'accepte pas des POST plus gros que 200 000 octets
-	# au-dela il faut stocker dans un fichier, et envoyer l'url du fichier
-	# dans code_url ; en localhost ca ne marche evidemment pas
-	if ($file) {
-		$nom = $content;
-		lire_fichier($nom, $content);
-		$dest = dirname($nom) . '/' . md5($content . $file) . '.js';
-		if (file_exists($dest) and (!is_string($file) or file_exists($file))) {
-			if (filesize($dest)) {
-				return is_string($file) ? $file : $dest;
-			} else {
-				spip_log("minifier_encore_js: Fichier $dest vide", _LOG_INFO);
-
-				return $nom;
-			}
-		}
-	}
-
-	if (!$file and strlen($content) > 200000) {
-		return $content;
-	}
-
-	include_spip('inc/distant');
-
-	$datas = array(
-		'output_format' => 'text',
-		'output_info' => 'compiled_code',
-		'compilation_level' => 'SIMPLE_OPTIMIZATIONS',
-		// 'SIMPLE_OPTIMIZATIONS', 'WHITESPACE_ONLY', 'ADVANCED_OPTIMIZATIONS'
-	);
-	if (!$file or strlen($content) < 200000) {
-		$datas['js_code'] = $content;
-	} else {
-		$datas['url_code'] = url_absolue($nom);
-	}
-
-	$cc = recuperer_page('http://closure-compiler.appspot.com/compile',
-		$trans = false, $get_headers = false,
-		$taille_max = null,
-		$datas,
-		$boundary = -1);
-
-	if ($cc and !preg_match(',^\s*Error,', $cc)) {
-		spip_log('Closure Compiler: success');
-		$cc = "/* $nom + Closure Compiler */\n" . $cc;
-		if ($file) {
-			ecrire_fichier($dest, $cc, true);
-			ecrire_fichier("$dest.gz", $cc, true);
-			$content = $dest;
-			if (is_string($file)) {
-				ecrire_fichier($file, $cc, true);
-				clearstatcache(true, $file);
-				ecrire_fichier("$file.gz", $cc, true);
-				$content = $file;
-			}
-		} else {
-			$content = &$cc;
-		}
-	} else {
-		if ($file) {
-			spip_log("minifier_encore_js:Echec appel Closure Compiler. Ecriture fichier $dest vide", _LOG_INFO_IMPORTANTE);
-			ecrire_fichier($dest, '', true);
-		}
-	}
-
-	return $content;
 }
 
 

@@ -16,7 +16,6 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'info_compresseur_titre' => 'Optimalizácia a kompresia',
 	'info_question_activer_compactage_css' => 'CSS',
 	'info_question_activer_compactage_js' => 'Skripty',
-	'item_compresseur_closure' => 'Používať kompilátor Google Closure [experimentálny]',
 	'item_compresseur_css' => 'Aktivovať kompresiu súborov so štýlmi (CSS)',
 	'item_compresseur_js' => 'Aktivovať kompresiu skriptov
 (javascript)',

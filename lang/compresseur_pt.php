@@ -13,7 +13,6 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'info_compresseur_titre' => 'Optimização e compressão',
 	'info_question_activer_compactage_css' => 'CSS',
 	'info_question_activer_compactage_js' => 'Scripts',
-	'item_compresseur_closure' => 'Utilizar Google Closure Compiler [experimental]',
 	'item_compresseur_css' => 'Activar a compressão das folhas de estilo (CSS)',
 	'item_compresseur_js' => 'Activar a compressão de scripts (javascript)',
 

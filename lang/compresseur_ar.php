@@ -17,7 +17,6 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'info_compresseur_titre' => 'التحسين والضغط',
 	'info_question_activer_compactage_css' => 'أوراق الانماط (CSS)؟',
 	'info_question_activer_compactage_js' => 'ملفات جافاسكريبت؟',
-	'item_compresseur_closure' => 'استخدام Google Closure Compiler [قيد التجرية]',
 	'item_compresseur_css' => 'تفعيل ضغط أوراق الأنماط (CSS)',
 	'item_compresseur_js' => 'تفعيل ضغط جافاسكريبت',
 

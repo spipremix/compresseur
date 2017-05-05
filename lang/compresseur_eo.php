@@ -13,7 +13,6 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'info_compresseur_titre' => 'Plejbonigoj kaj densigoj',
 	'info_question_activer_compactage_css' => 'CSS',
 	'info_question_activer_compactage_js' => 'Skriptoj',
-	'item_compresseur_closure' => 'Uzi Google Closure Compiler [eksperimenta]',
 	'item_compresseur_css' => 'Aktivigi la densigon de la stilfolio (CSS)',
 	'item_compresseur_js' => 'Aktivigi la densigon de la skriptoj (ĝavoskripto)',
 

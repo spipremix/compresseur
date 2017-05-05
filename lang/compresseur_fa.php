@@ -13,7 +13,6 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'info_compresseur_titre' => 'بهينه‌سازي و فشرده سازي',
 	'info_question_activer_compactage_css' => 'سي.اس.اس',
 	'info_question_activer_compactage_js' => 'نويسه‌ها (اسكريپت‌ها)؟',
-	'item_compresseur_closure' => 'از گوگل كلوزر كامپايلر استفاده كنيد [تجربي]',
 	'item_compresseur_css' => 'فعال‌سازي پرونده‌هاي شيوه‌برگه‌ها (اس.سي.سي)؟',
 	'item_compresseur_js' => 'فعال‌سازي فشرده‌سازي نويسه‌ها (جاوااسكيپت)؟',
 

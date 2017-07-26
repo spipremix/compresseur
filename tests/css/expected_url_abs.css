@@ -1,14 +1,14 @@
 .mybg1{
-	background: url("http://example.org/squelettes/bg.png");
+	background: url('http://example.org/squelettes/bg.png');
 }
 .mybg2{
-	background: url("http://example.org/squelettes/bg.png");
+	background: url('http://example.org/squelettes/bg.png');
 }
 .mybg3{
-	background: url("http://example.org/squelettes/bg.png");
+	background: url('http://example.org/squelettes/bg.png');
 }
 .mybg3{
-	background: url("http://example.org/squelettes/img/bg.png");
+	background: url('http://example.org/squelettes/img/bg.png');
 }
 .mybg4{
 	background: url('/img/bg.png');

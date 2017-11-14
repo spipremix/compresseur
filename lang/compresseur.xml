@@ -2,7 +2,8 @@
 	<langue code="ar" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=ar" total="10" traduits="10" relire="0" modifs="0" nouveaux="0" pourcent="100.00">
 		<traducteur nom="George" lien="https://trad.spip.net/auteur/جورج-قندلفت" />
 	</langue>
-	<langue code="ast" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=ast" total="10" traduits="4" relire="0" modifs="2" nouveaux="4" pourcent="40.00">
+	<langue code="ast" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=ast" total="10" traduits="10" relire="0" modifs="0" nouveaux="0" pourcent="100.00">
+		<traducteur nom="Xuacu" lien="https://trad.spip.net/auteur/xuacu" />
 	</langue>
 	<langue code="br" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=br" total="10" traduits="4" relire="0" modifs="2" nouveaux="4" pourcent="40.00">
 	</langue>

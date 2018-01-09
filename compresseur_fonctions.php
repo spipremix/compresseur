@@ -105,17 +105,6 @@ function compacte($source, $format = null) {
  * Cette fonction vérifie les réglages du site et traite le compactage
  * des css et/ou js d'un <head>
  *
- * Un fichier .gz est crée pour chaque, qui peut etre utilisé par apache
- * et lui éviter de recompresser à chaque hit, avec les directives suivantes :
- *
- * <IfModule mod_gzip.c>
- * mod_gzip_on                   Yes
- * mod_gzip_can_negotiate        Yes
- * mod_gzip_static_suffix        .gz
- * AddEncoding              gzip .gz
- * mod_gzip_item_include         file       \.(js|css)$
- * </IfModule>
- *
  * @see compacte_head_files()
  *
  * @param string $flux

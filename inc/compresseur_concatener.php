@@ -137,8 +137,6 @@ function concatener_fichiers($files, $format = 'js', $callbacks = array()) {
 			// ecrire
 			ecrire_fichier($nom_tmp, $fichier, true);
 			clearstatcache(true, $nom_tmp);
-			// ecrire une version .gz pour content-negociation par apache, cf. [11539]
-			ecrire_fichier("$nom_tmp.gz", $fichier, true);
 
 			if ($final_callback) {
 				// closure compiler ou autre super-compresseurs
@@ -149,8 +147,6 @@ function concatener_fichiers($files, $format = 'js', $callbacks = array()) {
 					// ecrire
 					ecrire_fichier($nom, $fichier, true);
 					clearstatcache(true, $nom);
-					// ecrire une version .gz pour content-negociation par apache, cf. [11539]
-					ecrire_fichier("$nom.gz", $fichier, true);
 				}
 			}
 		}

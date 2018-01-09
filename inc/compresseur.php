@@ -436,8 +436,6 @@ function css_regroup_atimport($nom_tmp, $nom) {
 	$contenu = str_replace($imports, "", $contenu);
 	$contenu = implode("\n", $imports) . "\n" . $contenu;
 	ecrire_fichier($nom, $contenu, true);
-	// ecrire une version .gz pour content-negociation par apache, cf. [11539]
-	ecrire_fichier("$nom.gz", $contenu, true);
 
 	return $nom;
 }

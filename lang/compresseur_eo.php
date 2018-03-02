@@ -9,12 +9,18 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 
 $GLOBALS[$GLOBALS['idx_lang']] = array(
 
+	// E
+	'explication_url_statique_ressources' => 'Retadreso (URL), kiu ebligas la senkuketan sendon de nevariantaj dosieroj (bildoj, JS...). Ĝenerale, alia sub-retregiono, kiu iras al la sama retejo.',
+
 	// I
 	'info_compresseur_titre' => 'Plejbonigoj kaj densigoj',
 	'info_question_activer_compactage_css' => 'CSS',
 	'info_question_activer_compactage_js' => 'Skriptoj',
 	'item_compresseur_css' => 'Aktivigi la densigon de la stilfolio (CSS)',
 	'item_compresseur_js' => 'Aktivigi la densigon de la skriptoj (ĝavoskripto)',
+
+	// L
+	'label_url_statique_ressources' => 'URL-risurcoj',
 
 	// T
 	'texte_compacter_avertissement' => 'Atentu ne ebligi tiujn opciojn dum disvolviĝo de via retejo : la densigaj elementoj perdas ĉian legeblecon.',

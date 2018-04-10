@@ -98,7 +98,7 @@ function minifier_css($contenu, $options = '') {
 		// supprimer les declarations vides
 		$contenu = preg_replace(",(^|})([^{}]*){},Ums", "$1", $contenu);
 		// pas besoin d'unité quand la valeur est zéro (sauf pour % car casse les @keyframes cf https://core.spip.net/issues/3128 - préserve également les chaînes en base64 cf https://core.spip.net/issues/3991)
-		$contenu = preg_replace("/((?::|\s+|\()0)(em|px|pt|rem|ex|pc|vh|vw|vmin|vmax|cm|mm|in|ch)/ms", "$1", $contenu);
+		$contenu = preg_replace("/\b0(em|px|pt|rem|ex|pc|vh|vw|vmin|vmax|cm|mm|in|ch)\b/ms", "$1", $contenu);
 
 		// renommer les couleurs par leurs versions courtes quand c'est possible
 		$colors = array(

@@ -47,10 +47,9 @@ function compresseur_embarquer_images_css($contenu, $source, $source_file = null
 
 	return preg_replace_callback(
 		",url\s*\(\s*['\"]?([^'\"/][^:]*[.](png|gif|jpg))['\"]?\s*\),Uims",
-		create_function(
-			'$x',
-			'return "url(\"".' . $filtre_embarque_fichier . '($x[1],"' . $base . '",_CSS_EMBARQUE_FICHIER_MAX_SIZE)."\")";'
-		),
+		function($x) use ($filtre_embarque_fichier, $base) {
+			return "url(\"" . $filtre_embarque_fichier($x[1], $base, _CSS_EMBARQUE_FICHIER_MAX_SIZE) . "\");";
+		},
 		$contenu
 	);
 }

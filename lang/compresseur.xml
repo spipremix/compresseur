@@ -53,6 +53,9 @@
 	</langue>
 	<langue code="it_fem" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=it_fem" total="10" traduits="4" relire="0" modifs="2" nouveaux="4" pourcent="40.00">
 	</langue>
+	<langue code="ja" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=ja" total="10" traduits="10" relire="0" modifs="0" nouveaux="0" pourcent="100.00">
+		<traducteur nom="origenius" lien="https://trad.spip.net/auteur/origenius" />
+	</langue>
 	<langue code="lb" url="https://trad.spip.net/tradlang_module/compresseur?lang_cible=lb" total="10" traduits="8" relire="0" modifs="0" nouveaux="2" pourcent="80.00">
 		<traducteur nom="Jim Wanderscheid" lien="https://trad.spip.net/auteur/jwander" />
 	</langue>

@@ -94,7 +94,7 @@ require('class.csstidy_optimise.php');
  * An online version should be available here: http://cdburnerxp.se/cssparse/css_optimiser.php
  * @package csstidy
  * @author Florian Schmitz (floele at gmail dot com) 2005-2006
- * @version 1.5.7
+ * @version 1.6.0
  */
 class csstidy {
 
@@ -147,7 +147,7 @@ class csstidy {
 	 * @var string
 	 * @access private
 	 */
-	public $version = '1.5.7';
+	public $version = '1.6.0';
 	/**
 	 * Stores the settings
 	 * @var array
@@ -318,6 +318,10 @@ class csstidy {
 		/* is dangeroues to be used: CSS is broken sometimes */
 		$this->settings['merge_selectors'] = 0;
 		/* preserve or not browser hacks */
+
+		/* Useful to produce a rtl css from a ltr one (or the opposite) */
+		$this->settings['reverse_left_and_right'] = 0;
+
 		$this->settings['discard_invalid_selectors'] = false;
 		$this->settings['discard_invalid_properties'] = false;
 		$this->settings['css_level'] = 'CSS3.0';

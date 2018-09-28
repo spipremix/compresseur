@@ -37,6 +37,13 @@ $GLOBALS['spip_matrice']['compresseur_embarquer_images_css'] = 'inc/compresseur_
  *     - Chemin vers un fichier ayant le contenu minifié (si source est un fichier)
  */
 function minifier($source, $format = null) {
+	$maybe_file = false;
+	if (strpos($source, "\n") === false
+		and strpos($source, "{") === false
+		and strpos($source, "}") === false) {
+		$maybe_file = true;
+		$source = supprimer_timestamp($source);
+	}
 	if (!$format and preg_match(',\.(js|css)$,', $source, $r)) {
 		$format = $r[1];
 	}
@@ -46,7 +53,7 @@ function minifier($source, $format = null) {
 	}
 
 	// Si on n'importe pas, est-ce un fichier ?
-	if (!preg_match(',[\s{}],', $source)
+	if ($maybe_file
 		and preg_match(',\.' . $format . '$,i', $source, $r)
 		and file_exists($source)
 	) {

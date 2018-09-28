@@ -54,14 +54,25 @@ function minifier($source, $format = null) {
 
 	// Si on n'importe pas, est-ce un fichier ?
 	if ($maybe_file
-		and preg_match(',\.' . $format . '$,i', $source, $r)
+		and preg_match(',\.' . $format . '$,i', $source)
 		and file_exists($source)
 	) {
+		// si c'est un fichier deja minifie, on ne fait rien !
+		if (preg_match(',\.min\.' . $format . '$,i', $source)) {
+			return $source;
+		}
+		// un fichier minifie existe-t-il deja, fourni avec le non-minifie ? (lib tierce-partie)
+		$f = preg_replace(',\.(' . $format . ')$,i', ".min.\\1", $source);
+		if (file_exists($f)) {
+			return $f;
+		}
+
 		// si c'est une css, il faut reecrire les url en absolu
 		if ($format == 'css') {
 			$source = url_absolue_css($source);
 		}
 
+		// calculer le nom du fichier
 		$f = basename($source, '.' . $format);
 		$f = sous_repertoire(_DIR_VAR, 'cache-' . $format)
 			. preg_replace(',(.*?)(_rtl|_ltr)?$,', "\\1-minify-"

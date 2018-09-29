@@ -148,6 +148,8 @@ function concatener_fichiers($files, $format = 'js', $callbacks = array()) {
 					ecrire_fichier($nom, $fichier, true);
 					clearstatcache(true, $nom);
 				}
+				// on ne supprime pas le fichier temporaire $nom_tmp
+				// car il y a le risque qu'un process concurrent soit juste sur le point de le processer aussi et produirait alors du vide
 			}
 		}
 

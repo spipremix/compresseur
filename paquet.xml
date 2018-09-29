@@ -1,7 +1,7 @@
 <paquet
 	prefix="compresseur"
 	categorie="performance"
-	version="1.12.5"
+	version="1.12.6"
 	etat="stable"
 	compatibilite="[3.2.0;3.2.*]"
 	logo="images/compresseur-32.png"

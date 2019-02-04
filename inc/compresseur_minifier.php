@@ -64,7 +64,7 @@ function minifier_css($contenu, $options = '') {
 		// nettoyer la css de tout ce qui sert pas
 		// pas de commentaires
 		// https://core.spip.net/issues/3987 sauf les commentaires important commençant par un ! qui sont en general des credits
-		$contenu = preg_replace(",/\*[^!].*\*/,Ums", "", $contenu);
+		$contenu = preg_replace(",/\*(\*|[^!].*\*)/,Ums", "", $contenu);
 		$contenu = preg_replace(",\s//[^\n]*\n,Ums", "", $contenu);
 		// espaces autour des retour lignes
 		$contenu = str_replace("\r\n", "\n", $contenu);

@@ -1,0 +1,11 @@
+{
+    "name": "spip/compresseur",
+    "type": "spip-plugin",
+    "description": "Compression des css et javascript",
+    "license": "GPL-3.0-or-later",
+    "authors": [{
+        "name": "Collectif SPIP",
+        "email": "spip-dev@rezo.net"
+    }],
+    "require": {}
+}
